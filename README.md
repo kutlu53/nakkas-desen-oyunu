@@ -1,6 +1,8 @@
 # Nakkaş — İslam Sanatı Geometrik Desen Oyunu
 
-Tarayıcıda çalışan, çevrimdışı oynanabilen eğitsel yapboz. Ayrıntılar: `CLAUDE.md` (Claude Code için proje bağlamı), `docs/tasarim.md`, `docs/seviyeler.md`.
+Tarayıcıda çalışan, çevrimdışı oynanabilen eğitsel yapboz.
+
+**Canlı:** https://kutlu53.github.io/nakkas-desen-oyunu/ · Depo: https://github.com/kutlu53/nakkas-desen-oyunu Ayrıntılar: `CLAUDE.md` (Claude Code için proje bağlamı), `docs/tasarim.md`, `docs/seviyeler.md`.
 
 ## Çalıştırma
 Modüller `fetch` kullandığı için dosyayı doğrudan açmak yerine küçük bir sunucu gerekir:
