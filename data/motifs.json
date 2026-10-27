@@ -1,0 +1,91 @@
+{
+ "_not": "Tanı modu atlası. Görseller assets/motifs/ altına eklenecek; her görsel için kaynak ve lisans 'imageCredit' alanına yazılacak. Tarihsel bilgiler kısa tutuldu; kesin olmayanlar 'rivayet' olarak işaretli.",
+ "motifs": [
+  {
+   "id": "karatay-konya",
+   "title": "Karatay Medresesi kubbesi",
+   "place": "Konya",
+   "period": "Anadolu Selçuklu, 1251",
+   "family": 10,
+   "secondaryFamilies": [5],
+   "image": "assets/motifs/karatay-kubbe.jpg",
+   "imageCredit": "",
+   "story": "Kubbenin içi firuze ve lacivert çinilerle yirmi dört köşeli yıldızlardan başlayıp aşağı doğru küçülen yıldız kuşaklarıyla kaplıdır. Selçuklu çini ustaları yıldızları büyükten küçüğe dizerek kubbenin eğriliğini düz bir desenle örtmeyi başarmıştır.",
+   "funFact": "Kubbenin tepesindeki açıklıktan gökyüzü görünür; desen gökyüzüne doğru 'çözülür'.",
+   "questions": {"countTarget": 10, "wrongFamilyLise": 8}
+  },
+  {
+   "id": "divrigi",
+   "title": "Divriği Ulu Camii ve Darüşşifası",
+   "place": "Sivas, Divriği",
+   "period": "Mengücekli, 1228–1229",
+   "family": 8,
+   "image": "assets/motifs/divrigi-kapi.jpg",
+   "imageCredit": "",
+   "story": "UNESCO Dünya Mirası listesindeki yapı, taş işçiliğiyle tanınır. Geometrik yıldızlar bitkisel bezemeyle iç içe geçer; her kapı farklı bir üslupla işlenmiştir.",
+   "funFact": "Rivayet: Kuzey kapısında belirli saatlerde gölgenin namaz kılan bir insan silüeti oluşturduğu söylenir; bu iddia bilimsel olarak tartışmalıdır.",
+   "questions": {"countTarget": 8, "wrongFamilyLise": 10}
+  },
+  {
+   "id": "selimiye",
+   "title": "Selimiye Camii",
+   "place": "Edirne",
+   "period": "Osmanlı, Mimar Sinan, 1575",
+   "family": 12,
+   "image": "assets/motifs/selimiye-hunkar.jpg",
+   "imageCredit": "",
+   "story": "Hünkâr mahfili ve mihrap çevresindeki İznik çinilerinde on iki köşeli yıldız kuşakları görülür. Sinan geometriyi hem süslemede hem de kubbeyi taşıyan sekiz ayağın düzeninde kullanmıştır.",
+   "funFact": "Kubbe çapı yaklaşık 31,5 metredir; Sinan bu yapıyı 'ustalık eserim' diye anmıştır.",
+   "questions": {"countTarget": 12, "wrongFamilyLise": 10}
+  },
+  {
+   "id": "elhamra",
+   "title": "Elhamra Sarayı",
+   "place": "Granada, İspanya",
+   "period": "Nasrî Devleti, 13.–14. yüzyıl",
+   "family": 8,
+   "secondaryFamilies": [16],
+   "image": "assets/motifs/elhamra-zellij.jpg",
+   "imageCredit": "",
+   "story": "Duvarların alt kuşakları zellij adı verilen, tek tek kesilip yan yana dizilen küçük sırlı çinilerle kaplıdır. Matematikçi ve sanatçılar burada düzlemi kaplayabilen on yedi simetri türünün çoğunun örneğini bulmuştur.",
+   "funFact": "M. C. Escher 1922 ve 1936'da Elhamra'yı gezip desenleri çizmiş; kendi döşeme sanatını buradan esinlenerek geliştirmiştir.",
+   "questions": {"countTarget": 8, "wrongFamilyLise": 10}
+  },
+  {
+   "id": "isfahan-seyh-lutfullah",
+   "title": "Şeyh Lütfullah Camii",
+   "place": "İsfahan, İran",
+   "period": "Safevî, 1619",
+   "family": 10,
+   "image": "assets/motifs/isfahan-kubbe.jpg",
+   "imageCredit": "",
+   "story": "Kubbenin içi, merkezden dışa doğru büyüyen baklava biçimli alanlarla dolu bir güneş gibidir. Girih adı verilen beş parçalı karo sistemiyle (beşgen, ongen, papyon, eşkenar dörtgen, altıgen) kurulmuş desenlerin en ünlü örneklerinden biridir.",
+   "funFact": "Girih karolarının bazı Orta Çağ örüntülerinde, 1970'lerde Penrose'un keşfettiği 'yarı-periyodik' düzene benzer yapılar bulunmuştur (Lu ve Steinhardt, 2007).",
+   "questions": {"countTarget": 10, "wrongFamilyLise": 12}
+  },
+  {
+   "id": "mardin-tas",
+   "title": "Mardin taş işçiliği",
+   "place": "Mardin",
+   "period": "Artuklu ve sonrası, 12.–15. yüzyıl",
+   "family": 6,
+   "image": "assets/motifs/mardin-pencere.jpg",
+   "imageCredit": "",
+   "story": "Sarı kalker taşına oyulmuş pencere kafesleri ve kapı alınlıklarında altı köşeli yıldızlar ve petek düzenleri yaygındır. Altılı sistem taşa en kolay işlenen düzendir; çünkü tüm açılar 60°'nin katıdır.",
+   "funFact": "Mardin evlerinin 'taş dantel' pencereleri hem gölge hem hava akımı sağlar; desen işlevseldir.",
+   "questions": {"countTarget": 6, "wrongFamilyLise": 8}
+  },
+  {
+   "id": "topkapi-cinili",
+   "title": "Topkapı Sarayı Çinili Köşk",
+   "place": "İstanbul",
+   "period": "Osmanlı, 1472",
+   "family": 8,
+   "image": "assets/motifs/cinili-kosk.jpg",
+   "imageCredit": "",
+   "story": "Fatih döneminden kalan köşkün cephesinde lacivert-firuze mozaik çinilerle sekiz köşeli yıldız ve haç düzenleri görülür. Tebriz'den gelen ustaların izini taşıdığı düşünülür.",
+   "funFact": "Mozaik çini tekniğinde her renk ayrı pişirilip kesilir; desen küçük parçaların alçıyla birleştirilmesiyle oluşur — tam bir yapboz.",
+   "questions": {"countTarget": 8, "wrongFamilyLise": 6}
+  }
+ ]
+}

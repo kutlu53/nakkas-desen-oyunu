@@ -1,0 +1,117 @@
+<!doctype html><meta charset="utf-8"><title>kur duman testi</title>
+<link rel="stylesheet" href="../styles.css">
+<style>#out { white-space: pre-wrap; font: 13px/1.4 monospace; background: var(--panel); padding: 12px; border-radius: 8px; }</style>
+<pre id="out"></pre>
+<main id="app" style="width: 1000px"></main>
+<script type="module">
+// Sentetik işaretçi olaylarıyla Kalfa/Kur'u baştan sona oynar. Framework yok. Tarayıcıda aç ya da headless --dump-dom ile oku.
+import { mount } from "../src/modes/kur.js";
+const out = document.getElementById("out"); let fail = 0, n = 0;
+window.addEventListener("error", (e) => { out.textContent += "HATA: " + e.message + " @" + (e.filename || "") + ":" + e.lineno + "\n"; });
+window.addEventListener("unhandledrejection", (e) => { out.textContent += "HATA (promise): " + (e.reason && e.reason.stack || e.reason) + "\n"; });
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
+const tick = () => new Promise((r) => setTimeout(r, 0));
+const app = document.getElementById("app");
+
+function makeCtx(param, difficulty = "ortaokul") {
+  const logs = [];
+  return { logs, ctx: { state: { progress: {}, log: [] }, saveState() {}, log: (r) => logs.push(r), go() {}, param, difficulty } };
+}
+const svg = () => app.querySelector(".board");
+const toClient = (bx, by) => { const p = new DOMPoint(bx, by).matrixTransform(svg().getScreenCTM()); return [p.x, p.y]; };
+const pev = (type, el, [cx, cy], extra = {}) => el.dispatchEvent(new PointerEvent(type, { clientX: cx, clientY: cy, pointerId: 7, pointerType: "mouse", button: 0, buttons: type === "pointerup" ? 0 : 1, bubbles: true, cancelable: true, ...extra }));
+const trayItem = (pred) => [...app.querySelectorAll(".tray-item")].find((b) => pred(b.getAttribute("aria-label")));
+const msg = () => app.querySelector(".msg").textContent;
+const placedCount = () => app.querySelectorAll(".placed [data-uid]").length;
+const overlayOpen = () => !app.querySelector(".overlay").hidden;
+
+/** Kutudan parçayı al, tahtada (bx,by) noktasına bırak. */
+async function dragFromTray(label, bx, by, { rotateTimes = 0 } = {}) {
+  const b = trayItem((l) => l.startsWith(label)); if (!b) throw new Error("kutuda yok: " + label);
+  const tray = app.querySelector(".tray");
+  const r = b.getBoundingClientRect();
+  pev("pointerdown", b, [r.left + r.width / 2, r.top + r.height / 2]);
+  for (let i = 0; i < rotateTimes; i++) window.dispatchEvent(new KeyboardEvent("keydown", { key: "r", bubbles: true }));
+  pev("pointermove", tray, toClient(bx - 0.3, by - 0.2));
+  pev("pointermove", tray, toClient(bx, by));
+  pev("pointerup", tray, toClient(bx, by));
+  await tick();
+}
+/** Tahtadaki parçayı al, (bx,by)'ye ya da tahta dışına bırak. */
+async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
+  const g = app.querySelectorAll(".placed [data-uid]")[uidIndex];
+  const path = g.querySelector("path");
+  const bb = path.getBoundingClientRect();
+  const start = [bb.left + bb.width / 2, bb.top + bb.height / 2];
+  pev("pointerdown", path, start);
+  const end = outside ? [-50, -50] : toClient(bx, by);
+  pev("pointermove", svg(), end);
+  pev("pointerup", svg(), end);
+  await tick();
+}
+
+// ---------- Seviye 1 (ortaokul): çentiği tanı ----------
+{
+  const { ctx, logs } = makeCtx("f8-l1");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  ok("seviye 1 kuruldu: tahta + 2 kutu kalemi (haç, kare)", svg() && app.querySelectorAll(".tray-item").length === 2);
+  ok("ortaokul: doğru parça kutuda parlar", trayItem((l) => l.startsWith("Sivri uçlu haç")).classList.contains("glow"));
+  await dragFromTray("Sivri uçlu haç", 1.04, 0.96);
+  ok("haç (1.04,0.96) → yerleşti", placedCount() === 1);
+  ok("mesaj: tam oturdu (225 + 135 = 360)", /Tam oturdu/.test(msg()) && /225 \+ 135 = 360/.test(msg()));
+  ok("kutuda haç 3 kaldı", /3 adet/.test(trayItem((l) => l.startsWith("Sivri uçlu haç")).getAttribute("aria-label")));
+  ok("açı etiketi çizildi (tam)", app.querySelectorAll(".labels .vertex-tam").length >= 3);
+  await dragFromTray("Kare (küçük)", -1.24, 0.77);
+  ok("kare çentiğe oturdu, 45° açık mesajı", placedCount() === 2 && /45° açık/.test(msg()));
+  ok("kare için aile notu (ortaokul) — aynı aileden, not yok", !/sistemden/.test(msg()));
+  await dragFromBoard(1, 0, 0, { outside: true });
+  ok("kare tahta dışına bırakılınca kutuya döndü", placedCount() === 1 && /kutuya döndü/.test(msg()));
+  await dragFromTray("Sivri uçlu haç", 0.3, 0.2);
+  ok("yıldızın üstüne bırakılan haç geri zıpladı", placedCount() === 1 && /kutuya döndü/.test(msg()));
+  await dragFromTray("Sivri uçlu haç", -1.02, 1.03, { rotateTimes: 1 });
+  ok("45° dönük haç yine (−1,1)'e oturdu", placedCount() === 2 && /Tam oturdu/.test(msg()));
+  await dragFromTray("Sivri uçlu haç", 1.0, -1.05);
+  await dragFromTray("Sivri uçlu haç", -0.97, -1.0);
+  ok("4 haç yerleşti", placedCount() === 4);
+  ok("seviye tamamlandı: kart açıldı", overlayOpen() && /Oturdu/.test(app.querySelector(".overlay h2").textContent));
+  ok("ilerleme kaydedildi", ctx.state.progress["f8-l1"]?.completed === true);
+  ok("araştırma logu yazıldı (completed, attempts=6, wrongFamily=0)", logs.length === 1 && logs[0].completed && logs[0].attempts === 6 && logs[0].wrongFamilyAttempts === 0);
+  cleanup();
+}
+
+// ---------- Seviye 1 (lise): yanıltıcı beşgen, aile notu yok ----------
+{
+  const { ctx, logs } = makeCtx("f8-l1", "lise");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  ok("lise: kutuda 3 kalem (haç, kare, beşgen)", app.querySelectorAll(".tray-item").length === 3);
+  ok("lise: parlama yok", !app.querySelector(".tray-item.glow"));
+  ok("lise: etiketler kapalı", app.querySelector("[data-act=labels]").getAttribute("aria-pressed") === "false");
+  // 8 kez R: 8·36 = 288°; köşesi çentiğe (0.7071, 0.2929) yakın düşer, çözücü kenarı yıldız kenarına hizalar
+  await dragFromTray("Beşgen", 1.4688, 0.5107, { rotateTimes: 8 });
+  ok("beşgen çentiğe yapıştı, 27° açık (225 + 108 = 333): " + msg(), placedCount() === 1 && /333/.test(msg()) && /27° açık/.test(msg()));
+  ok("lise: aile ipucu verilmez", !/sistemden/.test(msg()));
+  cleanup();
+  ok("yarım oturum loglandı (completed=false, wrongFamily=1)", logs.length === 1 && logs[0].completed === false && logs[0].wrongFamilyAttempts === 1);
+}
+
+// ---------- Seviye 3 (ortaokul 2×2): birim hücreyi ötele ----------
+{
+  const { ctx } = makeCtx("f8-l3");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  ok("seviye 3: kutuda birim hücre ×3", /Birim hücre, 3 adet/.test(trayItem((l) => l.startsWith("Birim")).getAttribute("aria-label")));
+  ok("hayalet kılavuz çizildi", app.querySelectorAll(".ghosts .ghost").length === 6);
+  await dragFromTray("Birim hücre", 2.03, 0.02);
+  ok("kopya (2,0) kafese oturdu", placedCount() === 2 && /kafese oturdu/.test(msg()));
+  await dragFromTray("Birim hücre", 1.0, 0.0);
+  ok("kopya (1,0) çakıştı, geri döndü", placedCount() === 2 && /üstüne bindi/.test(msg()));
+  await dragFromTray("Birim hücre", -0.02, 2.04);
+  await dragFromTray("Birim hücre", 1.98, 2.0);
+  ok("2×2 tamam: kart açıldı", placedCount() === 6 && overlayOpen());
+  cleanup();
+}
+
+out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
+</script>

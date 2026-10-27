@@ -1,0 +1,47 @@
+{
+ "_not": "Koordinatlar parça biriminde (ana yıldız dış yarıçapı = 1). 8'li aile hedefleri build/gen_pieces.py geometrisiyle sayısal olarak doğrulandı: yıldız (0,0) + haç (1,1) ortak köşelerde 225+135 = 360 ve 90+270 = 360 verir. Öteleme kafesi: yıldızlar (2i, 2j), haçlar (2i+1, 2j+1).",
+ "levels": [
+  {
+   "id": "f8-l1", "family": 8, "order": 1, "title": "Çentiği tanı",
+   "story": "Usta: 'Yıldızın çentiğine hangi taş oturur? Dene, açıya bak.'",
+   "fixed": [{"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0}],
+   "tray": {"hac": 4},
+   "trayDistractors": {"ortaokul": {"kare-kucuk": 2}, "lise": {"kare-kucuk": 4, "besgen": 2}},
+   "targets": [
+    {"pieceId": "hac", "x": 1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": 1, "y": -1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": -1, "rot": 0}
+   ],
+   "hint": {"ortaokul": "Yıldızın çentiği 135° boşluk bırakır (360 − 225). Hangi parçanın 135° köşesi var? Kare 90° ile 45° açık bırakır.", "lise": "Çentikteki boşluğu hesapla: 360 − iç açı."},
+   "discovery": "Yıldızın çentiği 135°. Kare 90° ile 45° açık bırakır; haçın omzu 135° ile tam oturur: 225 + 135 = 360. Yıldızın ucu da haçın koltuğuna girer: 90 + 270 = 360."
+  },
+  {
+   "id": "f8-l2", "family": 8, "order": 2, "title": "Yıldız-haç",
+   "story": "Usta: 'Şimdi tersini yap: haçı ortaya koy, yıldızları etrafına diz.'",
+   "fixed": [{"pieceId": "hac", "x": 0, "y": 0, "rot": 0}],
+   "tray": {"sekiz-kose-yildiz": 4},
+   "trayDistractors": {"lise": {"on-kose-yildiz": 1, "oniki-kose-yildiz": 1}},
+   "targets": [
+    {"pieceId": "sekiz-kose-yildiz", "x": 1, "y": 1, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": -1, "y": 1, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 1, "y": -1, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": -1, "y": -1, "rot": 0}
+   ],
+   "hint": {"ortaokul": "Haçın omzu 135°, yıldızın çentiği de 135° ister. Yıldızı, çentiği haçın omzuna gelecek şekilde koy; haçın koltuğuna yıldızın ucu girer.", "lise": "Haçın ucunda kaç derece toplanıyor? Kalanı kim dolduracak?"},
+   "discovery": "Haçın ucunda 90 + 90 + 90 = 270 toplanır; kalan 90° komşu haçın ucudur. Yıldız ve haç, başka parça gerekmeden bütün duvarı kaplar."
+  },
+  {
+   "id": "f8-l3", "family": 8, "order": 3, "title": "Ötele ve kapla",
+   "story": "Usta: 'Birimi buldun. Şimdi onu kopyala; duvar kendiliğinden dolsun.'",
+   "fixed": [{"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0}, {"pieceId": "hac", "x": 1, "y": 1, "rot": 0}],
+   "tray": {},
+   "tool": "translate-copy",
+   "translation": {"a": [2, 0], "b": [0, 2]},
+   "gridSize": {"ortaokul": 2, "lise": 3},
+   "targets": [],
+   "hint": {"ortaokul": "Birim hücre: bir yıldız + bir haç. Kopyayı, yıldız ucu komşu yıldızın ucuna değecek şekilde yerleştir.", "lise": "Öteleme vektörü iki yıldız merkezini birleştirir. Kaç kopya gerekir?"},
+   "discovery": "Birim hücre + iki öteleme vektörü = sonsuz desen. Nakkaş bütün duvarı değil, tek birimi tasarlar; duvar ötelemeyle dolar."
+  }
+ ]
+}

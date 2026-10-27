@@ -1,0 +1,12 @@
+{
+  "name": "Nakkaş — Desen Oyunu",
+  "short_name": "Nakkaş",
+  "lang": "tr",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f1ede4",
+  "theme_color": "#1f2a7a",
+  "icons": [
+    { "src": "assets/pieces/sekiz-kose-yildiz.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
