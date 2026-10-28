@@ -324,6 +324,45 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   }
 }
 
+// ---------- 12'li aile, 3.4.6.4: parçalar R ile hedef açıya döndürülür ----------
+{
+  const LV = await loadLevels(), names = { "kare-12": "Kare (12'li)", "ucgen-12": "Üçgen (12'li)", "altigen-12": "Altıgen (12'li)" };
+  const order = { "altigen-12": 0, "kare-12": 1, "ucgen-12": 2 };
+  for (const id of ["f12-l2", "f12-l4"]) {
+    const { ctx } = makeCtx(id);
+    const cleanup = await mount(app, ctx); await tick();
+    const lv = LV.find((l) => l.id === id);
+    if (id === "f12-l4") {
+      const hole = lv.targets.find((t) => t.pieceId === "altigen-12");
+      await dragFromTray("Beşgen", hole.x + 0.02, hole.y + 0.01);
+      const m = msg();
+      ok(`${id}: beşgen altıgen boşluğuna uymaz: ` + m, (placedCount() === 0 && /kutuya döndü/.test(m)) || /açık kaldı/.test(m));
+      if (placedCount()) await dragFromBoard(0, 0, 0, { outside: true });
+    }
+    const miss = [];
+    for (const t of [...lv.targets].sort((p, q) => order[p.pieceId] - order[q.pieceId])) {
+      const before = placedCount();
+      await dragFromTray(names[t.pieceId], t.x + 0.01, t.y - 0.01, { rotateTimes: Math.round(t.rot / 30) % 12 });
+      // f12-l2'de altıgenin kenarına konan ilk kareler henüz köşe tamamlamaz ("açık kaldı" doğrudur); yerleşme yeter
+      if (placedCount() !== before + 1 || (id !== "f12-l2" && !/Tam oturdu/.test(msg()))) miss.push(`${t.pieceId}@${t.rot}: ${msg()}`);
+    }
+    ok(`${id}: ${lv.targets.length} hedef oturdu` + (miss.length ? " — " + miss.join(" | ") : ""), miss.length === 0);
+    ok(`${id}: kart açıldı`, overlayOpen());
+    cleanup();
+  }
+  {
+    const { ctx } = makeCtx("f12-l3");
+    const cleanup = await mount(app, ctx); await tick();
+    const { a, b } = LV.find((l) => l.id === "f12-l3").translation;
+    await dragFromTray("Birim hücre", a[0] + 0.02, a[1] - 0.01);
+    ok("f12-l3: kopya a'ya oturdu", /kafese oturdu/.test(msg()));
+    await dragFromTray("Birim hücre", b[0] - 0.01, b[1] + 0.02);
+    await dragFromTray("Birim hücre", a[0] + b[0] + 0.01, a[1] + b[1] + 0.01);
+    ok("f12-l3: 2×2 tamam, kart açıldı", overlayOpen());
+    cleanup();
+  }
+}
+
 // ---------- rütbe sınavı: 8'li ve 10'lu tek kutuda ----------
 {
   const { ctx, logs } = makeCtx("karma-1");

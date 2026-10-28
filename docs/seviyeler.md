@@ -39,11 +39,11 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 |---|---|---|---|---|---|
 | 0 | Pergelle kur ✓ | O, A | pergel, cetvel | 9 adım: daire → yarıçapla altıya böl → altı yaprak (altı daire) → yaprak uçlarından çaplar (on ikiye) → dörder atlayan dört üçgen → boya | altı yapraklı gül; {12/4} yıldızı ve 90° çentik ölçmeden çıkar |
 | 1 | Yıldızın çevresi ✓ | oniki-kose-yildiz | kare-12 ×12; yanıltıcı ucgen-12 ×2 (lise: + beşgen, haç) | 12 çentik | 270 iç → 90 boşluk → kare; üçgen 30° açık bırakır; uçlarda 60 + 90 + 90 = 240 |
-| 2 | 3.4.6.4 (karar bekliyor) | yıldız + altigen-12 | kare-12, ucgen-12 | Arşimet döşemesi | 60+90+120+90 = 360 |
+| 2 | Onikigen ✓ | altigen-12 | kare-12 ×6, ucgen-12 ×6 (lise: + beşgen, kare) | altıgenin çevresi | her köşede 60 + 90 + 120 + 90 = 360; altıgen + 6 kare + 6 üçgen = düzgün onikigen |
+| 3 | Ötele ve kapla ✓ | hücre: altıgen + 3 kare + 2 üçgen | kopya | 2×2 / 3×3 | öteleme = kenar · (1 + √3), aralarında 60° |
+| 4 | Bozuk çini ✓ | 3.4.6.4 yaması, 3 eksik (altıgen, kare, üçgen) | eksikler + beşgen (lise: + 6'lı altıgen, kare) | boşluklar dolu | köşedeki açıdan tanı; 6'lı altıgen aynı açılı ama büyük |
 
-> 12'li: `build/gen_levels12.mjs` f12-l0 ve f12-l1'i üretir; kare-12, ucgen-12, altigen-12 kenarı yıldız kenarına (S12) eşitlendi. Klasik kesin desen (4.6.12 ağı + Hankin 60°, Tanı çizimi) bir hücrede 18 parça ve iki ayna biçimli altıgen kalkan gerektirir; 2.–4. seviyeler için hangi desenin kullanılacağı kullanıcıya soruldu.
-| 3 | Ötele ve kapla | hücre | kopya | 2×2 | — |
-| 4 | Bozuk çini | — | — | — | — |
+> 12'li: `build/gen_levels12.mjs` bütün seviyeleri üretir; kare-12, ucgen-12, altigen-12 kenarı yıldız kenarına (S12) eşitlendi. 2.–4. seviyeler kullanıcı kararıyla 3.4.6.4 Arşimet döşemesinden (yıldızsız); klasik 4.6.12 + Hankin 60° deseni (Tanı çizimi) bir hücrede 18 parça ve iki ayna biçimli kalkan gerektirdiği için Kur'da kullanılmadı.
 
 ## Çapraz seviye (rütbe sınavı) ✓
 `karma-1` (`families: [8, 10]`): 8'li yıldız (0, 0), 10'lu yıldız (3,7; 0); kutuda haç ×4 + beşgen ×10 (lise: + kare ×2, dörtgen ×2). Yanlış aile, parçanın en yakın sabit yıldızının ailesine göre sayılır; ortaokulda aile notu verilir, kutuda parlama yoktur. "Karışık kutu": sahnede 8'li ve 10'lu iki yıldız yan yana, kutuda her iki ailenin parçaları karışık. Hedef: her yıldızı kendi ailesiyle doldur. Yanlış aile denemesi sayılır (`wrongFamilyAttempts`) — ölçek için en anlamlı veri.

@@ -152,18 +152,18 @@ export function run(G, pieces, levels, ok) {
       return okk;
     });
   };
-  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4", "f12-l1"]) {
+  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4", "f12-l1", "f12-l2", "f12-l4"]) {
     const lv = (levels || []).find((l) => l.id === id); if (!lv) continue;
     const full = G.evaluateVertices([...lv.fixed, ...lv.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot)));
     ok(`${id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));
     ok(`${id}: her hedef yakına bırakılınca tam yerine oturur`, settles(lv));
   }
-  for (const [id, own, others] of [["f10-l4", "on-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]], ["f6-l4", "alti-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]]]) {
+  for (const [id, own, others] of [["f10-l4", "on-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]], ["f6-l4", "alti-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]], ["f12-l4", "altigen-12", ["altigen"]]]) { // beşgen 12'li altıgen boşluğuna küçük kalır: girer, açık bırakır
     const lb = (levels || []).find((l) => l.id === id); if (!lb) continue;
     const sc4 = lb.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot)), hole = lb.targets.find((t) => t.pieceId === own);
     ok(`${id}: ${others.join(" ve ")} boşluğa sığmaz`, others.every((o) => G.resolvePlacement(by[o], { x: hole.x + 0.02, y: hole.y + 0.02, rot: 0 }, sc4, { snapDist: 0.12 }).overlap));
   }
-  for (const id of ["f10-l3", "f6-l3"]) {
+  for (const id of ["f10-l3", "f6-l3", "f12-l3"]) {
     const l10c = (levels || []).find((l) => l.id === id); if (!l10c) continue;
     const { a, b } = l10c.translation, cellSc = l10c.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot));
     const areaSum = cellSc.reduce((s, x) => s + Math.abs(G.signedArea(x.piece.points)), 0);

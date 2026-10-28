@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 1. seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu ile 12'li ailenin 2.–4. seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
 
 ---
 
@@ -162,6 +162,8 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 **Seviye 1:** On iki kare yıldızın çentiklerine oturur (270 + 90 = 360); üçgen 30° açık bırakır.
 
 **Kazanımlar:** Açıyı pergelle ikiye bölme (60° → 30°); dik açının ölçmeden ortaya çıkması; altı yapraklı gül motifiyle tanışma.
+
+**Seviye 2–4 · 3.4.6.4 Arşimet döşemesi:** Altıgenin çevresine altı kare ve altı üçgen konunca düzgün onikigen oluşur (ailenin adı); her köşede aynı sıra: 60 + 90 + 120 + 90 = 360. Ardından bu döşemenin birim hücresi ötelenir ve bozuk bir yaması onarılır. Kazanım: düzgün çokgenlerle kaplama, Arşimet (yarı düzgün) döşemesi kavramı, köşe düzeni gösterimi (3.4.6.4). Not: klasik 12'li yıldız deseni bir hücrede 18 parça ve ayna biçimli parçalar gerektirdiğinden Kur'da sade döşeme seçildi; yıldız deseni Tanı modunda görülür.
 
 #### Rütbe sınavı · "Karışık kutu"
 **Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
