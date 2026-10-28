@@ -1121,28 +1121,28 @@
    "color": "#d9c46a",
    "points": [
     [
-     0.0,
-     -0.5774
+     0.2887,
+     -0.5
     ],
     [
-     0.5,
-     -0.2887
+     0.5774,
+     0.0
     ],
     [
-     0.5,
-     0.2887
+     0.2887,
+     0.5
     ],
     [
-     0.0,
-     0.5774
+     -0.2887,
+     0.5
     ],
     [
-     -0.5,
-     0.2887
+     -0.5774,
+     0.0
     ],
     [
-     -0.5,
-     -0.2887
+     -0.2887,
+     -0.5
     ]
    ],
    "angles": [
@@ -1153,7 +1153,7 @@
     120.0,
     120.0
    ],
-   "note": "Kenar = yıldız kolu, 120°",
+   "note": "Kenar = yıldız kolu, 120°; düz tepeli: 6'lı desendeki altıgenler 0° dönmeyle oturur (R 60° adımla döndürür)",
    "svg": "assets/pieces/altigen.svg"
   },
   {

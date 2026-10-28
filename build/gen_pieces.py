@@ -116,7 +116,7 @@ PIECES = [
   dict(id="alti-kose-yildiz", name="Altı köşeli yıldız", family=6, role="merkez", color="#2e7d6b",
        pts=star(6, 1.0, 1/math.sqrt(3)), note="İki eşkenar üçgen (hexagram)"),
   dict(id="altigen", name="Düzgün altıgen", family=6, role="dolgu", color="#d9c46a",
-       pts=regular(6, 1/math.sqrt(3), rot=-90), note="Kenar = yıldız kolu, 120°"),
+       pts=regular(6, 1/math.sqrt(3), rot=-60), note="Kenar = yıldız kolu, 120°; düz tepeli: 6'lı desendeki altıgenler 0° dönmeyle oturur (R 60° adımla döndürür)"),
   dict(id="eskenar-ucgen", name="Eşkenar üçgen", family=6, role="dolgu", color="#ece9e2",
        pts=recenter(regular(3, 1/math.sqrt(3), rot=-90)), note="60°"),
   dict(id="eskenar-dortgen", name="Eşkenar dörtgen (60°)", family=6, role="dolgu", color="#c96a3b",

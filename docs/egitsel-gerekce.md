@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu aile için hazırlık + 4 seviye. Usta / Yarat modu ile 6'lı ve 12'li ailelerin Kur seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu ile 12'li ailenin Kur seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
 
 ---
 
@@ -149,6 +149,13 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım); içbükey köşe ve eğik birim hücre; kristalografik kısıtla sezgisel tanışma.
 
+#### 6'lı aile · hazırlık ve 4 seviye
+**Hazırlık:** Pergelin açıklığı hiç değiştirilmeden daire altıya bölünür (yarıçap, çevreye tam altı kez sığar); birer atlayarak iki eşkenar üçgen çizilince altı köşeli yıldız ve 120°'lik çentik çıkar. En kısa kurulum budur; ortaokul için iyi bir başlangıçtır.
+
+**Seviyeler:** Yıldızın çevresi (altı altıgen), Petek (uç uca üç yıldızın ortası), Ötele ve kapla (60°/120°'lik eşkenar dörtgen hücre: bir yıldız, iki altıgen), Bozuk çini.
+
+**Kazanımlar:** Yarıçapın çevreye altı kez sığması; düzgün altıgen ve eşkenar üçgen; aynı "çentik = 360 − iç açı" ilişkisinin üçüncü bir ailede uygulanması.
+
 #### Rütbe sınavı · "Karışık kutu"
 **Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
 
@@ -208,7 +215,7 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an Tanı modu (7 motif) ve Kur modunda 8'li aile (hazırlık + 5 seviye) ile 10'lu aile (hazırlık + 4 seviye) oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Şu an Tanı modu (7 motif) ve Kur modunda 8'li aile (hazırlık + 5 seviye), 10'lu ve 6'lı aileler (hazırlık + 4'er seviye) ve rütbe sınavı oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.

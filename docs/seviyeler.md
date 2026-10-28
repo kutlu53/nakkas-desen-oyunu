@@ -26,10 +26,13 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 ## 6'lı aile — "Hamam örgüsü"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |
 |---|---|---|---|---|---|
-| 1 | Yıldızın çevresi | alti-kose-yildiz | altigen ×6, eskenar-ucgen ×6 | çentikler | 240 iç → 120 → altıgen; ya da 60+60 iki üçgen |
-| 2 | Petek | alti-kose-yildiz ×3 | altigen, eskenar-dortgen | üçlü düğüm | 120×3 = 360 |
-| 3 | Ötele ve kapla | hücre | kopya | 3×3 | altıgen örgü iki vektörle |
-| 4 | Bozuk çini | — | — | — | — |
+| 0 | Pergelle kur ✓ | O, A | pergel, cetvel | 7 adım: daire → yarıçapla yay → yürüt → yürüt → iki eşkenar üçgen → boya | yarıçap çevreye altı kez sığar; 120° çentik ölçmeden çıkar |
+| 1 | Yıldızın çevresi ✓ | alti-kose-yildiz | altigen ×6; yanıltıcı kare (lise: + beşgen) | 6 çentik | 240 iç → 120 → altıgen; uçlarda 60 + 120 + 120 = 300 |
+| 2 | Petek ✓ | alti-kose-yildiz ×3 (uç uca) | altigen ×4 (lise: + 10'lu yıldız, beşgen) | ortadaki ve çift yıldıza değen altıgenler | çentikte 240 + 120; uç uca uçlarda 60 + 60 + 120 + 120 = 360 |
+| 3 | Ötele ve kapla ✓ | hücre: yıldız + 2 altıgen | kopya | 2×2 / 3×3 | a = (√3, 1), b = (0, 2), aralarında 60° |
+| 4 | Bozuk çini ✓ | merkez yıldız çevresi, 3 eksik | eksikler + 8'li yıldız, kare (lise: + 12'li yıldız, beşgen) | boşluk dolu | boşluk uçlarda 60°, çentikte 240° ister |
+
+> 6'lı seviyeleri `build/gen_levels6.mjs` üretir (yıldızlar üçgen kafeste uç uca, altıgenler her kafes üçgeninin ortasında). Altıgen üreticide düz tepeli tanımlıdır: desendeki bütün altıgenler 0° dönmeyle oturur (R 60° adımla döndürür, 30°'ye ulaşılamaz). Eşkenar üçgen, eşkenar dörtgen ve şevron yıldız kenarına uymadığı için bu seviyelerde kullanılmıyor.
 
 ## 12'li aile — "Kubbe eteği"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |

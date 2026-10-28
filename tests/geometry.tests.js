@@ -152,26 +152,26 @@ export function run(G, pieces, levels, ok) {
       return okk;
     });
   };
-  for (const id of ["f10-l2", "f10-l4"]) {
+  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4"]) {
     const lv = (levels || []).find((l) => l.id === id); if (!lv) continue;
     const full = G.evaluateVertices([...lv.fixed, ...lv.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot)));
     ok(`${id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));
     ok(`${id}: her hedef yakına bırakılınca tam yerine oturur`, settles(lv));
   }
-  const l10b = (levels || []).find((l) => l.id === "f10-l4");
-  if (l10b) {
-    const sc4 = l10b.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot)), hole = l10b.targets.find((t) => t.pieceId === "on-kose-yildiz");
-    ok("f10-l4: 8'li ve 12'li yıldız 10'lu boşluğa sığmaz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"].every((id) => G.resolvePlacement(by[id], { x: hole.x + 0.02, y: hole.y + 0.02, rot: 0 }, sc4, { snapDist: 0.12 }).overlap));
+  for (const [id, own, others] of [["f10-l4", "on-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]], ["f6-l4", "alti-kose-yildiz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"]]]) {
+    const lb = (levels || []).find((l) => l.id === id); if (!lb) continue;
+    const sc4 = lb.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot)), hole = lb.targets.find((t) => t.pieceId === own);
+    ok(`${id}: ${others.join(" ve ")} boşluğa sığmaz`, others.every((o) => G.resolvePlacement(by[o], { x: hole.x + 0.02, y: hole.y + 0.02, rot: 0 }, sc4, { snapDist: 0.12 }).overlap));
   }
-  const l10c = (levels || []).find((l) => l.id === "f10-l3");
-  if (l10c) {
+  for (const id of ["f10-l3", "f6-l3"]) {
+    const l10c = (levels || []).find((l) => l.id === id); if (!l10c) continue;
     const { a, b } = l10c.translation, cellSc = l10c.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot));
     const areaSum = cellSc.reduce((s, x) => s + Math.abs(G.signedArea(x.piece.points)), 0);
-    ok("f10-l3: hücre alanı = |a × b|", near(areaSum, Math.abs(a[0] * b[1] - a[1] * b[0]), 2e-3));
+    ok(`${id}: hücre alanı = |a × b|`, near(areaSum, Math.abs(a[0] * b[1] - a[1] * b[0]), 2e-3));
     const g = G.resolveGroupPlacement(cellSc, { x: a[0] + 0.03, y: a[1] - 0.02 }, cellSc, { snapDist: 0.12 });
-    ok("f10-l3: hücre kopyası a'ya yapışır, çakışmaz", g.snapped && !g.overlap && near(g.offset.x, a[0], 1e-3) && near(g.offset.y, a[1], 1e-3));
+    ok(`${id}: hücre kopyası a'ya yapışır, çakışmaz`, g.snapped && !g.overlap && near(g.offset.x, a[0], 1e-3) && near(g.offset.y, a[1], 1e-3));
     const g2 = G.resolveGroupPlacement(cellSc, { x: b[0] + 0.02, y: b[1] + 0.03 }, cellSc, { snapDist: 0.12 });
-    ok("f10-l3: hücre kopyası b'ye yapışır, çakışmaz", g2.snapped && !g2.overlap && near(g2.offset.x, b[0], 1e-3) && near(g2.offset.y, b[1], 1e-3));
+    ok(`${id}: hücre kopyası b'ye yapışır, çakışmaz`, g2.snapped && !g2.overlap && near(g2.offset.x, b[0], 1e-3) && near(g2.offset.y, b[1], 1e-3));
   }
 
   // --- rütbe sınavı: iki aile tek sahnede ---

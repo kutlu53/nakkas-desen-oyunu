@@ -246,6 +246,52 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   }
 }
 
+// ---------- 6'lı aile: hazırlık + 4 seviye; parçalar kutudan 0° ile bırakılır ----------
+{
+  const LV = await loadLevels();
+  {
+    const { ctx } = makeCtx("f6-l0");
+    const cleanup = await mount(app, ctx); await tick();
+    ok("f6-l0: 7 adım", app.querySelectorAll(".steps li").length === 7);
+    for (let i = 0; i < 7; i++) { app.querySelector("[data-act=show]").click(); await tick(); }
+    ok("f6-l0: daire altıya bölündü (7 nokta), 6 kenar, 120° etiketi", app.querySelectorAll(".pts [data-k]").length === 7 && app.querySelectorAll(".cons .c-seg").length === 6 && app.querySelector(".fill text").textContent === "120°");
+    await new Promise((r) => setTimeout(r, 1600));
+    ok("f6-l0: kart açıldı, sonraki f6-l1", overlayOpen() && app.querySelector(".overlay .btn.primary").getAttribute("href") === "#kur/f6-l1");
+    cleanup();
+  }
+  const names = { altigen: "Düzgün altıgen", "alti-kose-yildiz": "Altı köşeli" };
+  for (const id of ["f6-l1", "f6-l2", "f6-l4"]) {
+    const { ctx, logs } = makeCtx(id);
+    const cleanup = await mount(app, ctx); await tick();
+    const lv = LV.find((l) => l.id === id);
+    if (id === "f6-l4") {
+      const hole = lv.targets.find((t) => t.pieceId === "alti-kose-yildiz");
+      await dragFromTray("Sekiz köşeli", hole.x + 0.02, hole.y + 0.02);
+      ok(`${id}: 8'li yıldız sığmaz: ` + msg(), placedCount() === 0 && /kutuya döndü/.test(msg()));
+    }
+    const miss = [];
+    for (const t of [...lv.targets].sort((p, q) => (p.pieceId === "alti-kose-yildiz" ? -1 : 0) - (q.pieceId === "alti-kose-yildiz" ? -1 : 0))) {
+      const before = placedCount();
+      await dragFromTray(names[t.pieceId], t.x + 0.02, t.y - 0.015);
+      if (placedCount() !== before + 1 || !/Tam oturdu/.test(msg())) miss.push(`${t.pieceId}@${t.rot}: ${msg()}`);
+    }
+    ok(`${id}: ${lv.targets.length} hedef döndürmeden oturdu` + (miss.length ? " — " + miss.join(" | ") : ""), miss.length === 0);
+    ok(`${id}: kart açıldı`, overlayOpen());
+    cleanup();
+  }
+  {
+    const { ctx } = makeCtx("f6-l3");
+    const cleanup = await mount(app, ctx); await tick();
+    const { a, b } = LV.find((l) => l.id === "f6-l3").translation;
+    await dragFromTray("Birim hücre", a[0] + 0.03, a[1] - 0.02);
+    ok("f6-l3: kopya a'ya oturdu", /kafese oturdu/.test(msg()));
+    await dragFromTray("Birim hücre", b[0] - 0.02, b[1] + 0.03);
+    await dragFromTray("Birim hücre", a[0] + b[0] + 0.02, a[1] + b[1] + 0.02);
+    ok("f6-l3: 2×2 tamam, kart açıldı", overlayOpen());
+    cleanup();
+  }
+}
+
 // ---------- rütbe sınavı: 8'li ve 10'lu tek kutuda ----------
 {
   const { ctx, logs } = makeCtx("karma-1");

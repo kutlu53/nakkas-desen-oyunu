@@ -54,6 +54,7 @@ assets/motifs/        yapı fotoğrafları (eklenecek; lisans notu düşülecek)
 build/gen_pieces.py   parça üretici
 build/hankin.mjs      kesin desen türetici (alt çokgen ağı + kenar ortasından 54° ışınlar → parçalar)
 build/gen_levels10.mjs 10'lu kesin desenden parça biçimi ve f10-l2..l4 yerleşimleri
+build/gen_levels6.mjs 6'lı yıldız-altıgen deseninden f6-l0..l4
 build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 + Hankin 60° → data/tani.json
 ```
 
