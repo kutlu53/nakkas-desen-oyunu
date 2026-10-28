@@ -52,7 +52,7 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] `geometry.js`: snap, köşe açı toplamı, çakışma denetimi, kenar hizalı yerleşim çözücü, hedef eşleme, kafes
 - [x] PWA iskeleti (manifest, service worker)
 - [x] Kalfa / Kur modu — iki zorluk profili, klavye desteği, araştırma logu, geçme çizgisi görünümü, hikâye kartları
-- [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-haç, ötele, aynala, bozuk çini)
+- [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-artı, ötele, aynala, bozuk çini)
 - [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye (kesin girih deseni, `build/hankin.mjs`) + 5. seviye "Gül": setin gül motifinin iç kısmı (`build/gen_rose.mjs`)
 - [ ] Setin gül motifinin dış halkası (çentikli altıgen, ok ucu, taçlı kalkan)
 - [x] Kur · 6'lı aile — pergel hazırlığı + 4 seviye (yıldız-altıgen deseni, `build/gen_levels6.mjs`)

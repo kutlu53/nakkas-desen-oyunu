@@ -52,8 +52,8 @@ def interior_angles(pts):
     return out
 
 def cross(c=2*(1-C45), L=2*C45-1, tip=1-C45):
-    """Yıldız-haç döşemesinin haçı. Varsayılanlar 8 köşeli yıldızla (R=1) birebir örtüşür:
-    bütün kenarlar yıldız kenarına (√2−1) eşittir; haç merkezleri yıldız merkezinden (±1, ±1) uzaktadır."""
+    """Yıldız-artı döşemesinin artıyı. Varsayılanlar 8 köşeli yıldızla (R=1) birebir örtüşür:
+    bütün kenarlar yıldız kenarına (√2−1) eşittir; artı merkezleri yıldız merkezinden (±1, ±1) uzaktadır."""
     h = c/2; e = h+L
     arm = [(-h, -e), (0, -e-tip), (h, -e), (h, -h)]
     pts = []
@@ -76,8 +76,8 @@ PIECES = [
   # ---- 8'li sistem ----
   dict(id="sekiz-kose-yildiz", name="Sekiz köşeli yıldız", family=8, role="merkez", color="#1f2a7a",
        pts=star(8, 1.0, C45/C225), note="İki karenin 45° döndürülmüş birleşimi"),
-  dict(id="hac", name="Sivri uçlu haç", family=8, role="dolgu", color="#ece9e2",
-       pts=cross(), note="Yıldız-haç döşemesinde dört yıldızın arasını doldurur; merkezi yıldızdan (1,1) uzakta"),
+  dict(id="hac", name="Sivri uçlu artı", family=8, role="dolgu", color="#ece9e2",
+       pts=cross(), note="Yıldız-artı döşemesinde dört yıldızın arasını doldurur; merkezi yıldızdan (1,1) uzakta"),
   dict(id="kare-kucuk", name="Kare (küçük)", family=8, role="dolgu", color="#6aa6c8",
        pts=[(-.5, -.5), (.5, -.5), (.5, .5), (-.5, .5)], note=""),
   dict(id="kare-buyuk", name="Kare (büyük)", family=8, role="dolgu", color="#6aa6c8",

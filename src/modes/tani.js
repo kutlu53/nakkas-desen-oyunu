@@ -7,7 +7,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const FIND_TOL = 0.45;    // yıldız merkezine dokunma payı (birim; yıldız yarıçapı 1)
 const SNAP_TOL = 0.7;     // birim hücre için dokunuşu en yakın yıldıza yapıştırma payı
 const STEP_DEG = { 6: 60, 8: 45, 10: 36, 12: 30 };
-const PIECE_FOR_NOTCH = { 6: "altıgen", 8: "haçın omzu", 10: "beşgen", 12: "kare" };
+const PIECE_FOR_NOTCH = { 6: "altıgen", 8: "artının omzu", 10: "beşgen", 12: "kare" };
 
 const $ = (s, el = document) => el.querySelector(s);
 const svgEl = (tag, attrs = {}) => { const e = document.createElementNS(SVG_NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };

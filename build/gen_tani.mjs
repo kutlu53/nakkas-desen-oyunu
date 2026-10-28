@@ -1,5 +1,5 @@
 // Çırak / Tanı modunun desen çizimlerini üretir: data/tani.json.
-// Her aile için kesin bir desen: 8'li yıldız-haç, 10'lu girih (Hankin 54°), 6'lı yıldız-altıgen, 12'li 4.6.12 ağı üstünde Hankin 60°.
+// Her aile için kesin bir desen: 8'li yıldız-artı, 10'lu girih (Hankin 54°), 6'lı yıldız-altıgen, 12'li 4.6.12 ağı üstünde Hankin 60°.
 // Çıktı: yüzler (SVG path + renk), ana yıldızların merkezleri, kafes vektörleri; yıldızı bul / köşe say / birim hücre görevleri bunları kullanır.
 import { readFileSync, writeFileSync } from "node:fs";
 import { hankin, hankinLines, tiles4612, patternFaces, centroid, angles } from "./hankin.mjs";
@@ -27,7 +27,7 @@ function pack(family, faces, starTest, a, b, colorOf) {
 }
 const fromPieces = (list) => list.map(({ pieceId, x, y, rot }) => G.placedPoints(by[pieceId], { x, y, rot }).map(([u, v]) => [u, v]));
 
-// ---- 8'li: yıldız-haç (yıldızlar 2ℤ², haçlar 2ℤ² + (1,1)) ----
+// ---- 8'li: yıldız-artı (yıldızlar 2ℤ², artılar 2ℤ² + (1,1)) ----
 function f8() {
   const a = [2, 0], b = [0, 2], list = [];
   for (const [x, y] of lattice(a, b, 4)) { list.push({ pieceId: "sekiz-kose-yildiz", x, y, rot: 0 }); list.push({ pieceId: "hac", x: x + 1, y: y + 1, rot: 0 }); }

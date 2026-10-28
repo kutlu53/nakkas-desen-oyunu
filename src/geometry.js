@@ -468,7 +468,7 @@ export const translateBy = (dx, dy) => [1, 0, 0, 1, dx, dy];
 
 /**
  * Dönüşüm deseni bozmadan taşıyor mu? Birimin içeriği (merkez motif) kendi merkezine göre aynalı-simetrik varsayılır
- * (8'li yıldız ve haç öyle); o zaman yeterli koşul: motif merkezinin görüntüsü yine bir kafes noktasında.
+ * (8'li yıldız ve artı öyle); o zaman yeterli koşul: motif merkezinin görüntüsü yine bir kafes noktasında.
  */
 export function preservesLattice(T, origin, a, b) {
   const [x, y] = affineApply(T, origin);

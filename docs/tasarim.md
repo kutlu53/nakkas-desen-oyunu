@@ -11,7 +11,7 @@ Kenar kenara oturan her döşemede olduğu gibi, bir köşede buluşan parçalar
 | Aile | Temel açı | Yıldız çentiğine tam oturan | Yaygın yerler |
 |---|---|---|---|
 | 6 | 60° | altıgen (120°) | Selçuklu tuğla işçiliği, Mardin taş |
-| 8 | 45° | haçın 135° köşesi / sekizgen | yıldız-haç çinileri, Topkapı, Mağrip zellij |
+| 8 | 45° | artının 135° köşesi / sekizgen | yıldız-artı çinileri, Topkapı, Mağrip zellij |
 | 10 | 36° | beşgen (108°) | girih, İsfahan, Darb-ı İmam, Karatay Medresesi |
 | 12 | 30° | kare (90°) | büyük kubbe kuşakları, Selimiye, Kahire minberleri |
 

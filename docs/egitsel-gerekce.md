@@ -56,7 +56,7 @@ Tek bir `difficulty` ayarı, mod kodunu değil seviye verisini değiştirir:
 **Gerekçe:** Öğrenciye gerektiği kadar destek verilip zamanla geri çekilmesi, **iskele kurma** (scaffolding) kavramına dayanır (Wood, Bruner ve Ross, 1976). "Usta göstersin" düğmesi, adımı bir **çözümlü örnek** olarak gösterir; öğrenci takıldığında bilişsel yükü azaltır (Sweller, 1988) ve çözümlü örnekten bağımsız çözüme geçişi kolaylaştırır (Renkl ve Atkinson, 2003).
 
 ### 2.5 Kültürel bağlam ve tarihsel dürüstlük
-Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, belirli ustaların geleneğinde yaşamış bir sanat olarak sunulur. Hikâye kartları her tekniği tarihsel karşılığına bağlar. Kesin olmayan bilgiler "rivayet" diye işaretlenir; motifler dönem ve coğrafyayla doğru eşleştirilir (örneğin 8'li yıldız-haç çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu geleneğindendir; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde görülür).
+Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, belirli ustaların geleneğinde yaşamış bir sanat olarak sunulur. Hikâye kartları her tekniği tarihsel karşılığına bağlar. Kesin olmayan bilgiler "rivayet" diye işaretlenir; motifler dönem ve coğrafyayla doğru eşleştirilir (örneğin 8'li yıldız-artı çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu geleneğindendir; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde görülür).
 
 **Gerekçe:** Matematiğin kültürel bağlamı içinde öğretilmesi **etnomatematik** yaklaşımının temel önerisidir (D'Ambrosio, 1985). Öğrencinin kendi kültürel mirasında matematiği görmesi, hem konuya ilgiyi hem de değerler eğitimi hedeflerini destekler.
 
@@ -85,7 +85,7 @@ Oyun tarayıcıda, kurulum gerektirmeden ve bir kez açıldıktan sonra internet
 
 **Gerekçe:** van Hiele'nin görsel düzeyi; şekli bütün olarak tanımadan özelliklerini incelemeye geçilemez. Yapı adı, dönemi ve hikâye kartı etnomatematik bağlamı kurar.
 
-**Görseller:** Projede yapı fotoğrafı bulunmadığı için her motif, kendi ailesine ait kesin bir desen çizimiyle gösterilir (6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 ağı üstünde yıldız deseni). Ekranda çizimin yapının kendi deseninin kopyası olmadığı belirtilir. Kesin çizim, "yıldızın merkezi" ve "birim hücre" görevlerinin doğru denetlenmesini sağlar. Sınırlılık: öğrenci gerçek yapı yüzeyini görmez; öğretmenin sınıfta gerçek yapı görselleri göstermesi önerilir.
+**Görseller:** Projede yapı fotoğrafı bulunmadığı için her motif, kendi ailesine ait kesin bir desen çizimiyle gösterilir (6'lı yıldız-altıgen, 8'li yıldız-artı, 10'lu girih, 12'li 4.6.12 ağı üstünde yıldız deseni). Ekranda çizimin yapının kendi deseninin kopyası olmadığı belirtilir. Kesin çizim, "yıldızın merkezi" ve "birim hücre" görevlerinin doğru denetlenmesini sağlar. Sınırlılık: öğrenci gerçek yapı yüzeyini görmez; öğretmenin sınıfta gerçek yapı görselleri göstermesi önerilir.
 
 **Ölçülen:** Deneme, yanlış cevap (`wrongFamilyAttempts`), ipucu, süre (`mode: "tani"`).
 
@@ -98,39 +98,39 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 #### 8'li · hazırlık · "Pergelle kur"
 **Ne yapılır:** Dokuz adımda, yalnızca pergel ve cetvelle 8'li yıldız kurulur: ana daire → çap → dikme yayları → dik çap → dört yardımcı daire → köşegenler → birinci kare → ikinci kare → yıldızı boya.
 
-**Neden:** Ustaların gerçek tasarım yöntemini öğretmek. Öğrenci hiç açı ölçmeden 90°'yi (dikme), 45°'yi (köşegen) ve sonunda yıldızın çentiğindeki 135°'yi elde eder. Dört yardımcı dairenin kesiştiği J noktası, bir sonraki seviyede haçın merkezidir; böylece çizim ile parça birbirine bağlanır.
+**Neden:** Ustaların gerçek tasarım yöntemini öğretmek. Öğrenci hiç açı ölçmeden 90°'yi (dikme), 45°'yi (köşegen) ve sonunda yıldızın çentiğindeki 135°'yi elde eder. Dört yardımcı dairenin kesiştiği J noktası, bir sonraki seviyede artının merkezidir; böylece çizim ile parça birbirine bağlanır.
 
 **Kazanımlar:** Pergel-cetvel ile dik çizme ve açıyı ikiye bölme; düzgün sekizgenin ve {8/2} yıldızının iki kareden oluştuğunu görme; geleneksel tasarım yöntemini tanıma.
 
 **Ölçülen:** Yanlış çizim sayısı (`wrongPicks`), ipucu kullanımı, süre.
 
 #### 8'li · seviye 1 · "Çentiği tanı"
-**Ne yapılır:** Sabit bir yıldızın çentiklerine uygun parça yerleştirilir. Kutuda haç, kare ve (lisede) beşgen vardır.
+**Ne yapılır:** Sabit bir yıldızın çentiklerine uygun parça yerleştirilir. Kutuda artı, kare ve (lisede) beşgen vardır.
 
-**Neden:** Seviyenin "aha" anı: yıldızın çentiği 135° boşluk bırakır. Kare (90°) 45° açık bırakır, beşgen (108°) 27° açık bırakır, haçın omzu (135°) tam oturur. Öğrenci doğru parçayı açı hesabıyla bulur.
+**Neden:** Seviyenin "aha" anı: yıldızın çentiği 135° boşluk bırakır. Kare (90°) 45° açık bırakır, beşgen (108°) 27° açık bırakır, artının omzu (135°) tam oturur. Öğrenci doğru parçayı açı hesabıyla bulur.
 
 **Kazanımlar:** Bir köşede açıların 360° ettiğini keşfetme; iç açı ile dış boşluk (360 − iç açı) ilişkisi; farklı ailelerin neden birbirine uymadığını açıyla açıklama.
 
 **Ölçülen:** Deneme sayısı, **yanlış aile denemesi** (`wrongFamilyAttempts`; ölçek çalışması için en anlamlı veri), ipucu, süre.
 
-#### 8'li · seviye 2 · "Yıldız-haç"
-**Ne yapılır:** Bu kez haç sabittir; çevresine dört yıldız dizilir.
+#### 8'li · seviye 2 · "Yıldız-artı"
+**Ne yapılır:** Bu kez artı sabittir; çevresine dört yıldız dizilir.
 
-**Neden:** Aynı ilişkiyi ters yönden kurmak. Öğrenci haçın ucunda 90 + 90 + 90 = 270 toplandığını, kalan 90°'yi komşu haçın ucunun doldurduğunu görür. Yıldız ve haç, başka parçaya gerek kalmadan bütün düzlemi kaplar.
+**Neden:** Aynı ilişkiyi ters yönden kurmak. Öğrenci artının ucunda 90 + 90 + 90 = 270 toplandığını, kalan 90°'yi komşu artının ucunun doldurduğunu görür. Yıldız ve artı, başka parçaya gerek kalmadan bütün düzlemi kaplar.
 
 **Kazanımlar:** Kaplama (süsleme) kavramı; iki parçanın düzlemi boşluksuz örtmesi.
 
 **Hikâye kartı · Kündekâri:** Parçaların çivisiz ve tutkalsız, yalnızca birbirine oturarak deseni tuttuğu ahşap tekniği. Fiziksel setin tarihsel karşılığıdır; öğrencinin az önce yaptığı işi gerçek bir zanaata bağlar.
 
 #### 8'li · seviye 3 · "Ötele ve kapla"
-**Ne yapılır:** Bir yıldız ve bir haçtan oluşan birim hücre, öteleme vektörleriyle kopyalanarak 2×2 (ortaokul) ya da 3×3 (lise) alan kaplanır.
+**Ne yapılır:** Bir yıldız ve bir artıdan oluşan birim hücre, öteleme vektörleriyle kopyalanarak 2×2 (ortaokul) ya da 3×3 (lise) alan kaplanır.
 
 **Neden:** "Nakkaş bütün duvarı değil, tek birimi tasarlar." Öğrenci öteleme vektörünün iki yıldız merkezini birleştirdiğini, yanlış vektörün çakışma ya da boşluk ürettiğini görür.
 
 **Kazanımlar:** Birim hücre; öteleme dönüşümü ve vektör; periyodik desen.
 
 #### 8'li · seviye 4 · "Aynala ve çoğalt"
-**Ne yapılır:** Kenarları yıldızın ve haçın ortasından geçen **çeyrek kare** birim verilir. Öğrenci araç seçer (aynala / ötele) ve birimin bir kenarına dokunur. Hedef: 4×2 (ortaokul) ya da 4×4 (lise) alanı doldurmak.
+**Ne yapılır:** Kenarları yıldızın ve artının ortasından geçen **çeyrek kare** birim verilir. Öğrenci araç seçer (aynala / ötele) ve birimin bir kenarına dokunur. Hedef: 4×2 (ortaokul) ya da 4×4 (lise) alanı doldurmak.
 
 **Neden:** Topkapı Tomarı'ndaki desen çizimlerinin çoğu bütün duvarı değil, kenarlarından aynalanacak küçük bir birimi gösterir. Öğrenci şunu kendisi keşfeder: çeyrek birim ötelenince desen **kırılır** (çeyrek yıldızlar birleşmez); aynalanınca **birleşir**. İki aynadan sonra elinde 2×2 birim hücre olur ve artık öteleme de çalışır. Bu, iki dönüşümün farkını ve birlikte nasıl kullanıldığını en açık biçimde gösterir.
 
@@ -141,7 +141,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 **Hikâye kartı · Topkapı Tomarı:** Ustanın desen defteri; birimlerin aynalanarak çoğaltılması ve mürekkepsiz yardımcı çizgiler.
 
 #### 8'li · seviye 5 · "Bozuk çini"
-**Ne yapılır:** Dört çinisi düşmüş bir duvar (3×3 yıldız, 4 haç) onarılır. Kutuda eksik parçaların yanında birbirine benzeyen yanıltıcılar vardır: ortaokulda 10'lu yıldız ve kare, lisede 10'lu yıldız, 12'li yıldız ve beşgen.
+**Ne yapılır:** Dört çinisi düşmüş bir duvar (3×3 yıldız, 4 artı) onarılır. Kutuda eksik parçaların yanında birbirine benzeyen yanıltıcılar vardır: ortaokulda 10'lu yıldız ve kare, lisede 10'lu yıldız, 12'li yıldız ve beşgen.
 
 **Neden:** 10'lu ve 12'li yıldız uzaktan 8'li yıldıza benzer; öğrenci doğru parçayı şeklinden değil açısından ayırmak zorundadır. Yanlış yıldız boşluğa konduğunda oyun nedenini açıyla söyler: "90 + 90 + 90 + 72 = 342 — boşluk 90° istiyor, bu parçanın köşesi 72°." Restorasyon kurgusu, kültürel mirası koruma değerini işler.
 
@@ -185,7 +185,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 #### Ustalık sınavı · "Karışık kutu"
 **Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
 
-**Neden:** Öğrenci "hangi parça nereye?" sorusunu yalnızca açıyla cevaplayabilir: 135°'lik çentiğe haçın omzu, 108°'lik çentiğe beşgen. Bu, iki ailede ayrı ayrı öğrenilenin aktarımını ve ayırt edilmesini sınar.
+**Neden:** Öğrenci "hangi parça nereye?" sorusunu yalnızca açıyla cevaplayabilir: 135°'lik çentiğe artının omzu, 108°'lik çentiğe beşgen. Bu, iki ailede ayrı ayrı öğrenilenin aktarımını ve ayırt edilmesini sınar.
 
 **Ölçülen:** Yanlış aile denemesi (`wrongFamilyAttempts`); parçanın yanına konduğu yıldızın ailesine göre sayılır. Ölçek çalışması için en anlamlı gösterge budur.
 

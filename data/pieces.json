@@ -96,7 +96,7 @@
   },
   {
    "id": "hac",
-   "name": "Sivri uçlu haç",
+   "name": "Sivri uçlu artı",
    "family": 8,
    "role": "dolgu",
    "color": "#ece9e2",
@@ -184,7 +184,7 @@
     135.0,
     270.0
    ],
-   "note": "Yıldız-haç döşemesinde dört yıldızın arasını doldurur; merkezi yıldızdan (1,1) uzakta",
+   "note": "Yıldız-artı döşemesinde dört yıldızın arasını doldurur; merkezi yıldızdan (1,1) uzakta",
    "svg": "assets/pieces/hac.svg"
   },
   {

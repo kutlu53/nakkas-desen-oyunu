@@ -127,7 +127,7 @@ async function playPieces(lv) {
     if (placed() === before) { retries++; await dragFromTray(p.name, t.x, t.y, turns); if (placed() === before) note(`${lv.id}: ${p.name} (${t.x.toFixed(2)}, ${t.y.toFixed(2)}) iki denemede de yerleşmedi — "${msg()}"`); }
   }
   if (forgot && !overlayOpen()) {
-    if (/desene ait olmayan/.test(msg())) { say(`unuttuğu parça için uyarı: "${msg()}"`); const g = $$(".placed [data-uid]").find((x) => /Kare|yıldız|Beşgen|Üçgen|haç/i.test(x.getAttribute("aria-label")) && !lv.targets.some((t) => (x.getAttribute("aria-label") || "").startsWith(byId[t.pieceId].name))); if (g) await toTrayFromBoard($$(".placed [data-uid]").indexOf(g)); }
+    if (/desene ait olmayan/.test(msg())) { say(`unuttuğu parça için uyarı: "${msg()}"`); const g = $$(".placed [data-uid]").find((x) => /Kare|yıldız|Beşgen|Üçgen|artı/i.test(x.getAttribute("aria-label")) && !lv.targets.some((t) => (x.getAttribute("aria-label") || "").startsWith(byId[t.pieceId].name))); if (g) await toTrayFromBoard($$(".placed [data-uid]").indexOf(g)); }
     else note(`${lv.id}: köşede unutulan parça varken oyun bir şey söylemedi — "${msg()}"`);
   }
   if (!overlayOpen()) { // takıldı: ipucu, yanlış oturanları kutuya geri gönderip yeniden dener

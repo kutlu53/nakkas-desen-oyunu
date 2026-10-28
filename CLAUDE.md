@@ -31,7 +31,7 @@ Ayrıntı: `docs/tasarim.md`, seviyeler: `docs/seviyeler.md`, motif atlası içe
 - **Köşe eşleme:** sürüklenen parçanın köşesi, sahnedeki bir köşeye `SNAP_PX` içinde yaklaşınca yapışır; ardından kenar hizası için parça döndürülür (yalnızca aile açısının katlarıyla).
 - **Açı denetimi:** paylaşılan bir köşede toplanan iç açılar toplanır. `=360` tam, `<360` boşluk, `>360` çakışma. Oyun bunu renkle ve sayıyla gösterir — mekanik kazanımı tam burada.
 - **Aile uyumsuzluğu** kuraldan değil geometriden çıkmalı: 10'lu parça 8'li köşeye getirilince toplam 360 etmez; mesaj bunu açıyla anlatır ("135 + 135 + 72 = 342, 18° açık kaldı").
-- Yıldızın çentiği (360 − iç açı) o aileye özgü bir parçayı tam alır: 8'li {8/2} → 135° (haçın omuz köşesi / sekizgen), 10'lu → 108° (beşgen), 6'lı → 120° (altıgen), 12'li {12/4} → 90° (kare). Bu, Kalfa 1. seviyenin "aha" anıdır. Açılar `data/pieces.json` → `angles` alanından okunur; elle sabit yazma.
+- Yıldızın çentiği (360 − iç açı) o aileye özgü bir parçayı tam alır: 8'li {8/2} → 135° (artının omuz köşesi / sekizgen), 10'lu → 108° (beşgen), 6'lı → 120° (altıgen), 12'li {12/4} → 90° (kare). Bu, Kalfa 1. seviyenin "aha" anıdır. Açılar `data/pieces.json` → `angles` alanından okunur; elle sabit yazma.
 
 ## Kod düzeni
 ```
@@ -59,7 +59,7 @@ build/gen_levels10.mjs 10'lu kesin desenden parça biçimi ve f10-l2..l4 yerleş
 build/gen_rose.mjs    setin 10'lu gülünün iç kısmı (ongen + 10 beşgen, Hankin 72°) → rose_pieces.json + f10-l5
 build/gen_levels6.mjs 6'lı yıldız-altıgen deseninden f6-l0..l4
 build/gen_levels12.mjs 12'li pergel hazırlığı (altı yaprak), f12-l1 ve 3.4.6.4 döşemesinden f12-l2..l4
-build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 + Hankin 60° → data/tani.json
+build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-artı, 10'lu girih, 12'li 4.6.12 + Hankin 60° → data/tani.json
 ```
 
 ## Çalışma kuralları
@@ -67,7 +67,7 @@ build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-h
 - `geometry.js` fonksiyonları yan etkisiz; her yeni fonksiyona `tests/geometry.tests.js` içinde en az bir örnek ekle (framework yok; `tests/geometry.test.html` tarayıcıda, `node tests/run-node.mjs` komut satırında çalıştırır). Mod etkileşimleri için `tests/kur.smoke.html` sentetik işaretçi olaylarıyla oynar; headless Chrome `--dump-dom` ile okunabilir.
 - Dokunma hedefleri ≥ 44px. Parça kutusundaki küçük parçalar büyütülmüş tutamaçla sürüklenir.
 - Hikâye/kültür metinleri `data/motifs.json`'da; koda gömme. Tarihsel iddiaları kaynaklı tut, emin olunmayanı "rivayet" diye işaretle.
-- Tarihsel çerçeve: ustalar deseni pergel ve cetvelle kurardı, açı ölçüp toplamazdı. Açı toplamı bugünün matematiğiyle kurulumun *neden* çalıştığını gösterir; metinlerde "ustalar açıları toplardı" izlenimi verme. Her aile Kur'a bir pergel-cetvel hazırlığıyla başlar (`tests/geometry.tests.js` her açılan noktanın iki çizimin kesişimi olduğunu denetler). Motifleri dönem/coğrafyayla doğru eşle: 8'li yıldız-haç çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde.
+- Tarihsel çerçeve: ustalar deseni pergel ve cetvelle kurardı, açı ölçüp toplamazdı. Açı toplamı bugünün matematiğiyle kurulumun *neden* çalıştığını gösterir; metinlerde "ustalar açıları toplardı" izlenimi verme. Her aile Kur'a bir pergel-cetvel hazırlığıyla başlar (`tests/geometry.tests.js` her açılan noktanın iki çizimin kesişimi olduğunu denetler). Motifleri dönem/coğrafyayla doğru eşle: 8'li yıldız-artı çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde.
 - Parça ölçüsü: bir ailenin dolgu parçalarının kenarı o ailenin yıldız kenarına (ya da tam katına) eşit, açıları aile adımının katı olmalı; yoksa parçalar birbirine oturmaz. 10'lu ailede kesin desen `build/hankin.mjs` (girih ongen + papyon, Hankin 54°) ile türetilir, seviyeleri `build/gen_levels10.mjs` üretir; parçaları yıldız, beşgen, papyon, `dortgen-10`. Setin fotoğraftan oranlanan diğer 10'lu parçaları (kalkanlar, çift ev, çentikli altıgen, ok ucu, uzun beşgen, yarım yıldız, beş köşeli yıldız) bu desende yok; 6'lı/12'li dolgular henüz düzeltilmedi (bkz. `docs/seviyeler.md` notu). Kullanıcı kararı: fotoğraf oranı yerine kesin geometri; 10'lu seviyeler fiziksel setle birebir değil.
 - Performans ölçütü: 60 parçalı sahne orta sınıf Android tablette akıcı sürüklenmeli.
 - Araştırma verisi: oyun `localStorage`'a oturum başına `{mode, level, attempts, seconds, completed}` yazar; `Ayarlar → Verileri dışa aktar` JSON verir. Ölçek çalışmasıyla eşleştirilecek.

@@ -29,20 +29,20 @@ ok("tuval kuruldu: 8'li kutu, 4 görev, boş galeri", app.querySelectorAll(".tra
 await drop("sekiz-kose-yildiz", 0, 0);
 ok("aynasız: tek yıldız", count() === 1);
 await drop("hac", 1.03, 0.97);
-ok("haç yıldıza yapıştı, tam köşe söylendi: " + msg(), count() === 2 && /360 ✓/.test(msg()));
+ok("artı yıldıza yapıştı, tam köşe söylendi: " + msg(), count() === 2 && /360 ✓/.test(msg()));
 await drop("hac", 0.2, 0.1);
 ok("üst üste binen parça reddedildi", count() === 2 && /bindi/.test(msg()));
 click('[data-act="undo"]'); await tick();
-ok("geri al: haç gitti", count() === 1);
+ok("geri al: artı gitti", count() === 1);
 const setMirror = (n) => { const s = app.querySelector("[data-mirror-select]"); s.value = String(n); s.dispatchEvent(new Event("change", { bubbles: true })); };
 setMirror(8); await tick();
 ok("ayna 8×: kılavuz ışınları çizildi", app.querySelectorAll(".guides .ray").length === 8);
 await drop("hac", 1.03, 0.97);
-ok("ayna 8×: haç kopyaları (4 farklı yer; 45° dönenler aynı haça düşer ya da çakışır): " + msg(), count() === 1 + 4 && /kopya/.test(msg()));
+ok("ayna 8×: artı kopyaları (4 farklı yer; 45° dönenler aynı artıya düşer ya da çakışır): " + msg(), count() === 1 + 4 && /kopya/.test(msg()));
 // boya: seçili grubu boya
 click('.palette [data-color="#e2a92b"]'); await tick();
 const cols = [...app.querySelectorAll(".placed [data-uid] path")].map((p) => p.getAttribute("fill"));
-ok("seçili grup (4 haç) hardala boyandı", cols.filter((c) => c === "#e2a92b").length === 4);
+ok("seçili grup (4 artı) hardala boyandı", cols.filter((c) => c === "#e2a92b").length === 4);
 // görev: ayna ile 16 parça
 for (const [x, y] of [[2.02, 0.02], [3.03, 0.97]]) await drop(x === 2.02 ? "sekiz-kose-yildiz" : "hac", x, y);
 ok(`ayna ile ${count()} parça; 'Dört tam köşe' rozeti`, !!state.badges["yarat-tam-kose"]);
@@ -75,7 +75,7 @@ click('[data-act="copy"]'); await tick();
 const sv = svg(), at = (x, y) => toClient(x, y);
 pev("pointermove", sv, at(0.7, 0.2)); pev("pointerdown", sv, at(0.7, 0.2)); await tick();
 ok("binen kopya reddedildi, kopya hâlâ elde", count() === 2 && /bindi/.test(msg()));
-// yıldız + haç ağırlık merkezi (0.5, 0.5); (2.5, 0.5)'e taşıyınca öteleme (2, 0)
+// yıldız + artı ağırlık merkezi (0.5, 0.5); (2.5, 0.5)'e taşıyınca öteleme (2, 0)
 pev("pointermove", sv, at(2.52, 0.47)); pev("pointerdown", sv, at(2.52, 0.47)); await tick();
 ok("kopya (2, 0) ötelemeyle yapıştı: " + msg(), count() === 4 && /\(2, 0\)/.test(msg()));
 click('[data-act="repeat"]'); await tick();

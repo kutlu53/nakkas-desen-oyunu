@@ -61,7 +61,7 @@ export function renderMirror(root, ctx, level, levels, byId, cards = {}) {
       </svg>
       <aside class="tray unit-box" aria-label="Birim">
         <svg viewBox="${ux - 0.08} ${uy - 0.08} ${uw + 0.16} ${uh + 0.16}" width="88" height="88" role="img" aria-label="Çeyrek kare birim"></svg>
-        <p><strong>Tomar birimi</strong> Çeyrek yıldız + çeyrek haç. Kenarları yıldızın ve haçın ortasından geçer.</p>
+        <p><strong>Tomar birimi</strong> Çeyrek yıldız + çeyrek artı. Kenarları yıldızın ve artının ortasından geçer.</p>
       </aside>
     </section>
     <div class="overlay" hidden></div>`;
@@ -137,7 +137,7 @@ export function renderMirror(root, ctx, level, levels, byId, cards = {}) {
     S.history.push({ tiles: S.tiles, region: S.region });
     S.tiles = [...S.tiles, ...added]; S.region = region;
     const [x0, y0, x1, y1] = region, cellNow = x1 - x0 >= Math.hypot(...a) - EPS && y1 - y0 >= Math.hypot(...b) - EPS;
-    let text = S.tool === "mirror" ? "Aynalandı: çeyrekler birleşip yıldızı ve haçı tamamladı." : "Ötelendi: birim hücre ötelenince desen bozulmaz.";
+    let text = S.tool === "mirror" ? "Aynalandı: çeyrekler birleşip yıldızı ve artıyı tamamladı." : "Ötelendi: birim hücre ötelenince desen bozulmaz.";
     if (cellNow && !S.cellReached) { S.cellReached = true; text += " Elinde artık tam birim hücre var; bundan sonra öteleme de çalışır."; }
     setMsg(text, "ok");
     play(S.cellReached && cellNow ? "can" : "tik");
