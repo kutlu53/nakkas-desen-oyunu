@@ -45,7 +45,7 @@ src/modes/kur.js      Kalfa
 src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json → tool: "construct")
 src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (tool: "mirror")
 src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
-src/modes/yarat.js    Usta
+src/modes/yarat.js    Usta: serbest tuval, simetri aynası, boya, geri al, görev rozetleri, PNG, galeri (state.gallery, state.badges)
 data/pieces.json      28 parça (üretilmiş)
 data/motifs.json      motif atlası (motifs) + hikâye kartları (cards; _dogrulama notu: sınıftan önce kaynaktan doğrula)
 data/levels.json      Kalfa seviyeleri (hedef yerleşimler)

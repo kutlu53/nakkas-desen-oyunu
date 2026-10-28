@@ -1,0 +1,73 @@
+<!doctype html><meta charset="utf-8"><title>yarat duman testi</title>
+<link rel="stylesheet" href="../styles.css">
+<style>#out { white-space: pre-wrap; font: 13px/1.4 monospace; background: var(--panel); padding: 12px; border-radius: 8px; }</style>
+<pre id="out"></pre>
+<main id="app" style="width: 1000px"></main>
+<script type="module">
+// Sentetik olaylarla Usta/Yarat'ı oynar. Tarayıcıda aç ya da headless --dump-dom ile oku.
+import { mount, sceneSVG } from "../src/modes/yarat.js";
+const out = document.getElementById("out"); let fail = 0, n = 0;
+window.addEventListener("error", (e) => { out.textContent += "HATA: " + e.message + " @" + (e.filename || "") + ":" + e.lineno + "\n"; });
+window.addEventListener("unhandledrejection", (e) => { out.textContent += "HATA (promise): " + (e.reason && e.reason.stack || e.reason) + "\n"; });
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
+const tick = () => new Promise((r) => setTimeout(r, 0));
+const app = document.getElementById("app");
+const svg = () => app.querySelector(".board");
+const toClient = (bx, by) => { const p = new DOMPoint(bx, by).matrixTransform(svg().getScreenCTM()); return [p.x, p.y]; };
+const pev = (type, el, [cx, cy]) => el.dispatchEvent(new PointerEvent(type, { clientX: cx, clientY: cy, pointerId: 5, pointerType: "mouse", button: 0, buttons: type === "pointerup" ? 0 : 1, bubbles: true, cancelable: true }));
+const msg = () => app.querySelector(".msg").textContent, count = () => app.querySelectorAll(".placed [data-uid]").length;
+const click = (sel) => app.querySelector(sel).click();
+async function drop(id, bx, by) {
+  const b = app.querySelector(`.tray-item[data-id="${id}"]`), tray = app.querySelector(".tray-items"), r = b.getBoundingClientRect();
+  pev("pointerdown", b, [r.left + r.width / 2, r.top + r.height / 2]);
+  pev("pointermove", tray, toClient(bx, by)); pev("pointerup", tray, toClient(bx, by)); await tick();
+}
+const logs = [], state = { progress: {}, atlas: {}, badges: {}, log: [], gallery: [] };
+const ctx = { state, saveState() {}, log: (r) => logs.push(r), go() {}, param: undefined, difficulty: "ortaokul" };
+let cleanup = await mount(app, ctx); await tick();
+ok("tuval kuruldu: 8'li kutu, 4 görev, boş galeri", app.querySelectorAll(".tray-item").length > 0 && app.querySelectorAll(".tasks li").length === 4 && /Henüz kayıt yok/.test(app.querySelector(".gallery").textContent));
+await drop("sekiz-kose-yildiz", 0, 0);
+ok("aynasız: tek yıldız", count() === 1);
+await drop("hac", 1.03, 0.97);
+ok("haç yıldıza yapıştı, tam köşe söylendi: " + msg(), count() === 2 && /360 ✓/.test(msg()));
+await drop("hac", 0.2, 0.1);
+ok("üst üste binen parça reddedildi", count() === 2 && /bindi/.test(msg()));
+click('[data-act="undo"]'); await tick();
+ok("geri al: haç gitti", count() === 1);
+click('[data-mirror="8"]'); await tick();
+ok("ayna 8×: kılavuz ışınları çizildi", app.querySelectorAll(".guides .ray").length === 8);
+await drop("hac", 1.03, 0.97);
+ok("ayna 8×: haç kopyaları (4 farklı yer; 45° dönenler aynı haça düşer ya da çakışır): " + msg(), count() === 1 + 4 && /kopya/.test(msg()));
+// boya: seçili grubu boya
+click('.palette [data-color="#e2a92b"]'); await tick();
+const cols = [...app.querySelectorAll(".placed [data-uid] path")].map((p) => p.getAttribute("fill"));
+ok("seçili grup (4 haç) hardala boyandı", cols.filter((c) => c === "#e2a92b").length === 4);
+// görev: ayna ile 16 parça
+for (const [x, y] of [[2.02, 0.02], [3.03, 0.97]]) await drop(x === 2.02 ? "sekiz-kose-yildiz" : "hac", x, y);
+ok(`ayna ile ${count()} parça; 'Dört tam köşe' rozeti`, !!state.badges["yarat-tam-kose"]);
+await drop("kare-kucuk", 0, 3.2);
+ok(`ayna ile ${count()} parça (≥16) → 'Simetri aynası' rozeti, mesajda kopya bilgisi korunur: ` + msg(), count() >= 16 && !!state.badges["yarat-ayna"] && /kopya/.test(msg()) && /Rozet/.test(msg()));
+// sil
+const g = app.querySelector(".placed [data-uid]"); const bb = g.getBoundingClientRect();
+pev("pointerdown", g.querySelector("path"), [bb.left + bb.width / 2, bb.top + bb.height / 2]); await tick();
+const before = count(); click('[data-act="delete"]'); await tick();
+ok("seçili grup silindi", count() < before);
+// galeri
+click('[data-act="save"]'); await tick();
+ok("galeriye kaydedildi", state.gallery.length === 1 && app.querySelectorAll(".g-item").length === 1);
+click('[data-act="clear"]'); await tick();
+ok("temizlendi", count() === 0);
+click('[data-load="0"]'); await tick();
+ok("galeriden açıldı", count() === state.gallery[0].pieces.length);
+// PNG
+let blobType = null; const orig = URL.createObjectURL; URL.createObjectURL = (b) => { blobType = b.type; return orig.call(URL, b); };
+const blob = await mount.exportPNG(); URL.createObjectURL = orig;
+ok("PNG oluştu (image/png)", blob && blob.type === "image/png" && blobType === "image/png" && blob.size > 1000);
+ok("sceneSVG bağımsız (CSS değişkeni yok)", !/var\(/.test(sceneSVG(state.gallery[0].pieces, (await import("../src/pieces.js")).loadPieces ? (await (await import("../src/pieces.js")).loadPieces()).byId : {})));
+// aile sekmesi
+click('.fam-tabs [data-fam="10"]'); await tick();
+ok("10'lu sekme: kutuda 10'lu parçalar", app.querySelector('.tray-item[data-id="on-kose-yildiz"]') && !app.querySelector('.tray-item[data-id="hac"]'));
+cleanup();
+ok("çıkışta log: mode=yarat, symmetry=8, families [8]", logs.length === 1 && logs[0].mode === "yarat" && logs[0].symmetry === 8 && JSON.stringify(logs[0].families) === "[8]");
+out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
+</script>

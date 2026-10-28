@@ -7,7 +7,7 @@ const MAX_LOG = 500;
 const state = loadState();
 
 function loadState() {
-  const base = { difficulty: "ortaokul", progress: {}, atlas: {}, log: [], gallery: [] };
+  const base = { difficulty: "ortaokul", progress: {}, atlas: {}, badges: {}, log: [], gallery: [] };
   try { return Object.assign(base, JSON.parse(localStorage.getItem("nakkas") || "{}")); }
   catch { return base; }
 }
@@ -22,7 +22,7 @@ const routes = {
   atlas: renderAtlas,
   kur: mode("./modes/kur.js"),
   tani: mode("./modes/tani.js"),
-  yarat: () => renderStub("Usta — Yarat", "src/modes/yarat.js"),
+  yarat: mode("./modes/yarat.js"),
 };
 let cleanup = null;
 function go(route) { location.hash = route; }
@@ -96,12 +96,6 @@ async function renderAtlas(main) {
     }
     main.appendChild(sec);
   }
-}
-
-function renderStub(title, file) {
-  const main = $("#app");
-  main.innerHTML = `<a class="back" href="#home">← Lonca</a><h1>${title}</h1>
-    <p class="lead">Bu mod henüz yazılmadı. Sıradaki iş: <code>${file}</code>. Tasarım: <code>docs/tasarim.md</code>. Şimdilik <a href="#kur">Kalfa — Kur</a> oynanabilir.</p>`;
 }
 
 // ---------- PWA ----------

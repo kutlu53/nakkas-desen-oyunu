@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir; aşağıda "planlanan" diye işaretlidir.
 
 ---
 
@@ -190,11 +190,13 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 ---
 
-### 3.3 Usta — Yarat *(planlanan)*
+### 3.3 Usta — Yarat *(oynanabilir)*
 
 **Amaç:** Öğrenilen kuralları özgün üretimde kullanmak.
 
-**Araçlar:** Boş tuval; parça kutusu (aile filtresi); **simetri aynası** (n-kat dönme: konulan her parça merkez etrafında n kez çoğaltılır); öteleme kopyası; geleneksel renk paleti. Kısıtlı görevler (ör. "yalnızca 8'li parçalarla", "boşluk bırakmadan 2×2"). PNG dışa aktarma ve yerel galeri.
+**Araçlar:** Boş tuval; parça kutusu (aile sekmeleri); **simetri aynası** (kapalı, 6×, 8×, 10×, 12×: konulan her parça merkez etrafında n kez çoğaltılır; sığmayan kopyalar atlanır ve söylenir); geleneksel renk paleti (seçili grubu boyar); sil, geri al, temizle; açı etiketleri. Dört görev rozeti: tek aile, üç renk, dört tam köşe, simetri aynasıyla 16 parça. PNG dışa aktarma ve yerel galeri (cihazda).
+
+**Ölçülen:** Parça sayısı, kullanılan aileler, simetri, süre, kazanılan rozetler (`mode: "yarat"`). Öteleme kopyası aracı bu sürümde yok.
 
 **Kazanımlar:** K3 (yaratıcılık); dönme simetrisi; kısıt altında tasarım.
 
@@ -224,7 +226,7 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an Tanı modu (7 motif) ve Kur modunda 8'li aile (hazırlık + 5 seviye), 10'lu ve 6'lı aileler (hazırlık + 4'er seviye) ve rütbe sınavı oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Şu an Tanı modu (7 motif), Yarat modu ve Kur modunda 8'li aile (hazırlık + 5 seviye), 10'lu ve 6'lı aileler (hazırlık + 4'er seviye) ve rütbe sınavı oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.

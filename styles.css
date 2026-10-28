@@ -205,3 +205,29 @@ code { font-size: .92em; background: var(--panel); border: 1px solid var(--line)
 .board .cellframe.ok { fill-opacity: .3; stroke-dasharray: none; }
 .board .cellpt { fill: var(--hardal); stroke: #222; stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
 .overlay .disc.fun { color: var(--muted); font-size: 14px; }
+
+/* ---------- Usta / Yarat ---------- */
+.yarat .toolbar .tb-label { align-self: center; font-size: 13px; color: var(--muted); margin-left: 4px; }
+.fam-tabs { display: flex; gap: 6px; }
+.fam-tabs button { min-width: var(--tap); min-height: var(--tap); border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+.fam-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.yarat .tray-items { display: flex; flex-wrap: wrap; gap: 8px; max-height: 300px; overflow-y: auto; }
+.yarat .tray-item { min-width: 76px; min-height: 76px; }
+.palette { display: flex; flex-wrap: wrap; gap: 6px; }
+.palette button { width: var(--tap); height: var(--tap); border-radius: 50%; border: 2px solid var(--line); background: var(--sw); cursor: pointer; }
+.palette button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--accent); }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tasks li { display: grid; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 13px; }
+.tasks li small { color: var(--muted); font-size: 12px; }
+.tasks li.done { border-color: var(--ok); }
+.tasks li.done strong { color: var(--ok); }
+.yarat .out { display: flex; flex-wrap: wrap; gap: 8px; }
+.board .guides .center { fill: var(--accent); pointer-events: none; }
+.board .guides .ray { stroke: var(--accent); stroke-width: 1px; stroke-dasharray: 5 6; opacity: .45; vector-effect: non-scaling-stroke; pointer-events: none; }
+.board .placed.sel path { stroke: var(--hardal); stroke-width: 0.06; }
+.gallery-sec { display: grid; gap: 10px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.g-item { margin: 0; display: grid; gap: 6px; padding: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.g-item svg { width: 100%; height: auto; border-radius: 4px; }
+.g-item figcaption { font-size: 12px; color: var(--muted); }
+.g-act { display: flex; gap: 6px; }
