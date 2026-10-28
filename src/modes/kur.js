@@ -344,13 +344,11 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     const tight = G.evaluateVertices([...scene, { piece, placement }])
       .filter((v) => v.state !== "tam" && v.parts.some((pt) => pt.pieceIndex === own) && v.parts.some((pt) => pt.pieceIndex !== own))
       .map((v) => ({ v, others: v.parts.filter((pt) => pt.pieceIndex !== own).reduce((s, pt) => s + pt.angle, 0), mine: v.parts.find((pt) => pt.pieceIndex === own).angle }))
+      .filter((x) => 360 - x.others < 180) // yalnızca dar köşeler; açık uçta "288° istiyor" demek öğretmez
       .sort((a, b) => b.others - a.others)[0];
-    if (tight) {
-      let text = `${sumStr(tight.v)} — boşluk ${fmt(360 - tight.others)}° istiyor, bu parçanın köşesi ${fmt(tight.mine)}°. Parça komşusuna bindi, kutuya döndü.`;
-      if (profile.familyNote && piece.family !== level.family) text += ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden.`;
-      return text;
-    }
-    return "Parça başka bir parçanın üstüne bindi, kutuya döndü. Boş bir köşeye bırak.";
+    const note = profile.familyNote && piece.family !== level.family ? ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden.` : "";
+    if (tight) return `${sumStr(tight.v)} — boşluk ${fmt(360 - tight.others)}° istiyor, bu parçanın köşesi ${fmt(tight.mine)}°. Parça komşusuna bindi, kutuya döndü.${note}`;
+    return `Parça başka bir parçanın üstüne bindi, kutuya döndü. Boş bir köşeye bırak.${note}`;
   }
 
   // ---- tamamlama ----

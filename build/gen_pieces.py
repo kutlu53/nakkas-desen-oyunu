@@ -63,10 +63,11 @@ def cross(c=2*(1-C45), L=2*C45-1, tip=1-C45):
     return pts
 
 ap = 0.5*math.tan(deg(54))
-# düzgün beşgen, kenar 1, tepe yukarıda
-pent = recenter(regular(5, 1/(2*math.sin(deg(36))), rot=-90))
-
 r10 = star_inner_radius(10, 72)
+star10 = star(10, 1.0, r10)
+S10 = math.dist(star10[0], star10[1])   # {10/3} yıldızının kenarı; 10'lu dolgular bu kenarla birebir örtüşür
+# düzgün beşgen, kenar = yıldız kenarı (yıldızın 108° çentiğine tam oturur, on tanesi yıldızı çevreler), tepe yukarıda
+pent = recenter(regular(5, S10/(2*math.sin(deg(36))), rot=-90))
 
 PIECES = [
   # ---- 8'li sistem ----
@@ -86,12 +87,12 @@ PIECES = [
        note="Sekiz köşeli yıldızın 1/8 dilimi"),
   # ---- 10'lu sistem ----
   dict(id="on-kose-yildiz", name="On köşeli yıldız", family=10, role="merkez", color="#6aa6c8",
-       pts=star(10, 1.0, r10), note="{10/3} yıldızı, uç 72°"),
+       pts=star10, note="{10/3} yıldızı, uç 72°"),
   dict(id="bes-kose-yildiz", name="Beş köşeli yıldız", family=10, role="merkez", color="#4f7f93",
        pts=star(5, 1.0, 0.381966), note="Pentagram"),
   dict(id="yarim-yildiz", name="Yarım on köşeli yıldız", family=10, role="sınır", color="#4f7f93",
        pts=recenter(clip_below(star(10, 1.0, r10), 0.45)), note="Desenin kenarını bitiren parça"),
-  dict(id="besgen", name="Beşgen", family=10, role="dolgu", color="#b8392e", pts=pent, note="Düzgün beşgen, 108°"),
+  dict(id="besgen", name="Beşgen", family=10, role="dolgu", color="#b8392e", pts=pent, note="Düzgün beşgen, 108°; kenar = 10'lu yıldız kenarı"),
   dict(id="besgen-uzun", name="Uzun beşgen", family=10, role="dolgu", color="#b8392e",
        pts=recenter([(-.5, 0), (-.5, -0.75), (0, -0.75-ap), (.5, -0.75), (.5, 0)]), note="Beşgen çatı + uzun duvar"),
   dict(id="papyon", name="Papyon", family=10, role="köprü", color="#e2a92b",

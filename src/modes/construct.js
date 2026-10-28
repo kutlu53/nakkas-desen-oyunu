@@ -151,12 +151,13 @@ export function renderConstruct(root, ctx, level, levels, byId) {
     const star = byId[fin.fill];
     const g = svgEl("g", { class: "piece fresh" });
     g.appendChild(pieceElement(star));
-    const ghostPiece = byId[fin.ghost.pieceId], [gx, gy] = pts[fin.ghost.at];
-    const ghost = svgEl("path", { d: G.toPath(G.placedPoints(ghostPiece, { x: gx, y: gy, rot: 0 })), class: "ghost" });
+    // kılavuz parça: adlı bir noktada (at) ya da doğrudan konum ve dönmeyle
+    const gh = fin.ghost, [gx, gy] = gh.at ? pts[gh.at] : [gh.x, gh.y];
+    const ghost = svgEl("path", { d: G.toPath(G.placedPoints(byId[gh.pieceId], { x: gx, y: gy, rot: gh.rot || 0 })), class: "ghost" });
     const [nx, ny] = fin.notch, fs = 13 / S.pxPerUnit;
     const mark = svgEl("circle", { cx: nx, cy: ny, r: 9 / S.pxPerUnit, class: "snap-marker" });
     const label = svgEl("text", { x: nx + fs * 1.2, y: ny - fs * 0.4, "font-size": fs, class: "vlabel vlabel-tam" });
-    label.textContent = "135°";
+    label.textContent = fin.notchLabel || "";
     layers.fill.replaceChildren(g, ghost, mark, label);
     svg.classList.add("finale");
     setFb(fin.say, "ok");

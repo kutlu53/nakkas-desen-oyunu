@@ -43,7 +43,7 @@
      "say": "İki karenin birleştiği yıldızın içine dokun, boya.",
      "done": "Yıldız çıktı."}
    ],
-   "finale": {"fill": "sekiz-kose-yildiz", "ghost": {"pieceId": "hac", "at": "J"}, "notch": [0.7071068, 0.2929],
+   "finale": {"fill": "sekiz-kose-yildiz", "ghost": {"pieceId": "hac", "at": "J"}, "notch": [0.7071068, 0.2929], "notchLabel": "135°",
     "say": "Yıldızın çentiği 135° — hiç ölçmedin, pergel verdi. Kesikli çizgi haç: merkezi tam J noktasında, omzu çentiğe oturuyor."},
    "hint": {"ortaokul": "Önce noktadan başla: pergelin ucu da cetvelin kenarı da bir noktaya dayanır."},
    "discovery": "Hiç açı ölçmedin: daireyi pergelle sekize böldün, birer atlayarak iki kare çizdin. Yıldız da çentiğindeki 135° de bu çizimden kendiliğinden çıktı. Geleneksel yöntem budur: desen önce pergel ve cetvelle kurulur, parçalar çizimden çıkar. Açıları toplamak ise bugünün matematiğiyle bu kurulumun neden çalıştığını görmenin yolu. Bir sonraki seviyede haçı, pergelle bulduğun J noktasına koyacaksın."
@@ -128,6 +128,75 @@
    ],
    "hint": {"ortaokul": "Kutuda iki yıldız türü var. 10'lu yıldızın uçları 72°, 8'li yıldızınki 90°. Boşluğun köşesinde hangisi 360'ı tamamlar?", "lise": "Benzeyen parçaları ayırmak için boşluğun bir köşesindeki açıyı hesapla."},
    "discovery": "Eksik çiniyi şeklinden değil açısından buldun. 10'lu yıldız uzaktan 8'liye benzer, ama boşluğun köşesinde üç komşu uç zaten 90 + 90 + 90 = 270 eder; 10'lu yıldızın 72°'lik ucu bunu 342'ye, 12'li yıldızın 60°'lik ucu 330'a getirir. Boşluk yalnızca 90°'lik uçla dolar: 270 + 90 = 360. Restorasyoncu da böyle çalışır: kırık bir desende önce geometriyi okur, sonra parçayı seçer."
+  },
+  {
+   "id": "f10-l0", "family": 10, "order": 0, "title": "Pergelle kur",
+   "story": "Usta: 'On kollu yıldız için daireyi ona bölmek gerek. Açıölçer yok; yarıçapın ortasından açılan pergel yolu gösterir.'",
+   "tool": "construct",
+   "_not": "Noktalar −90° döndürülmüş düzende (A tepede), y aşağı. Ongen kenarı: M yarıçapın ortası, MB yayı OA'yı P'de keser, OP = 2·sin 18° ≈ 0,618. P merkezli OP yarıçaplı daire ana daireyi ±36°'de keser. tests/geometry.tests.js her açılan noktanın iki çizimin kesişimi olduğunu, yıldızın 20 köşesinin kirişlerde olduğunu denetler.",
+   "view": [-2.6, -1.55, 5.2, 3.9],
+   "points": {
+    "O": [0, 0],
+    "A": [0, -1],
+    "C": [0, 1],
+    "E": [-1.7320508, 0],
+    "F": [1.7320508, 0],
+    "B": [-1, 0],
+    "D": [1, 0],
+    "G": [-0.8660254, 0.5],
+    "H": [0.8660254, 0.5],
+    "M": [0, 0.5],
+    "P": [0, -0.618034],
+    "1": [0.5877853, -0.809017],
+    "9": [-0.5877853, -0.809017],
+    "6": [-0.5877853, 0.809017],
+    "4": [0.5877853, 0.809017],
+    "2": [0.9510565, -0.309017],
+    "8": [-0.9510565, -0.309017],
+    "3": [0.9510565, 0.309017],
+    "7": [-0.9510565, 0.309017]
+   },
+   "start": ["O", "A"],
+   "steps": [
+    {"tool": "pergel", "title": "Ana daire", "pick": ["O", "A"], "draw": [{"circle": ["O", "A"]}], "say": "Pergelin sivri ucunu merkez O'ya koy, kalemini A'ya kadar aç ve daireyi çiz.", "done": "Ana daire hazır. Yıldızın on ucu bu dairenin üstüne düşecek."},
+    {"tool": "cetvel", "title": "Çap", "pick": ["A", "O"], "draw": [{"line": ["A", "O"]}], "reveals": ["C"], "say": "Cetveli A ile O'ya daya; çizgiyi dairenin öbür yanına kadar uzat.", "done": "Çap çizildi. Daireyi kestiği yer C."},
+    {"tool": "pergel", "title": "Dikme yayları", "pick": ["A", "C"], "draw": [{"arc": ["A", "C"]}, {"arc": ["C", "A"]}], "reveals": ["E", "F"], "say": "Pergelin ucunu A'ya koy, kalemi C'ye kadar aç; dairenin iki yanında birer yay çiz.", "done": "Aynı açıklıkla C'den de yay çizildi. Yayların kesiştiği yerler E ve F."},
+    {"tool": "cetvel", "title": "Dik çap", "pick": ["E", "F"], "draw": [{"line": ["E", "F"]}], "reveals": ["B", "D"], "say": "Cetveli E ile F'ye daya ve çiz.", "done": "Bu çizgi AC'ye dik; daireyi B ve D'de kesti."},
+    {"tool": "pergel", "title": "Yarıçapın ortası", "pick": ["C", "O"], "draw": [{"circle": ["C", "O"]}], "reveals": ["G", "H"], "say": "Pergelin ucunu C'ye koy, kalemi O'ya aç ve daire çiz.", "done": "Bu daire ana daireyi G ve H'de kesti."},
+    {"tool": "cetvel", "title": "Orta nokta", "pick": ["G", "H"], "draw": [{"line": ["G", "H"]}], "reveals": ["M"], "say": "Cetveli G ile H'ye daya ve çiz.", "done": "GH çizgisi OC yarıçapını tam ortasından kesti: M noktası."},
+    {"tool": "pergel", "title": "Ongenin kenarı", "pick": ["M", "B"], "draw": [{"circle": ["M", "B"]}], "reveals": ["P"], "say": "Pergelin ucunu M'ye koy, kalemi B'ye aç ve daire çiz.", "done": "Daire OA'yı P'de kesti. OP, ongenin bir kenarı kadardır: yarıçapın yaklaşık 0,618'i (altın oran)."},
+    {"tool": "pergel", "title": "İlk köşeler", "pick": ["P", "O"], "draw": [{"circle": ["P", "O"]}], "reveals": ["1", "9"], "say": "Pergeli OP açıklığında tut: ucu P'de, kalemi O'da. Daire çiz.", "done": "Daire ana daireyi 1 ve 9'da kesti. A, 1 ve 9 ongenin ilk üç köşesi; aralarında 36° var."},
+    {"tool": "cetvel", "title": "Karşı köşeler", "pick": ["1", "O"], "draw": [{"line": ["1", "O"]}, {"line": ["9", "O"]}], "reveals": ["6", "4"], "say": "Cetveli 1 ile O'ya daya; çizgiyi dairenin öbür yanına kadar uzat.", "done": "9'dan da çizildi. Karşı köşeler 6 ve 4 bulundu."},
+    {"tool": "pergel", "title": "Kalan köşeler", "pick": ["1", "A"], "draw": [{"circle": ["1", "A"]}, {"circle": ["9", "A"]}, {"circle": ["4", "C"]}, {"circle": ["6", "C"]}], "reveals": ["2", "8", "3", "7"], "say": "Pergeli ongenin kenarına aç: ucu 1'de, kalemi A'da. Daire çiz.", "done": "Aynı açıklıkla 9, 4 ve 6'dan da çizildi. Daire on eşit parçaya bölündü."},
+    {"tool": "cetvel", "title": "Üçer atla", "pick": ["A", "3"], "draw": [{"seg": ["A", "3"]}, {"seg": ["1", "4"]}, {"seg": ["2", "C"]}, {"seg": ["3", "6"]}, {"seg": ["4", "7"]}, {"seg": ["C", "8"]}, {"seg": ["6", "9"]}, {"seg": ["7", "A"]}, {"seg": ["8", "1"]}, {"seg": ["9", "2"]}], "say": "Noktaları üçer atlayarak birleştir: A'dan 3'e çiz.", "done": "Bütün köşeler üçer atlanarak birleşti: on köşeli {10/3} yıldızı."},
+    {"tool": "boya", "title": "Yıldızı boya", "pick": ["O"], "say": "Çizgilerin ortasında beliren on köşeli yıldızın içine dokun, boya.", "done": "Yıldız çıktı."}
+   ],
+   "finale": {"fill": "on-kose-yildiz", "ghost": {"pieceId": "besgen", "x": 0.315322, "y": -0.9705149, "rot": 198}, "notch": [0.2245, -0.691], "notchLabel": "108°",
+    "say": "Yıldızın çentiği 108° — hiç ölçmedin, pergel verdi. Kesikli çizgi beşgen: köşesi 108°, çentiğe tam oturuyor."},
+   "hint": {"ortaokul": "Önce noktadan başla: pergelin ucu da cetvelin kenarı da bir noktaya dayanır."},
+   "discovery": "Daireyi pergelle ona böldün. Yarıçapın ortasından açtığın yay, ongenin kenarını verdi: yarıçapın 0,618'i, yani altın oran. Noktaları üçer atlayarak birleştirince on köşeli yıldız da çentiğindeki 108° de çizimden kendiliğinden çıktı. Sonraki seviyede bu çentiklere beşgen yerleştireceksin."
+  },
+  {
+   "id": "f10-l1", "family": 10, "order": 1, "title": "Yıldızın çevresi",
+   "story": "Usta: 'Türbe kuşağının yıldızı on kollu. Çentiğine hangi taş oturur? Dene, açıya bak.'",
+   "_not": "Beşgen kenarı = yıldız kenarı (build/gen_pieces.py S10). Hedefler yıldızın her çentiğine kenarları hizalı bir beşgen; tam halkada çentiklerde 252 + 108 = 360, uçlarda 72 + 108 + 108 = 288.",
+   "fixed": [{"pieceId": "on-kose-yildiz", "x": 0, "y": 0, "rot": 0}],
+   "tray": {"besgen": 10},
+   "trayDistractors": {"ortaokul": {"kare-kucuk": 2}, "lise": {"kare-kucuk": 2, "hac": 1, "altigen": 2}},
+   "targets": [
+    {"pieceId": "besgen", "x": 0.315322, "y": -0.9705149, "rot": 198},
+    {"pieceId": "besgen", "x": 0.8255707, "y": -0.5998493, "rot": 234},
+    {"pieceId": "besgen", "x": 1.0204, "y": 6.22e-05, "rot": 270},
+    {"pieceId": "besgen", "x": 0.8255939, "y": 0.5998174, "rot": 306},
+    {"pieceId": "besgen", "x": 0.3153493, "y": 0.970506, "rot": 342},
+    {"pieceId": "besgen", "x": -0.315322, "y": 0.9705149, "rot": 18},
+    {"pieceId": "besgen", "x": -0.8255707, "y": 0.5998493, "rot": 54},
+    {"pieceId": "besgen", "x": -1.0204, "y": -6.22e-05, "rot": 90},
+    {"pieceId": "besgen", "x": -0.8255939, "y": -0.5998174, "rot": 126},
+    {"pieceId": "besgen", "x": -0.3153493, "y": -0.970506, "rot": 162}
+   ],
+   "hint": {"ortaokul": "Yıldızın çentiği 108° boşluk bırakır (360 − 252). Hangi parçanın 108° köşesi var?", "lise": "Çentikteki boşluğu hesapla: 360 − iç açı."},
+   "discovery": "Yıldızın çentiği 108°: beşgenin köşesi tam oturur, 252 + 108 = 360. Kare ne açısıyla (90°) ne boyuyla bu çentiğe uyar. On beşgen yıldızı çevreler; uçlarda 72 + 108 + 108 = 288 toplanır, kalan 72° bir sonraki halkanın işidir."
   }
  ]
 }

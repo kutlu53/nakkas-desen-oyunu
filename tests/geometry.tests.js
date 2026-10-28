@@ -132,6 +132,15 @@ export function run(G, pieces, levels, ok) {
     ok(`${lv.id}: 10'lu ve 12'li yıldız 8'li boşluğa sığmaz`, ["on-kose-yildiz", "oniki-kose-yildiz"].every((id) => G.resolvePlacement(by[id], { x: hole.x + 0.03, y: hole.y + 0.02, rot: 0 }, fixedSc, { snapDist: 0.2 }).overlap));
   }
 
+  // --- 10'lu yıldızın çevresi: on beşgen ---
+  ok("beşgen kenarı = 10'lu yıldız kenarı", near(G.dist(by.besgen.points[0], by.besgen.points[1]), G.dist(by["on-kose-yildiz"].points[0], by["on-kose-yildiz"].points[1]), 1e-3));
+  for (const lv of (levels || []).filter((l) => l.id === "f10-l1")) {
+    const ring = [sc("on-kose-yildiz", 0, 0), ...lv.targets.map((t) => sc(t.pieceId, t.x, t.y, t.rot))];
+    const rv = G.evaluateVertices(ring);
+    ok(`${lv.id}: 10 beşgen çakışmasız`, ring.slice(1).every((s, i) => G.anyOverlap(s.piece, s.placement, ring.filter((_, j) => j !== i + 1)) === -1));
+    ok(`${lv.id}: 10 çentikte 252 + 108 = 360, 10 uçta 288`, rv.filter((v) => v.state === "tam").length === 10 && rv.filter((v) => near(v.total, 288, 0.5)).length === 10);
+  }
+
   // --- pergel-cetvel kurulumu ---
   ok("şekil: (1,0) O merkezli birim dairede", G.pointOnShape([1, 0], G.constructionShape({ circle: ["O", "A"] }, { O: [0, 0], A: [0, 1] })));
   ok("şekil: (3,3) sonsuz doğruda, parçada değil", G.pointOnShape([3, 3], G.constructionShape({ line: ["O", "A"] }, { O: [0, 0], A: [1, 1] })) && !G.pointOnShape([3, 3], G.constructionShape({ seg: ["O", "A"] }, { O: [0, 0], A: [1, 1] })));
@@ -153,7 +162,7 @@ export function run(G, pieces, levels, ok) {
     ok(`${lv.id}: her açılan nokta iki çizimin kesişimi`, revealsOk);
     const segs = shapes.filter((s) => s.type === "segment"), star = by[lv.finale.fill];
     ok(`${lv.id}: yıldızın ${star.points.length} köşesi iki karenin kenarlarında`, star.points.every((p) => segs.filter((s) => G.pointOnShape(p, s, 2e-4)).length >= 2));
-    const gh = lv.finale.ghost, ghostPts = G.placedPoints(by[gh.pieceId], { x: pts[gh.at][0], y: pts[gh.at][1], rot: 0 });
-    ok(`${lv.id}: ${gh.pieceId} ${gh.at} noktasında, omzu çentiğe oturur`, ghostPts.some((p) => G.dist(p, lv.finale.notch) < 1e-3) && star.points.some((p) => G.dist(p, lv.finale.notch) < 1e-3));
+    const gh = lv.finale.ghost, [gx, gy] = gh.at ? pts[gh.at] : [gh.x, gh.y], ghostPts = G.placedPoints(by[gh.pieceId], { x: gx, y: gy, rot: gh.rot || 0 });
+    ok(`${lv.id}: kılavuz ${gh.pieceId} köşesiyle çentiğe oturur`, ghostPts.some((p) => G.dist(p, lv.finale.notch) < 1e-3) && star.points.some((p) => G.dist(p, lv.finale.notch) < 1e-3));
   }
 }

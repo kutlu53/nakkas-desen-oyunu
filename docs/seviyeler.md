@@ -15,10 +15,13 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 ## 10'lu aile — "Türbe kuşağı"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |
 |---|---|---|---|---|---|
-| 1 | Yıldızın çevresi | on-kose-yildiz ×1 | besgen ×10, kare-kucuk ×2 (yanıltıcı) | 10 çentik | 252 iç → 108 boşluk → beşgen |
+| 0 | Pergelle kur (hazırlık) ✓ | O, A noktaları | pergel, cetvel | 12 adım: daire → çap → dikme → dik çap → yarıçapın ortası (M) → MB yayı OA'yı P'de keser (OP = ongen kenarı ≈ 0,618) → P merkezli daire ±36° köşeleri verir → karşı köşeler → kenar boyu taşınarak kalan köşeler → üçer atla | daire pergelle ona bölünür (altın oran); {10/3} yıldızı ve 108° çentik ölçmeden çıkar |
+| 1 | Yıldızın çevresi ✓ | on-kose-yildiz ×1 | besgen ×10; yanıltıcı: kare-kucuk ×2 (lise: + haç, altıgen ×2) | 10 çentik | 252 iç → 108 boşluk → beşgen; uçlarda 72 + 108 + 108 = 288 |
 | 2 | Papyon köprüsü | on-kose-yildiz ×2 | papyon, kalkan-kucuk, ok-ucu | iki yıldız arası | 10'lu dolgular 36° katlarıyla döner |
 | 3 | Ötele ve kapla | birim hücre | kopya aracı | 2×2 | 10'lu hücre eşkenar dörtgen (72°/108°) |
 | 4 | Bozuk çini | tam desen | eksikler | — | — |
+
+> **Parça ölçüsü (28 Ekim 2026):** 10'lu ailede yalnızca yıldız ve beşgen kesin geometride (beşgen kenarı = yıldız kenarı, `build/gen_pieces.py` → `S10`). Papyon, kalkanlar, çift ev, çentikli altıgen, ok ucu, uzun beşgen ve yarım yıldız fotoğraftan oranlanmış; açıları 36°'nin katı değil, kenarları yıldız kenarının katı değil. 2.–4. seviyeler için bu parçalar bilinen bir 10'lu desenden kesin olarak yeniden türetilecek (kullanıcı kararı: kesin geometriye çek). 6'lı ve 12'li ailelerde de yıldız (ve 6'lıda altıgen) dışındaki parçaların kenarı yıldız kenarına uymuyor.
 
 ## 6'lı aile — "Hamam örgüsü"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |

@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Kalfa / Kur modu 8'li aile için oynanabilir durumda (hazırlık + 5 seviye). Çırak / Tanı ve Usta / Yarat modları ile 10'lu, 6'lı ve 12'li aileler tasarım aşamasındadır. Aşağıda bu bölümler "planlanan" diye işaretlenmiştir.
+> **Durum (28 Ekim 2026):** Kalfa / Kur modu 8'li aile için oynanabilir durumda (hazırlık + 5 seviye); 10'lu ailede hazırlık ve 1. seviye hazır. Çırak / Tanı ve Usta / Yarat modları ile 10'lu, 6'lı ve 12'li aileler tasarım aşamasındadır. Aşağıda bu bölümler "planlanan" diye işaretlenmiştir.
 
 ---
 
@@ -130,6 +130,13 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Hikâye kartı · Topkapı Tomarı:** Ustanın desen defteri; birimlerin aynalanarak çoğaltılması ve mürekkepsiz yardımcı çizgiler.
 
+#### 10'lu aile · hazırlık ve 1. seviye
+**Hazırlık · "Pergelle kur":** Daire pergelle ona bölünür. Yarıçapın orta noktasından açılan pergel ongenin kenarını verir (yarıçapın ≈ 0,618'i, altın oran); bu kenar boyu daire üzerinde taşınarak on köşe bulunur, köşeler üçer atlanarak birleştirilince {10/3} yıldızı ve 108°'lik çentik ölçmeden çıkar.
+
+**Seviye 1 · "Yıldızın çevresi":** Yıldızın on çentiğine on beşgen yerleştirilir (252 + 108 = 360).
+
+**Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım).
+
 #### Her seviyede · "Geçme çizgisi"
 **Ne yapılır:** Bir düğmeyle (ya da seviye sonundaki "Çizgiye dönüştür" ile) desen, birbirinin altından ve üstünden sırayla geçen bantlara dönüşür. 8'li yıldız iki kareden örülür.
 
@@ -182,7 +189,7 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an yalnızca 8'li aile (hazırlık + 5 seviye) ve yalnızca Kur modu oynanabilir. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Şu an 8'li aile (hazırlık + 5 seviye) ve 10'lu ailenin hazırlık + 1. seviyesi, yalnızca Kur modunda oynanabilir. 10'lu ailenin diğer dolgu parçaları ile 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.
