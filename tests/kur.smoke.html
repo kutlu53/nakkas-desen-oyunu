@@ -80,6 +80,27 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   cleanup();
 }
 
+// ---------- klavyeyle oynama: kutuda Enter, oklarla taşı, Enter bırak ----------
+{
+  const { ctx } = makeCtx("f8-l1");
+  const cleanup = await mount(app, ctx); await tick();
+  const [vx, vy, vw, vh] = svg().getAttribute("viewBox").split(" ").map(Number);
+  const key = (k, extra = {}) => window.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true, ...extra }));
+  const item = trayItem((l) => l.startsWith("Sivri uçlu haç"));
+  item.focus(); item.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true })); await tick();
+  ok("klavye: Enter ile parça alındı, yönerge verildi", /ok tuşları/.test(msg()));
+  // merkezden (1, 1)'e: 0,1'lik adımlarla
+  let x = vx + vw / 2, y = vy + vh / 2;
+  while (x < 0.95) { key("ArrowRight"); x += 0.1; } while (x > 1.05) { key("ArrowLeft"); x -= 0.1; }
+  while (y < 0.95) { key("ArrowDown"); y += 0.1; } while (y > 1.05) { key("ArrowUp"); y -= 0.1; }
+  key("Enter"); await tick();
+  ok("klavye: Enter ile bırakıldı, haç çentiğe oturdu: " + msg(), placedCount() === 1 && /Tam oturdu/.test(msg()));
+  const placed = app.querySelector(".placed [data-uid]");
+  placed.focus(); placed.dispatchEvent(new KeyboardEvent("keydown", { key: "Delete", bubbles: true })); await tick();
+  ok("klavye: tahtadaki parça Delete ile kutuya döndü", placedCount() === 0 && /4 adet/.test(trayItem((l) => l.startsWith("Sivri uçlu haç")).getAttribute("aria-label")));
+  cleanup();
+}
+
 // ---------- Seviye 1 (lise): yanıltıcı beşgen, aile notu yok ----------
 {
   const { ctx, logs } = makeCtx("f8-l1", "lise");

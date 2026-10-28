@@ -30,7 +30,8 @@ h2 small { font-family: var(--body); font-size: 12px; letter-spacing: .08em; tex
 .back:hover, .back:focus-visible { color: var(--ink); }
 
 .hero { display: grid; gap: 8px; padding-block: 12px 4px; }
-.diff { display: flex; gap: 8px; align-items: center; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.diff { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; font-size: 14px; color: var(--muted); }
+@media (max-width: 520px) { .diff small { flex-basis: 100%; order: 9; } }
 .diff button { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; cursor: pointer; }
 .diff button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 

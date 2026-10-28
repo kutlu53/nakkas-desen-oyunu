@@ -438,7 +438,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   });
   trayEl.addEventListener("keydown", (e) => {
     const b = e.target.closest(".tray-item"); if (!b || (e.key !== "Enter" && e.key !== " ")) return;
-    e.preventDefault();
+    e.preventDefault(); e.stopPropagation(); // aynı Enter pencereye ulaşırsa parçayı alır almaz bırakır
     const item = S.tray[+b.dataset.idx]; if (!item || item.count <= 0) return;
     item.count--; renderTray();
     startDrag({ group: groupFor(item), origin: { type: "tray", item }, x: vb.x + vb.w / 2, y: vb.y + vb.h / 2 });
@@ -456,7 +456,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   layers.placed.addEventListener("keydown", (e) => {
     const g = e.target.closest("[data-uid]"); if (!g || S.completed) return;
     const uid = +g.dataset.uid;
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickFromScene(uid, null); setMsg("Klavye: ok tuşları taşır, R döndürür, Enter bırakır, Esc geri koyar."); }
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); pickFromScene(uid, null); setMsg("Klavye: ok tuşları taşır, R döndürür, Enter bırakır, Esc geri koyar."); }
     else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); const entries = takeFromScene(uid); const t = S.tray.find((i) => (entries[0].cellKey != null ? i.cell : i.pieceId === entries[0].pieceId)); if (t) t.count++; renderPlaced(); renderTray(); renderLabels(); setMsg("Parça kutuya döndü."); }
     else if (e.key.toLowerCase() === "r") { e.preventDefault(); rotateInPlace(uid); }
   });

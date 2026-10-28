@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>service worker denetimi</title>
+<pre id="out"></pre>
+<script type="module">
+// Service worker kuruluyor mu, çekirdek dosyaların hepsi önbellekte mi?
+// Normal tarayıcıda aç (http://localhost:8765/tests/sw.check.html). Headless Chrome'da sayfa kurulum bitmeden döküldüğü için çalışmaz;
+// orada her ekranı açıp konsolda sw.js hatası aramak yeterli denetimdir.
+const out = document.getElementById("out"); let fail = 0, n = 0;
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
+try {
+  const reg = await navigator.serviceWorker.register("../sw.js", { scope: "../" });
+  const w = reg.installing || reg.waiting || reg.active;
+  if (w.state !== "activated") await new Promise((r) => w.addEventListener("statechange", () => w.state === "activated" && r()));
+  ok("service worker etkin", !!reg.active);
+  const src = await (await fetch("../sw.js")).text();
+  const core = JSON.parse(src.match(/const CORE = (\[[\s\S]*?\]);/)[1]);
+  const name = src.match(/const CACHE = "([^"]+)"/)[1];
+  ok(`önbellek ${name} var`, (await caches.keys()).includes(name));
+  const c = await caches.open(name), base = new URL("../", location.href), missing = [];
+  for (const u of core) if (!(await c.match(new URL(u, base).href))) missing.push(u);
+  ok(`${core.length} çekirdek dosyanın hepsi önbellekte` + (missing.length ? " — eksik: " + missing.join(", ") : ""), missing.length === 0);
+} catch (e) { ok("hata: " + e, false); }
+out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
+</script>
