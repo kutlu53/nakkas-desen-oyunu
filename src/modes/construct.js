@@ -2,6 +2,7 @@
 // Veri: data/levels.json → points, steps, finale (tool: "construct"). Şekil matematiği: ../geometry.js (saf).
 import { pieceElement, FAMILY_LABEL } from "../pieces.js";
 import * as G from "../geometry.js";
+import { play } from "../sound.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const PICK_PX = 24;          // noktayı tutma mesafesi (piksel)
@@ -132,7 +133,7 @@ export function renderConstruct(root, ctx, level, levels, byId) {
     if (!good) {
       S.wrong++;
       setFb(coach ? pickHint(st) : "Bu çizim yıldıza götürmüyor. Adımı yeniden oku.", "warn");
-      renderPoints(); shake();
+      renderPoints(); shake(); play("tok");
       return;
     }
     apply(false);
@@ -145,6 +146,7 @@ export function renderConstruct(root, ctx, level, levels, byId) {
     for (const k of st.reveals || []) S.visible.add(k);
     S.step++;
     setFb(`${shown ? "Usta çizdi. " : "✓ "}${st.done}`, "ok");
+    play("tik");
     renderAll();
   }
   function finale() {
@@ -160,6 +162,7 @@ export function renderConstruct(root, ctx, level, levels, byId) {
     label.textContent = fin.notchLabel || "";
     layers.fill.replaceChildren(g, ghost, mark, label);
     svg.classList.add("finale");
+    play("can");
     setFb(fin.say, "ok");
     renderPoints(); renderSteps();
     S.timers.push(setTimeout(complete, FINALE_DELAY));

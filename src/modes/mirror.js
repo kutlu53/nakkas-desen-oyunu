@@ -3,6 +3,7 @@
 import { pieceElement, FAMILY_LABEL } from "../pieces.js";
 import { storyCardHTML } from "../cards.js";
 import * as G from "../geometry.js";
+import { play } from "../sound.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const BAD_MS = 1600;      // kırık kopya bu kadar görünür, sonra geri alınır
@@ -126,7 +127,7 @@ export function renderMirror(root, ctx, level, levels, byId, cards = {}) {
     const added = S.tiles.map((T) => G.affineCompose(M, T));
     if (!added.every((T) => G.preservesLattice(T, origin, a, b))) {
       S.wrong++;
-      S.bad = added; renderTiles(); handlesEl.replaceChildren();
+      S.bad = added; renderTiles(); handlesEl.replaceChildren(); play("tok");
       setMsg(S.tool === "translate"
         ? "Çeyrek yıldızlar birleşmedi: bu birim ötelenince desen kırılır. Tomardaki birimler önce kenarlarından aynalanır."
         : "Bu ayna deseni bozdu.", "bad");
@@ -139,6 +140,7 @@ export function renderMirror(root, ctx, level, levels, byId, cards = {}) {
     let text = S.tool === "mirror" ? "Aynalandı: çeyrekler birleşip yıldızı ve haçı tamamladı." : "Ötelendi: birim hücre ötelenince desen bozulmaz.";
     if (cellNow && !S.cellReached) { S.cellReached = true; text += " Elinde artık tam birim hücre var; bundan sonra öteleme de çalışır."; }
     setMsg(text, "ok");
+    play(S.cellReached && cellNow ? "can" : "tik");
     renderAll();
     if (Math.abs(x0 - gx) < EPS && Math.abs(y0 - gy) < EPS && Math.abs(x1 - gx - gw) < EPS && Math.abs(y1 - gy - gh) < EPS) complete();
   }

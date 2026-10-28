@@ -3,6 +3,7 @@
 import { loadPieces, pieceElement, pieceThumb, FAMILY_LABEL, FAMILY_TITLE } from "../pieces.js";
 import { loadCards, storyCardHTML } from "../cards.js";
 import * as G from "../geometry.js";
+import { play } from "../sound.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const SNAP_PX = 22;        // köşe yapışma mesafesi (piksel) — cihazdan bağımsız his için birime çevrilir
@@ -326,20 +327,22 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
       const piece = d.group[0].piece;
       const res = G.resolvePlacement(piece, { x: d.x, y: d.y, rot: d.rot }, scene, { snapDist: snapUnits() });
       if (piece.family !== homeFamily(res.placement)) S.wrong++;
-      if (res.overlap) { returnToOrigin(d); setMsg(overlapMessage(piece, res.placement, scene), "bad"); shake(); return; }
+      if (res.overlap) { returnToOrigin(d); setMsg(overlapMessage(piece, res.placement, scene), "bad"); shake(); play("tok"); return; }
       const entry = { uid: S.uid++, pieceId: piece.id, ...res.placement };
       S.placed.push(entry);
       S.highlight = entry.uid;
       const m = placementMessage(piece, res.placement, scene);
       setMsg(m.text, m.cls);
+      play(m.cls === "ok" ? "can" : piece.family !== homeFamily(res.placement) ? "tok" : "tik");
     } else {
       const res = G.resolveGroupPlacement(d.group, { x: d.x, y: d.y }, scene, { snapDist: snapUnits() });
-      if (res.overlap) { returnToOrigin(d); setMsg("Hücre başka parçaların üstüne bindi. Yıldız ucunu komşu yıldızın ucuna değdir.", "bad"); shake(); return; }
+      if (res.overlap) { returnToOrigin(d); setMsg("Hücre başka parçaların üstüne bindi. Yıldız ucunu komşu yıldızın ucuna değdir.", "bad"); shake(); play("tok"); return; }
       const key = S.uid++;
       for (const m of d.group) S.placed.push({ uid: S.uid++, cellKey: key, cellOffset: res.offset, pieceId: m.piece.id, x: m.placement.x + res.offset.x, y: m.placement.y + res.offset.y, rot: m.placement.rot });
       S.highlight = key;
       const lat = G.latticeCoords([res.offset.x, res.offset.y], level.translation.a, level.translation.b);
       setMsg(lat ? `Kopya kafese oturdu: ${lat.i}·a + ${lat.j}·b.` : "Kopya yerleşti ama kafese oturmadı: öteleme, iki yıldız merkezini birleştiren vektör olmalı.", lat ? "ok" : "warn");
+      play(lat ? "can" : "tok");
     }
     renderPlaced(); renderTray(); renderLabels();
     if (isComplete()) complete();

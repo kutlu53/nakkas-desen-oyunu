@@ -282,7 +282,7 @@
   },
   {
    "id": "karma-1", "families": [8, 10], "order": 1, "title": "Karışık kutu",
-   "story": "Usta: 'Kalfalık sınavı: iki yıldız, tek kutu. Her yıldızı kendi ailesinin taşlarıyla çevir.'",
+   "story": "Usta: 'Ustalık sınavı: iki yıldız, tek kutu. Her yıldızı kendi ailesinin taşlarıyla çevir.'",
    "_not": "Rütbe sınavı (docs/seviyeler.md, Çapraz seviye). 8'li yıldız (0,0) + f8-l1 haçları; 10'lu yıldız (3.7, 0) + f10-l1 beşgenleri. Yanlış aile, parçanın en yakın sabit yıldızına göre sayılır (wrongFamilyAttempts).",
    "fixed": [{"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0}, {"pieceId": "on-kose-yildiz", "x": 3.7, "y": 0, "rot": 0}],
    "tray": {"hac": 4, "besgen": 10},

@@ -21,7 +21,7 @@ Geometri örnekleri `tests/geometry.tests.js` içinde; iki yoldan çalışır:
 - Tarayıcı: `http://localhost:8080/tests/geometry.test.html`
 - Komut satırı: `node tests/run-node.mjs`
 
-Etkileşim testleri sentetik dokunuşlarla oynar: `tests/kur.smoke.html`, `tests/tani.smoke.html`, `tests/yarat.smoke.html` (tarayıcıda aç ya da headless Chrome `--dump-dom`).
+Etkileşim testleri sentetik dokunuşlarla oynar: `tests/kur.smoke.html`, `tests/tani.smoke.html`, `tests/yarat.smoke.html`, `tests/app.smoke.html` (giriş, rütbe, ses) (tarayıcıda aç ya da headless Chrome `--dump-dom`).
 
 Tanı çizimleri ve 10'lu seviyeler üretilir: `node build/gen_tani.mjs`, `node build/gen_levels10.mjs` (elle düzenleme).
 
@@ -59,4 +59,4 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Kur · rütbe sınavı "Karışık kutu" (8'li ve 10'lu yıldız, tek kutu; yanlış aile yıldıza göre sayılır)
 - [x] Çırak / Tanı modu — 7 motif; görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
 - [x] Usta / Yarat modu — serbest tuval, simetri aynası (6/8/10/12×), boya, geri al, 4 görev rozeti, PNG indir, yerel galeri
-- [ ] Ses, rozetler
+- [x] Rütbe ilerlemesi (çırak → kalfa → usta; giriş ekranında koşullar, terfide kart), ses (varsayılan kapalı; tık, çan, tok), Yarat rozetleri

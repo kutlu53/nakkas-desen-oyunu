@@ -2,7 +2,7 @@
 const CACHE = "nakkas-v7";
 const CORE = ["./", "./index.html", "./styles.css", "./manifest.webmanifest",
   "./src/app.js", "./src/geometry.js", "./src/pieces.js",
-  "./src/modes/kur.js", "./src/modes/construct.js", "./src/modes/mirror.js", "./src/cards.js", "./src/modes/tani.js", "./src/modes/yarat.js",
+  "./src/modes/kur.js", "./src/modes/construct.js", "./src/modes/mirror.js", "./src/cards.js", "./src/rank.js", "./src/sound.js", "./src/modes/tani.js", "./src/modes/yarat.js",
   "./data/pieces.json", "./data/motifs.json", "./data/levels.json", "./data/tani.json",
   "./assets/pieces/sekiz-kose-yildiz.svg"];
 self.addEventListener("install", (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())));

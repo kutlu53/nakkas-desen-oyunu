@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir. Henüz yapılmayanlar: rütbe ilerlemesi, ses, Yarat'ta öteleme kopyası aracı.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir. Rütbe ilerlemesi ve ses (varsayılan kapalı) var. Henüz yapılmayan: Yarat'ta öteleme kopyası aracı.
 
 ---
 
@@ -62,6 +62,8 @@ Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, 
 
 ### 2.6 Oyun kurgusu: lonca ve rütbeler
 Öğrenci bir nakkaş loncasına çırak olarak girer; motifleri tanıyarak kalfa, kurarak usta olur. Her seviye bir "usta" sözüyle açılır, bir "keşif" kartıyla kapanır.
+
+**Rütbe koşulları:** Kalfa olmak için atlasın yarısı (motiflerin en az yarısı tanınmış) ve her ailede 2. seviye; usta olmak için ayrıca her ailede 3. seviye (ötele ve kapla) ve ailelerin karıştığı rütbe sınavı. Giriş ekranı eksik koşulları listeler; terfide bir kez kutlama kartı açılır ve araştırma kaydına `mode: "rutbe"` düşer.
 
 **Gerekçe:** Oyunlar, öğrenmeyi bir kimlik ve amaç içine yerleştirdiğinde, kısa ve anlamlı görevlerle hemen geri bildirim verdiğinde etkili öğrenme ortamları oluşturur (Gee, 2003). Ustalık geleneği kurgusu ayrıca emek, sabır ve usta-çırak ilişkisi gibi değerleri doğal biçimde işler.
 

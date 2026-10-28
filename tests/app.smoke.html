@@ -1,0 +1,35 @@
+<!doctype html><meta charset="utf-8"><title>giriş duman testi</title>
+<link rel="stylesheet" href="../styles.css">
+<style>#out { white-space: pre-wrap; font: 13px/1.4 monospace; background: var(--panel); padding: 12px; border-radius: 8px; }</style>
+<pre id="out"></pre>
+<main id="app" style="width: 1000px"></main>
+<script type="module">
+// Giriş ekranı: rütbe kutusu, terfi kartı, ses düğmesi. localStorage'ı hazırlar, src/app.js'i yükler.
+const out = document.getElementById("out"); let fail = 0, n = 0;
+window.addEventListener("error", (e) => { out.textContent += "HATA: " + e.message + " @" + (e.filename || "") + ":" + e.lineno + "\n"; });
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const levels = (await fetch("../data/levels.json").then((r) => r.json())).levels;
+const motifs = (await fetch("../data/motifs.json").then((r) => r.json())).motifs;
+const l2 = [6, 8, 10, 12].map((f) => levels.find((l) => l.family === f && l.order === 2).id);
+const progress = Object.fromEntries(l2.map((id) => [id, { completed: true, attempts: 3, seconds: 60 }]));
+const atlas = Object.fromEntries(motifs.slice(0, 4).map((m) => [m.id, { completed: true }]));
+localStorage.setItem("nakkas", JSON.stringify({ difficulty: "ortaokul", progress, atlas, rank: "cirak", log: [] }));
+location.hash = "home";
+await import("../src/app.js");
+await wait(400);
+const app = document.getElementById("app");
+ok("rütbe kutusu: Kalfa", /Kalfa/.test(app.querySelector(".rank-box .rk-now strong")?.textContent || ""));
+ok("terfi kartı açıldı: 'Kalfa oldun.'", !app.querySelector(".overlay").hidden && /Kalfa oldun/.test(app.querySelector(".overlay h2").textContent));
+ok("usta koşulları listelendi (4 aile 3. seviye + sınav), hiçbiri tamam değil", app.querySelectorAll(".rank-box .reqs li").length === 5 && !app.querySelector(".rank-box .reqs li.ok"));
+const st = JSON.parse(localStorage.getItem("nakkas"));
+ok("rütbe kaydedildi, terfi loglandı", st.rank === "kalfa" && st.log.some((r) => r.mode === "rutbe" && r.rank === "kalfa" && r.from === "cirak"));
+app.querySelector("[data-act=close]").click();
+ok("kart kapandı", app.querySelector(".overlay").hidden);
+app.querySelector("[data-act=sound]").click(); await wait(300);
+ok("ses açıldı ve kaydedildi", JSON.parse(localStorage.getItem("nakkas")).sound === true && /açık/.test(app.querySelector("[data-act=sound]").textContent));
+ok("ikinci açılışta terfi kartı yeniden çıkmaz", app.querySelector(".overlay").hidden);
+app.querySelector("[data-act=sound]").click(); await wait(300);
+localStorage.removeItem("nakkas");
+out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
+</script>

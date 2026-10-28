@@ -44,6 +44,8 @@ src/modes/tani.js     Çırak: yıldızı bul, köşe say, birim hücreyi çerç
 src/modes/kur.js      Kalfa
 src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json → tool: "construct")
 src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (tool: "mirror")
+src/rank.js           rütbe: kalfa = atlasın yarısı + her ailede 2. seviye; usta = + her ailede 3. seviye + rütbe sınavı
+src/sound.js          ses (varsayılan kapalı, state.sound; Web Audio tonları: tik, can, tok)
 src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
 src/modes/yarat.js    Usta: serbest tuval, simetri aynası, boya, geri al, görev rozetleri, PNG, galeri (state.gallery, state.badges)
 data/pieces.json      28 parça (üretilmiş)

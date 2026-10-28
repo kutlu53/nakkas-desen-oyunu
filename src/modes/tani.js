@@ -1,6 +1,7 @@
 // Çırak — Tanı: desende yıldızı bul, köşelerini say, birim hücreyi çerçevele; lisede "hangi aileyle yapılamaz?".
 // Veri: data/motifs.json (yapılar, hikâyeler), data/tani.json (aile başına kesin desen çizimi; build/gen_tani.mjs üretir).
 import { FAMILY_LABEL } from "../pieces.js";
+import { play } from "../sound.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const FIND_TOL = 0.45;    // yıldız merkezine dokunma payı (birim; yıldız yarıçapı 1)
@@ -128,7 +129,7 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
     }
     marks.replaceChildren(...els);
   }
-  const advance = (text) => { S.step++; setFb(text, "ok"); renderSteps(); renderMarks(); if (S.step >= steps.length) complete(); };
+  const advance = (text) => { S.step++; setFb(text, "ok"); play("can"); renderSteps(); renderMarks(); if (S.step >= steps.length) complete(); };
 
   function onTap(p) {
     const st = cur(); if (!st || S.completed) return;
@@ -136,7 +137,7 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
       S.attempts++;
       const s = nearestStar(p, FIND_TOL);
       if (s) { S.star = s; advance(`Buldun. Yıldızın ortası burası.`); }
-      else setFb("Burası bir yıldızın ortası değil. Sivri uçlu büyük parçanın ortasına dokun.", "warn");
+      else { setFb("Burası bir yıldızın ortası değil. Sivri uçlu büyük parçanın ortasına dokun.", "warn"); play("tok"); }
     } else if (st === "count" && coach && S.star && dist(p, S.star) < 1.4) {
       const i = S.marks.findIndex((m) => dist(m, p) < 0.18);
       if (i >= 0) S.marks.splice(i, 1); else S.marks.push(p);
@@ -162,7 +163,7 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
     S.wrong++;
     retryCell(`Bu çerçeve ${Math.round(k)} birim hücre büyüklüğünde. Daha yakın komşular seç.`);
   }
-  function retryCell(text) { setFb(text, "warn"); S.timer = setTimeout(() => { S.cell = []; renderMarks(); }, 1400); renderMarks(); }
+  function retryCell(text) { setFb(text, "warn"); play("tok"); S.timer = setTimeout(() => { S.cell = []; renderMarks(); }, 1400); renderMarks(); }
 
   choicesEl.addEventListener("click", (e) => {
     const b = e.target.closest("button"); if (!b || S.completed) return;
@@ -170,11 +171,11 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
     if (b.dataset.n) {
       const n = +b.dataset.n;
       if (n === motif.family) advance(`Doğru: ${n} köşe — ${lowerLabel(n)} sistem. Uç açısı ${dr.tipAngle}°, çentiği ${dr.notch}°; çentiğe ${PIECE_FOR_NOTCH[n]} oturur.`);
-      else { S.wrong++; setFb(`${n} değil. Bir uçtan başlayıp yeniden say${coach ? "; uçlara dokunarak işaretle" : ""}.`, "warn"); }
+      else { S.wrong++; play("tok"); setFb(`${n} değil. Bir uçtan başlayıp yeniden say${coach ? "; uçlara dokunarak işaretle" : ""}.`, "warn"); }
     } else if (b.dataset.fam) {
       const n = +b.dataset.fam;
       if (n === wrongFam) advance(`Doğru. Çentik ${dr.notch}°; ${lowerLabel(n)} parçaların açıları ${STEP_DEG[n]}°'nin katıdır ve ${dr.notch} bunlardan biri değil. Köşede 360 tamamlanmaz.`);
-      else { S.wrong++; setFb(`Bu desenin kendi ailesi o: çentiğine (${dr.notch}°) ${PIECE_FOR_NOTCH[n]} tam oturur. Öbürünü dene.`, "warn"); }
+      else { S.wrong++; play("tok"); setFb(`Bu desenin kendi ailesi o: çentiğine (${dr.notch}°) ${PIECE_FOR_NOTCH[n]} tam oturur. Öbürünü dene.`, "warn"); }
     }
   });
   svg.addEventListener("pointerdown", (e) => { if (e.button > 0) return; e.preventDefault(); onTap(toBoard(e)); });

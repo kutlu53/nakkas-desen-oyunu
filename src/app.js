@@ -1,13 +1,17 @@
 // Giriş: rütbe/mod seçimi, Parça Atlası, yönlendirme, localStorage. Modlar src/modes/ altında; tembel yüklenir.
 import { loadPieces, pieceThumb, FAMILY_LABEL, FAMILY_TITLE } from "./pieces.js";
+import { rankStatus, RANKS, RANK_LABEL } from "./rank.js";
+import { setSound, play } from "./sound.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const MAX_LOG = 500;
 
 const state = loadState();
+setSound(state.sound);
+let homeData = null; // giriş ekranının seviye/motif verisi; render() modül başında çağrıldığından burada tanımlı olmalı
 
 function loadState() {
-  const base = { difficulty: "ortaokul", progress: {}, atlas: {}, badges: {}, log: [], gallery: [] };
+  const base = { difficulty: "ortaokul", progress: {}, atlas: {}, badges: {}, log: [], gallery: [], rank: null, sound: false };
   try { return Object.assign(base, JSON.parse(localStorage.getItem("nakkas") || "{}")); }
   catch { return base; }
 }
@@ -41,9 +45,25 @@ async function render() {
 }
 
 // ---------- ekranlar ----------
-function renderHome(main) {
+async function loadHomeData() {
+  if (!homeData) {
+    const at = (f) => fetch(new URL(`../data/${f}`, import.meta.url)).then((r) => r.json());
+    const [l, m] = await Promise.all([at("levels.json"), at("motifs.json")]);
+    homeData = { levels: l.levels, motifs: m.motifs };
+  }
+  return homeData;
+}
+
+async function renderHome(main) {
+  const { levels, motifs } = await loadHomeData();
   const done = Object.values(state.progress).filter((p) => p.completed).length;
   const atlasDone = Object.values(state.atlas || {}).filter((p) => p.completed).length;
+  const rs = rankStatus(state, levels, motifs);
+  const promoted = RANKS.indexOf(rs.rank) > RANKS.indexOf(state.rank || "cirak");
+  if (promoted) { log({ ts: new Date().toISOString(), mode: "rutbe", rank: rs.rank, from: state.rank || "cirak" }); state.rank = rs.rank; saveState(); }
+  state.rank ||= rs.rank;
+  const reqs = rs.next ? `<p class="rk-next">${RANK_LABEL[rs.next.rank]} olmak için:</p><ul class="reqs">${rs.next.reqs.map((r) => `<li class="${r.ok ? "ok" : ""}">${r.ok ? "✓" : "○"} ${r.text}</li>`).join("")}</ul>`
+    : `<p class="rk-next">Loncanın bütün rütbelerini aldın. Yarat'ta kendi desenlerini üret.</p>`;
   main.innerHTML = `
     <section class="hero">
       <p class="eyebrow">Nakkaş loncası</p>
@@ -54,17 +74,30 @@ function renderHome(main) {
         <button data-d="ortaokul" class="${state.difficulty === "ortaokul" ? "on" : ""}">Ortaokul</button>
         <button data-d="lise" class="${state.difficulty === "lise" ? "on" : ""}">Lise</button>
         <small>${state.difficulty === "ortaokul" ? "ipuçları açık, açı etiketleri sürekli görünür" : "etiketler isteğe bağlı, kutuda yanıltıcı parçalar"}</small>
+        <button data-act="sound" aria-pressed="${!!state.sound}" class="${state.sound ? "on" : ""}">Ses: ${state.sound ? "açık" : "kapalı"}</button>
       </div>
+    </section>
+    <section class="rank-box" aria-label="Rütbe">
+      <div class="rk-now"><span class="eyebrow">Rütben</span><strong>${RANK_LABEL[rs.rank]}</strong></div>
+      <div>${reqs}</div>
     </section>
     <section class="ranks">
       <button class="rank" data-go="tani"><span class="rk">Çırak</span><strong>Tanı</strong><small>Desenlerde yıldızı bul, köşelerini say, birimi çerçevele.</small>${atlasDone ? `<em>${atlasDone} motif atlasta</em>` : ""}</button>
       <button class="rank" data-go="kur"><span class="rk">Kalfa</span><strong>Kur</strong><small>Parçaları yerleştir, açıları 360'a tamamla.</small>${done ? `<em>${done} seviye tamam</em>` : ""}</button>
       <button class="rank" data-go="yarat"><span class="rk">Usta</span><strong>Yarat</strong><small>Simetri aynasıyla kendi motifini üret.</small></button>
     </section>
-    <p class="foot"><a href="#atlas">Parça atlası</a> · 28 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>`;
+    <p class="foot"><a href="#atlas">Parça atlası</a> · 28 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>
+    <div class="overlay" ${promoted ? "" : "hidden"}><div class="card" role="dialog" aria-modal="true" aria-labelledby="rk-t">
+      <p class="eyebrow">Lonca</p><h2 id="rk-t">${RANK_LABEL[rs.rank]} oldun.</h2>
+      <p class="disc">${rs.rank === "kalfa" ? "Motifleri tanıdın ve dört ailenin ilk adımlarını kurdun. Kalfa artık çentiği açıyla okur." : "Dört ailenin birim hücresini kurdun ve ailelerin karıştığı sınavı geçtin. Usta, deseni kural ezberleyerek değil, açıyı okuyarak kurar."}</p>
+      <div class="actions"><button type="button" class="btn primary" data-act="close">Devam</button></div></div></div>`;
   main.querySelectorAll("[data-d]").forEach((b) => b.addEventListener("click", () => { state.difficulty = b.dataset.d; saveState(); render(); }));
   main.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => go(b.dataset.go)));
   $("[data-act=export]", main).addEventListener("click", exportData);
+  $("[data-act=sound]", main).addEventListener("click", () => { state.sound = !state.sound; setSound(state.sound); saveState(); play("tik"); render(); });
+  const ov = $(".overlay", main);
+  $("[data-act=close]", main).addEventListener("click", () => { ov.hidden = true; });
+  if (promoted) { play("can"); $("[data-act=close]", main).focus(); }
 }
 
 /** Araştırma verisi + ilerleme, JSON dosyası olarak iner. Sunucu yok; dosya cihazda kalır. */

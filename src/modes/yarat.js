@@ -2,6 +2,7 @@
 // Yerleşim ve yapışma Kur ile aynı geometriden (../geometry.js); burada yalnızca serbest tuval ve araçlar var.
 import { loadPieces, pieceElement, pieceThumb, FAMILY_LABEL } from "../pieces.js";
 import * as G from "../geometry.js";
+import { play } from "../sound.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const SNAP_PX = 22, TOUCH_LIFT = 0.45;
@@ -142,7 +143,7 @@ export async function mount(root, ctx) {
   function place(piece, pl) {
     const sc = scene();
     const res = G.resolvePlacement(piece, pl, sc, { snapDist: snapUnits() });
-    if (res.overlap) { setMsg("Parça başka bir parçanın üstüne bindi; boş bir yere bırak.", "bad"); return 0; }
+    if (res.overlap) { setMsg("Parça başka bir parçanın üstüne bindi; boş bir yere bırak.", "bad"); play("tok"); return 0; }
     const copies = [res.placement];
     if (S.mirror > 1) for (let k = 1; k < S.mirror; k++) copies.push(rotateAbout(res.placement, (k * 360) / S.mirror));
     const accepted = [];
@@ -163,6 +164,7 @@ export async function mount(root, ctx) {
     const skipped = copies.length - accepted.length;
     const tam = G.evaluateVertices(scene()).filter((v) => v.state === "tam" && accepted.some((a) => G.placedPoints(piece, a).some((q) => G.dist(q, v.vertex) <= G.VERTEX_TOL)));
     setMsg(`${accepted.length > 1 ? `${accepted.length} kopya yerleşti` : "Parça yerleşti"}${skipped ? ` (${skipped} kopya yer bulamadı)` : ""}.${tam.length ? ` Tam oturan köşe: ${tam[0].parts.map((p) => fmt(p.angle)).join(" + ")} = 360 ✓` : ""}`, tam.length ? "ok" : "");
+    play(tam.length ? "can" : "tik");
     renderPlaced(); renderLabels(); checkTasks();
     return accepted.length;
   }
