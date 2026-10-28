@@ -21,6 +21,10 @@ Geometri örnekleri `tests/geometry.tests.js` içinde; iki yoldan çalışır:
 - Tarayıcı: `http://localhost:8080/tests/geometry.test.html`
 - Komut satırı: `node tests/run-node.mjs`
 
+Etkileşim testleri sentetik dokunuşlarla oynar: `tests/kur.smoke.html`, `tests/tani.smoke.html` (tarayıcıda aç ya da headless Chrome `--dump-dom`).
+
+Tanı çizimleri ve 10'lu seviyeler üretilir: `node build/gen_tani.mjs`, `node build/gen_levels10.mjs` (elle düzenleme).
+
 ## Parça verisini yeniden üretme
 ```bash
 python build/gen_pieces.py
@@ -52,6 +56,6 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye; kesin girih deseninden (`build/hankin.mjs`), fiziksel setle birebir değil
 - [ ] Kur · 6'lı ve 12'li aileler — önce dolgu parçalarının kenarı yıldız kenarına eşitlenmeli
 - [ ] Kur · çapraz seviye (lise rütbe sınavı: 8'li ve 10'lu karışık kutu)
-- [ ] Çırak / Tanı modu — `data/motifs.json`, görseller eklenecek
+- [x] Çırak / Tanı modu — 7 motif; görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
 - [ ] Usta / Yarat modu — simetri aynası
 - [ ] Ses, rozetler

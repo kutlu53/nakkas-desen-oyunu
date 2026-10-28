@@ -1,0 +1,70 @@
+<!doctype html><meta charset="utf-8"><title>tanı duman testi</title>
+<link rel="stylesheet" href="../styles.css">
+<style>#out { white-space: pre-wrap; font: 13px/1.4 monospace; background: var(--panel); padding: 12px; border-radius: 8px; }</style>
+<pre id="out"></pre>
+<main id="app" style="width: 1000px"></main>
+<script type="module">
+// Sentetik dokunuşlarla Çırak/Tanı'yı oynar. Tarayıcıda aç ya da headless --dump-dom ile oku.
+import { mount } from "../src/modes/tani.js";
+const out = document.getElementById("out"); let fail = 0, n = 0;
+window.addEventListener("error", (e) => { out.textContent += "HATA: " + e.message + " @" + (e.filename || "") + ":" + e.lineno + "\n"; });
+window.addEventListener("unhandledrejection", (e) => { out.textContent += "HATA (promise): " + (e.reason && e.reason.stack || e.reason) + "\n"; });
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
+const tick = () => new Promise((r) => setTimeout(r, 0));
+const app = document.getElementById("app");
+const svg = () => app.querySelector(".board");
+const tap = (x, y) => { const p = new DOMPoint(x, y).matrixTransform(svg().getScreenCTM()); svg().dispatchEvent(new PointerEvent("pointerdown", { clientX: p.x, clientY: p.y, pointerId: 3, button: 0, bubbles: true, cancelable: true })); };
+const fb = () => app.querySelector(".fb").textContent, task = () => app.querySelector(".task").textContent;
+const choose = (sel) => app.querySelector(`.choices ${sel}`).click();
+const tani = await fetch("../data/tani.json").then((r) => r.json());
+const motifs = (await fetch("../data/motifs.json").then((r) => r.json())).motifs;
+const drawing = (fam) => tani.families.find((f) => f.family === fam);
+const makeCtx = (param, difficulty = "ortaokul") => { const logs = []; return { logs, ctx: { state: { progress: {}, atlas: {}, log: [] }, saveState() {}, log: (r) => logs.push(r), go() {}, param, difficulty } }; };
+const has = (dr, [x, y]) => dr.stars.find((s) => Math.hypot(s[0] - x, s[1] - y) < 1e-2);
+
+// her aileden ilk motif: baştan sona
+for (const fam of [6, 8, 10, 12]) {
+  const motif = motifs.find((m) => m.family === fam), dr = drawing(fam);
+  for (const diff of ["ortaokul", "lise"]) {
+    const { ctx, logs } = makeCtx(motif.id, diff);
+    const cleanup = await mount(app, ctx); await tick();
+    const tag = `${fam}'lık ${motif.id} (${diff})`;
+    // 1) yıldızı bul: önce iki yıldızın ortası (yanlış), sonra merkez
+    const o = dr.stars.find((s) => has(dr, [s[0] + dr.a[0], s[1] + dr.a[1]]) && has(dr, [s[0] + dr.b[0], s[1] + dr.b[1]]));
+    tap(o[0] + dr.a[0] / 2, o[1] + dr.a[1] / 2); await tick();
+    ok(`${tag}: yıldız arası reddedildi`, /ortası değil/.test(fb()));
+    tap(o[0] + 0.1, o[1] - 0.1); await tick();
+    ok(`${tag}: yıldız bulundu, soru 2`, /Soru 2/.test(task()));
+    // 2) köşe say: yanlış sonra doğru
+    choose(`[data-n="${fam === 6 ? 8 : 6}"]`); await tick();
+    ok(`${tag}: yanlış sayı reddedildi`, /değil/.test(fb()));
+    choose(`[data-n="${fam}"]`); await tick();
+    ok(`${tag}: ${fam} köşe doğru, çentik ${dr.notch}° söylendi`, new RegExp(`çentiği ${dr.notch}°`).test(fb()) && /Soru 3/.test(task()));
+    // 3) birim hücre: önce iki kat büyük çerçeve (yanlış), sonra doğru
+    if (has(dr, [o[0] + 2 * dr.a[0], o[1] + 2 * dr.a[1]])) {
+      tap(...o); tap(o[0] + 2 * dr.a[0], o[1] + 2 * dr.a[1]); tap(o[0] + dr.b[0], o[1] + dr.b[1]); await tick();
+      ok(`${tag}: 2 hücrelik çerçeve reddedildi`, /2 birim hücre/.test(fb()));
+      await new Promise((r) => setTimeout(r, 1500));
+    }
+    tap(o[0] + 0.2, o[1] + 0.1); tap(o[0] + dr.a[0] - 0.1, o[1] + dr.a[1]); tap(o[0] + dr.b[0], o[1] + dr.b[1] + 0.2); await tick();
+    ok(`${tag}: birim hücre kabul edildi`, /birim hücre/.test(fb()) && app.querySelector(".cellframe.ok"));
+    if (diff === "lise") {
+      ok(`${tag}: lisede 4. soru`, /Soru 4\/4/.test(task()));
+      choose(`[data-fam="${fam}"]`); await tick();
+      ok(`${tag}: kendi ailesi seçilince açıklama`, /kendi ailesi/.test(fb()));
+      choose(`[data-fam="${motif.questions.wrongFamilyLise}"]`); await tick();
+    }
+    ok(`${tag}: kart açıldı, atlasa eklendi`, !app.querySelector(".overlay").hidden && ctx.state.atlas[motif.id]?.completed);
+    ok(`${tag}: log mode=tani, yanlış sayıldı`, logs.length === 1 && logs[0].mode === "tani" && logs[0].wrongFamilyAttempts >= 1);
+    cleanup();
+  }
+}
+// motif listesi
+{
+  const { ctx } = makeCtx(undefined);
+  ctx.state.atlas[motifs[0].id] = { completed: true };
+  await mount(app, ctx); await tick();
+  ok(`liste: ${motifs.length} motif, tamamlananın ailesi görünür, öbürleri gizli`, app.querySelectorAll(".level").length === motifs.length && app.querySelector(".level.done .num").textContent === String(motifs[0].family) && app.querySelectorAll(".level:not(.done) .num")[0].textContent === "?");
+}
+out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
+</script>

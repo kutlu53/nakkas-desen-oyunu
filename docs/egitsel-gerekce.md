@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Kalfa / Kur modu 8'li aile için oynanabilir durumda (hazırlık + 5 seviye); 10'lu ailede hazırlık + 4 seviye hazır. Çırak / Tanı ve Usta / Yarat modları ile 10'lu, 6'lı ve 12'li aileler tasarım aşamasındadır. Aşağıda bu bölümler "planlanan" diye işaretlenmiştir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu aile için hazırlık + 4 seviye. Usta / Yarat modu ile 6'lı ve 12'li ailelerin Kur seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
 
 ---
 
@@ -69,7 +69,7 @@ Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, 
 
 ## 3. Bölümler
 
-### 3.1 Çırak — Tanı *(planlanan)*
+### 3.1 Çırak — Tanı *(oynanabilir)*
 
 **Amaç:** Öğrencinin gerçek yapılardaki desenlerde yıldız sistemini görmesi.
 
@@ -77,7 +77,11 @@ Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, 
 
 **Kazanımlar:** K1 (motifi ve yapıyı tanıma), K2'ye hazırlık (dönme simetrisi, birim hücre kavramı).
 
-**Gerekçe:** van Hiele'nin görsel düzeyi; şekli bütün olarak tanımadan özelliklerini incelemeye geçilemez. Gerçek yapı görselleri etnomatematik bağlamı kurar.
+**Gerekçe:** van Hiele'nin görsel düzeyi; şekli bütün olarak tanımadan özelliklerini incelemeye geçilemez. Yapı adı, dönemi ve hikâye kartı etnomatematik bağlamı kurar.
+
+**Görseller:** Projede yapı fotoğrafı bulunmadığı için her motif, kendi ailesine ait kesin bir desen çizimiyle gösterilir (6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 ağı üstünde yıldız deseni). Ekranda çizimin yapının kendi deseninin kopyası olmadığı belirtilir. Kesin çizim, "yıldızın merkezi" ve "birim hücre" görevlerinin doğru denetlenmesini sağlar. Sınırlılık: öğrenci gerçek yapı yüzeyini görmez; öğretmenin sınıfta gerçek yapı görselleri göstermesi önerilir.
+
+**Ölçülen:** Deneme, yanlış cevap (`wrongFamilyAttempts`), ipucu, süre (`mode: "tani"`).
 
 ---
 
@@ -197,7 +201,7 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an 8'li aile (hazırlık + 5 seviye) ve 10'lu aile (hazırlık + 4 seviye), yalnızca Kur modunda oynanabilir. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Şu an Tanı modu (7 motif) ve Kur modunda 8'li aile (hazırlık + 5 seviye) ile 10'lu aile (hazırlık + 4 seviye) oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.

@@ -1,5 +1,5 @@
 {
- "_not": "Tanı modu atlası. Görseller assets/motifs/ altına eklenecek; her görsel için kaynak ve lisans 'imageCredit' alanına yazılacak. Tarihsel bilgiler kısa tutuldu; kesin olmayanlar 'rivayet' olarak işaretli.",
+ "_not": "Tanı modu atlası. Yapı fotoğrafı yok; Tanı görseli olarak her motifin ailesine ait kesin çizim (data/tani.json) kullanılır, image/imageCredit alanları şimdilik boş. Tarihsel bilgiler kısa tutuldu; kesin olmayanlar 'rivayet' olarak işaretli.",
  "motifs": [
   {
    "id": "karatay-konya",

@@ -20,7 +20,7 @@ Tarayıcıda çalışan, çevrimdışı oynanabilen (PWA) eğitsel yapboz oyunu.
 ## Üç mod → üç rütbe
 | Rütbe | Mod | Kazanım | Özet |
 |---|---|---|---|
-| Çırak | **Tanı** | 1 | Gerçek yapı fotoğrafı/çizimi üzerinde yıldızı bul, köşe say, aileyi seç, birim hücreyi çerçevele. Doğruda hikâye kartı açılır. |
+| Çırak | **Tanı** | 1 | Desen çizimi üzerinde yıldızı bul, köşe say, birim hücreyi çerçevele (lisede: hangi aileyle yapılamaz). Doğruda hikâye kartı açılır. Yapı fotoğrafı yok (kullanıcı, 2026-10-28): görseller kendi kesin çizimlerimiz, ekranda "yapının kendi deseninin kopyası değil" notu var. Proje kökündeki `Motifler/` fotoğrafları setin kurulu hâli; (2) üçüncü kişinin eseri, (4) banka kartı, (6) çocuk elleri içerir — oyunda kullanma. |
 | Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi) → bozuk çini. Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
 | Usta | **Yarat** | 3 | Boş tuval + parça kutusu + **simetri aynası** (n-kat döndürme). Kısıtlı görevler. PNG dışa aktar, yerel galeri. |
 
@@ -40,7 +40,7 @@ styles.css            tema (açık/koyu), tipografi, dokunma boyutları
 src/app.js            yönlendirme, durum, localStorage
 src/geometry.js       çokgen matematiği, snap, açı toplamı (saf fonksiyonlar, test edilebilir)
 src/pieces.js         pieces.json yükle, SVG path üret, parça kutusu
-src/modes/tani.js     Çırak
+src/modes/tani.js     Çırak: yıldızı bul, köşe say, birim hücreyi çerçevele (data/tani.json çizimleri)
 src/modes/kur.js      Kalfa
 src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json → tool: "construct")
 src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (tool: "mirror")
@@ -54,6 +54,7 @@ assets/motifs/        yapı fotoğrafları (eklenecek; lisans notu düşülecek)
 build/gen_pieces.py   parça üretici
 build/hankin.mjs      kesin desen türetici (alt çokgen ağı + kenar ortasından 54° ışınlar → parçalar)
 build/gen_levels10.mjs 10'lu kesin desenden parça biçimi ve f10-l2..l4 yerleşimleri
+build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 + Hankin 60° → data/tani.json
 ```
 
 ## Çalışma kuralları

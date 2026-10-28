@@ -61,60 +61,68 @@ export function angles(P) {
   });
 }
 
-// ---- 1) alt döşeme: ongenler kafeste, aradaki yüzler papyon ----
+/** Kenar listesinden alt döşemenin yüzleri (çokgenler). */
+export function tilesFromEdges(segs) {
+  const uniq = new Map();
+  for (const [p, q] of segs) uniq.set([key(p), key(q)].sort().join("|"), [p, q]);
+  return faces([...uniq.values()]).map(simplify).filter((P) => area(P) > 1e-6);
+}
+export const polygonEdges = (P) => P.map((p, i) => [p, P[(i + 1) % P.length]]);
+
+/**
+ * Hankin "çokgenlerin teması": her kenar ortasından iki ışın, kenarla θ açısı yapacak biçimde içe;
+ * her ışın kendisiyle en erken buluşan ışınla eşleşir (içbükey köşelerde karşı ışınla buluşur). Desen çizgilerini döndürür.
+ */
+export function hankinLines(tiles, thetaDeg) {
+  const TH = thetaDeg * D, pattern = [];
+  for (const P of tiles) {
+    const n = P.length, ccw = area(P) > 0;
+    const mid = (i) => [(P[i][0] + P[(i + 1) % n][0]) / 2, (P[i][1] + P[(i + 1) % n][1]) / 2];
+    const ray = (i, towardNext) => {
+      const a = P[i], b = P[(i + 1) % n], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      const u = towardNext ? [(b[0] - a[0]) / L, (b[1] - a[1]) / L] : [(a[0] - b[0]) / L, (a[1] - b[1]) / L];
+      const inward = ccw ? 1 : -1, s = towardNext ? inward : -inward;
+      const c = Math.cos(TH), sn = Math.sin(TH) * s;
+      return { o: mid(i), d: [u[0] * c - u[1] * sn, u[0] * sn + u[1] * c] };
+    };
+    const rays = []; for (let i = 0; i < n; i++) rays.push(ray(i, true), ray(i, false));
+    const meets = [];
+    for (let p = 0; p < rays.length; p++) for (let q = p + 1; q < rays.length; q++) {
+      const r1 = rays[p], r2 = rays[q];
+      if (Math.hypot(r1.o[0] - r2.o[0], r1.o[1] - r2.o[1]) < 1e-9) continue; // aynı kenar ortası
+      const den = r1.d[0] * r2.d[1] - r1.d[1] * r2.d[0];
+      const wx = r2.o[0] - r1.o[0], wy = r2.o[1] - r1.o[1];
+      if (Math.abs(den) < 1e-9) {
+        // aynı doğru üstünde birbirine bakan ışınlar: kenar ortalarını birleştir
+        const L = Math.hypot(wx, wy);
+        if (Math.abs(wx * r1.d[1] - wy * r1.d[0]) < 1e-9 && wx * r1.d[0] + wy * r1.d[1] > 0 && wx * r2.d[0] + wy * r2.d[1] < 0) meets.push({ p, q, d: L / 2, T: null });
+        continue;
+      }
+      const t = (wx * r2.d[1] - wy * r2.d[0]) / den, u = (wx * r1.d[1] - wy * r1.d[0]) / den;
+      if (t > 1e-9 && u > 1e-9) meets.push({ p, q, d: Math.max(t, u), T: [r1.o[0] + r1.d[0] * t, r1.o[1] + r1.d[1] * t] });
+    }
+    meets.sort((x, y) => x.d - y.d);
+    const done = new Set();
+    for (const m of meets) {
+      if (done.has(m.p) || done.has(m.q)) continue;
+      done.add(m.p); done.add(m.q);
+      if (m.T) pattern.push([rays[m.p].o, m.T], [rays[m.q].o, m.T]); else pattern.push([rays[m.p].o, rays[m.q].o]);
+    }
+  }
+  return pattern;
+}
+/** Desen çizgilerinin böldüğü yüzler; ağırlık merkezi merkeze `keep` yakın olanlar. */
+export const patternFaces = (pattern, keep) => faces(pattern).map(simplify).filter((P) => area(P) > 1e-6 && Math.hypot(...centroid(P)) < keep);
+
+// ---- 10'lu: ongenler kafeste, aradaki yüzler papyon; Hankin 54° ----
 export function hankin({ rot = 0, range = 3, keep = 3.2 } = {}) {
   const rr = rot * D, rotp = ([x, y]) => [x * Math.cos(rr) - y * Math.sin(rr), x * Math.sin(rr) + y * Math.cos(rr)];
   const a = rotp(A), b = rotp(B);
   const centers = []; for (let i = -range; i <= range; i++) for (let j = -range; j <= range; j++) centers.push([i * a[0] + j * b[0], i * a[1] + j * b[1]]);
-const decs = centers.map((c) => decagon(c, rr));
-const edgeSegs = new Map();
-for (const P of decs) P.forEach((p, i) => { const q = P[(i + 1) % 10]; const k = [key(p), key(q)].sort().join("|"); edgeSegs.set(k, [p, q]); });
-const tilesAll = faces([...edgeSegs.values()]).map(simplify).filter((P) => area(P) > 1e-6);
-const inWin = (c, r) => Math.hypot(c[0], c[1]) < r;
-const tiles = tilesAll.filter((P) => inWin(centroid(P), keep + 2.5));
-const tileKinds = {}; for (const P of tiles) { const k = `${P.length}:${angles(P).map((a) => Math.round(a)).join(",")}`; tileKinds[k] = (tileKinds[k] || 0) + 1; }
-
-
-// ---- 2) Hankin: her kenar ortasından iki ışın, 54°; komşu kenarın ışınıyla buluşana dek ----
-const THETA = 54 * D;
-const pattern = [];
-for (const P of tiles) {
-  const n = P.length, ccw = area(P) > 0;
-  const mid = (i) => [(P[i][0] + P[(i + 1) % n][0]) / 2, (P[i][1] + P[(i + 1) % n][1]) / 2];
-  const ray = (i, towardNext) => { // kenar i'nin ortasından, i+1 köşesine (ya da i köşesine) doğru, içe 54°
-    const a = P[i], b = P[(i + 1) % n], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
-    const u = towardNext ? [(b[0] - a[0]) / L, (b[1] - a[1]) / L] : [(a[0] - b[0]) / L, (a[1] - b[1]) / L];
-    const inward = ccw ? 1 : -1, s = towardNext ? inward : -inward;
-    const c = Math.cos(THETA), sn = Math.sin(THETA) * s;
-    return { o: mid(i), d: [u[0] * c - u[1] * sn, u[0] * sn + u[1] * c] };
-  };
-  // her ışın, kendisiyle en erken buluşan ışınla eşleşir (Hankin kuralı; içbükey köşelerde karşı ışınla buluşur)
-  const rays = []; for (let i = 0; i < n; i++) rays.push(ray(i, true), ray(i, false));
-  const meets = [];
-  for (let p = 0; p < rays.length; p++) for (let q = p + 1; q < rays.length; q++) {
-    const r1 = rays[p], r2 = rays[q];
-    if (Math.hypot(r1.o[0] - r2.o[0], r1.o[1] - r2.o[1]) < 1e-9) continue; // aynı kenar ortası
-    const den = r1.d[0] * r2.d[1] - r1.d[1] * r2.d[0];
-    const wx = r2.o[0] - r1.o[0], wy = r2.o[1] - r1.o[1];
-    if (Math.abs(den) < 1e-9) {
-      // aynı doğru üstünde birbirine bakan ışınlar: kenar ortalarını birleştir
-      const L = Math.hypot(wx, wy);
-      if (Math.abs(wx * r1.d[1] - wy * r1.d[0]) < 1e-9 && wx * r1.d[0] + wy * r1.d[1] > 0 && wx * r2.d[0] + wy * r2.d[1] < 0) meets.push({ p, q, d: L / 2, T: null });
-      continue;
-    }
-    const t = (wx * r2.d[1] - wy * r2.d[0]) / den, u = (wx * r1.d[1] - wy * r1.d[0]) / den;
-    if (t > 1e-9 && u > 1e-9) meets.push({ p, q, d: Math.max(t, u), T: [r1.o[0] + r1.d[0] * t, r1.o[1] + r1.d[1] * t] });
-  }
-  meets.sort((x, y) => x.d - y.d);
-  const done = new Set();
-  for (const m of meets) {
-    if (done.has(m.p) || done.has(m.q)) continue;
-    done.add(m.p); done.add(m.q);
-    if (m.T) pattern.push([rays[m.p].o, m.T], [rays[m.q].o, m.T]); else pattern.push([rays[m.p].o, rays[m.q].o]);
-  }
-}
-const all = faces(pattern).map(simplify).filter((P) => area(P) > 1e-6 && inWin(centroid(P), keep));
-  return { a, b, tiles, tileKinds, pattern, faces: all };
+  const tiles = tilesFromEdges(centers.flatMap((c) => polygonEdges(decagon(c, rr)))).filter((P) => Math.hypot(...centroid(P)) < keep + 2.5);
+  const tileKinds = {}; for (const P of tiles) { const k = `${P.length}:${angles(P).map((x) => Math.round(x)).join(",")}`; tileKinds[k] = (tileKinds[k] || 0) + 1; }
+  const pattern = hankinLines(tiles, 54);
+  return { a, b, tiles, tileKinds, pattern, faces: patternFaces(pattern, keep) };
 }
 
 

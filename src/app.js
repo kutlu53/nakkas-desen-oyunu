@@ -7,7 +7,7 @@ const MAX_LOG = 500;
 const state = loadState();
 
 function loadState() {
-  const base = { difficulty: "ortaokul", progress: {}, log: [], gallery: [] };
+  const base = { difficulty: "ortaokul", progress: {}, atlas: {}, log: [], gallery: [] };
   try { return Object.assign(base, JSON.parse(localStorage.getItem("nakkas") || "{}")); }
   catch { return base; }
 }
@@ -21,7 +21,7 @@ const routes = {
   home: renderHome,
   atlas: renderAtlas,
   kur: mode("./modes/kur.js"),
-  tani: () => renderStub("Çırak — Tanı", "src/modes/tani.js"),
+  tani: mode("./modes/tani.js"),
   yarat: () => renderStub("Usta — Yarat", "src/modes/yarat.js"),
 };
 let cleanup = null;
@@ -43,6 +43,7 @@ async function render() {
 // ---------- ekranlar ----------
 function renderHome(main) {
   const done = Object.values(state.progress).filter((p) => p.completed).length;
+  const atlasDone = Object.values(state.atlas || {}).filter((p) => p.completed).length;
   main.innerHTML = `
     <section class="hero">
       <p class="eyebrow">Nakkaş loncası</p>
@@ -56,7 +57,7 @@ function renderHome(main) {
       </div>
     </section>
     <section class="ranks">
-      <button class="rank" data-go="tani"><span class="rk">Çırak</span><strong>Tanı</strong><small>Yapılardaki yıldızları bul, köşelerini say.</small></button>
+      <button class="rank" data-go="tani"><span class="rk">Çırak</span><strong>Tanı</strong><small>Desenlerde yıldızı bul, köşelerini say, birimi çerçevele.</small>${atlasDone ? `<em>${atlasDone} motif atlasta</em>` : ""}</button>
       <button class="rank" data-go="kur"><span class="rk">Kalfa</span><strong>Kur</strong><small>Parçaları yerleştir, açıları 360'a tamamla.</small>${done ? `<em>${done} seviye tamam</em>` : ""}</button>
       <button class="rank" data-go="yarat"><span class="rk">Usta</span><strong>Yarat</strong><small>Simetri aynasıyla kendi motifini üret.</small></button>
     </section>
