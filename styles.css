@@ -138,6 +138,36 @@ code { font-size: .92em; background: var(--panel); border: 1px solid var(--line)
 .board .fill .piece.fresh path { animation: settle .8s ease-out; }
 .board.finale .cons { opacity: .3; transition: opacity 1s; }
 
+/* ---------- geçme çizgisi ---------- */
+.board .lines { pointer-events: none; }
+.board .band-edge { fill: none; stroke: var(--ink); stroke-width: 0.13; stroke-linejoin: miter; }
+.board .band { fill: none; stroke: var(--hardal); stroke-width: 0.075; stroke-linejoin: miter; }
+.board.lineview .fixed, .board.lineview .placed { opacity: .28; transition: opacity .6s; }
+.board.lineview .labels { display: none; }
+
+/* ---------- aynalama ---------- */
+.tile .seam { fill: none; stroke: var(--accent); stroke-width: 1px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; opacity: .7; }
+.board .tile.first .seam { stroke-width: 2px; opacity: 1; }
+.board .tile.bad { animation: shake .3s; }
+.board .tile.bad .seam { fill: var(--bad); fill-opacity: .4; stroke: var(--bad); stroke-dasharray: none; }
+.board .handle { cursor: pointer; }
+.board .handle .edge-hit { stroke: transparent; }
+.board .handle .edge { stroke: var(--accent); stroke-width: 4px; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+.board .handle.want .edge { animation: pulse .8s infinite alternate; }
+.board .handle:hover .edge, .board .handle:focus-visible .edge { stroke-width: 7px; }
+.board .handle:focus-visible { outline: none; }
+.unit-box { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; align-content: start; }
+.unit-box p { margin: 0; font-size: 13px; color: var(--muted); }
+.unit-box strong { display: block; color: var(--ink); font-size: 14px; }
+
+/* ---------- hikâye kartı ---------- */
+.overlay .card { max-height: calc(100vh - 32px); overflow-y: auto; }
+.story-card { border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 6px; }
+.story-card h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 20px; }
+.story-card p { margin: 0; line-height: 1.55; font-size: 14px; }
+.story-card .sc-link { color: var(--accent); }
+.story-card .sc-src { color: var(--muted); font-size: 12px; }
+
 /* ---------- parça kutusu ---------- */
 .tray { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; min-height: 96px; }
 .tray-item { position: relative; display: grid; justify-items: center; gap: 2px; min-width: 88px; min-height: 88px; padding: 8px 8px 6px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: inherit; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }

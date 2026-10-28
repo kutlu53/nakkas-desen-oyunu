@@ -97,6 +97,28 @@ export function run(G, pieces, levels, ok) {
   const starTargets = targets.map((t) => ({ ...t, pieceId: "sekiz-kose-yildiz" }));
   ok("yıldızlar 45° dönük de eşleşir", G.matchesTargets(starTargets.map((t) => ({ ...t, rot: 45 })), starTargets, 8, by));
 
+  // --- geçme çizgisi ---
+  ok("kesişim: çarpı (0,0)", JSON.stringify(G.segmentIntersection([-1, 0], [1, 0], [0, -1], [0, 1])) === "[0,0]");
+  ok("kesişim: uçta değme sayılmaz", G.segmentIntersection([0, 0], [1, 0], [1, 0], [1, 1]) === null);
+  const bands = G.starBands(by["sekiz-kose-yildiz"], { x: 0, y: 0, rot: 0 });
+  ok("8'li yıldız → 2 bant (iki kare), her biri 4 köşe", bands.length === 2 && bands.every((b) => b.length === 4));
+  ok("bantların köşeleri yıldızın uçları (r = 1)", bands.flat().every((p) => near(Math.hypot(...p), 1, 1e-3)));
+  ok("haç yıldız değil → bant yok", G.starBands(by["hac"], { x: 0, y: 0, rot: 0 }).length === 0);
+  const cr = G.interlaceCrossings(bands);
+  ok("iki kare 8 noktada kesişir (çentikler)", cr.length === 8 && cr.every((c) => by["sekiz-kose-yildiz"].points.some((p) => G.dist(p, c.p) < 1e-3)));
+  ok("her bant 4 kez üstten geçer", cr.filter((c) => c.over === 0).length === 4 && cr.filter((c) => c.over === 1).length === 4);
+  const along = cr.map((c) => ({ c, a: Math.atan2(c.p[1], c.p[0]) })).sort((x, y) => x.a - y.a).map((x) => x.c.over);
+  ok("çevre boyunca sırayla üst-alt (0,1,0,1…)", along.every((o, i) => o !== along[(i + 1) % along.length]));
+
+  // --- aynalama ---
+  const mx = G.reflectAcross("x", 1);
+  ok("x=1 aynası (0,0) → (2,0)", JSON.stringify(G.affineApply(mx, [0, 0])) === "[2,0]");
+  ok("ayna ∘ ayna = özdeşlik", G.affineCompose(mx, mx).every((v, i) => near(v, G.IDENTITY[i])));
+  ok("x=1 aynası deseni korur (yıldız (2,0)'a)", G.preservesLattice(mx, [0, 0], [2, 0], [0, 2]));
+  ok("1 birim öteleme deseni bozar (yıldız (1,0)'a)", !G.preservesLattice(G.translateBy(1, 0), [0, 0], [2, 0], [0, 2]));
+  ok("2 birim öteleme korur", G.preservesLattice(G.translateBy(2, 0), [0, 0], [2, 0], [0, 2]));
+  ok("ayna sonra öteleme: y=1 aynası ∘ (1,0) öteleme bozar", !G.preservesLattice(G.affineCompose(G.translateBy(1, 0), G.reflectAcross("y", 1)), [0, 0], [2, 0], [0, 2]));
+
   // --- pergel-cetvel kurulumu ---
   ok("şekil: (1,0) O merkezli birim dairede", G.pointOnShape([1, 0], G.constructionShape({ circle: ["O", "A"] }, { O: [0, 0], A: [0, 1] })));
   ok("şekil: (3,3) sonsuz doğruda, parçada değil", G.pointOnShape([3, 3], G.constructionShape({ line: ["O", "A"] }, { O: [0, 0], A: [1, 1] })) && !G.pointOnShape([3, 3], G.constructionShape({ seg: ["O", "A"] }, { O: [0, 0], A: [1, 1] })));

@@ -390,5 +390,90 @@ export function pointOnShape(p, s, tol = 1e-3) {
   return Math.abs((bx - ax) * (p[1] - ay) - (by - ay) * (p[0] - ax)) / dist(s.a, s.b) < tol;
 }
 
+// ---------- geçme (örgü) çizgisi ----------
+
+/** İki doğru parçasının uçları dışındaki kesişim noktası; yoksa null. */
+export function segmentIntersection(a1, a2, b1, b2) {
+  const rx = a2[0] - a1[0], ry = a2[1] - a1[1], sx = b2[0] - b1[0], sy = b2[1] - b1[1];
+  const den = rx * sy - ry * sx;
+  if (Math.abs(den) < EPS) return null;
+  const t = ((b1[0] - a1[0]) * sy - (b1[1] - a1[1]) * sx) / den, u = ((b1[0] - a1[0]) * ry - (b1[1] - a1[1]) * rx) / den;
+  const m = 1e-4;
+  return t > m && t < 1 - m && u > m && u < 1 - m ? [a1[0] + t * rx, a1[1] + t * ry] : null;
+}
+
+/**
+ * Yıldız parçasının geçme bantları: {n/k} yıldız, uçlarını k atlayarak birleştiren gcd(n,k) kapalı çokgendir.
+ * 8'li {8/2} → iki kare. Uç = en küçük iç açılı köşeler; k = (180 − uç açısı)·n / 360. Yıldız değilse [].
+ */
+export function starBands(piece, placement) {
+  if (piece.role !== "merkez") return [];
+  const tipAngle = Math.min(...piece.angles);
+  const pts = placedPoints(piece, placement);
+  const tips = pts.filter((_, i) => Math.abs(piece.angles[i] - tipAngle) < ANGLE_TOL);
+  const n = tips.length, k = Math.round(((180 - tipAngle) * n) / 360);
+  if (k < 1 || n < 5) return [];
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a), g = gcd(n, k), bands = [];
+  for (let s = 0; s < g; s++) { const band = []; for (let i = s; band.length < n / g; i = (i + k) % n) band.push(tips[i]); bands.push(band); }
+  return bands;
+}
+
+/**
+ * Bantların kesişimleri ve alt-üst sırası. Her bant çevresi boyunca kesişimlerinde sırayla üstten, alttan geçer.
+ * Dönüş: [{p, over, under, dir}] — over/under bant indisi, dir: üstteki bandın o noktadaki birim yönü.
+ */
+export function interlaceCrossings(bands) {
+  const hits = [];
+  bands.forEach((A, i) => bands.forEach((B, j) => {
+    if (j <= i) return;
+    for (let a = 0; a < A.length; a++) for (let b = 0; b < B.length; b++) {
+      const p = segmentIntersection(A[a], A[(a + 1) % A.length], B[b], B[(b + 1) % B.length]);
+      if (p) hits.push({ p, bands: [i, j], edges: [a, b] });
+    }
+  }));
+  // her bant için kesişimleri çevre sırasına diz; ilk bantta sırayla üst/alt, ötekiler ondan türer
+  const param = (band, e, p) => e + dist(band[e], p) / dist(band[e], band[(e + 1) % band.length]);
+  const state = new Map(); // hit → bands[0] üstte mi
+  const order = (bi) => hits.map((h) => ({ h, s: h.bands[0] === bi ? param(bands[bi], h.edges[0], h.p) : h.bands[1] === bi ? param(bands[bi], h.edges[1], h.p) : -1 })).filter((x) => x.s >= 0).sort((x, y) => x.s - y.s);
+  for (let bi = 0; bi < bands.length; bi++) {
+    const seq = order(bi);
+    const start = seq.findIndex((x) => state.has(x.h));
+    let over = start < 0 ? true : (state.get(seq[start].h) === (seq[start].h.bands[0] === bi));
+    const from = start < 0 ? 0 : start;
+    for (let t = 0; t < seq.length; t++) {
+      const x = seq[(from + t) % seq.length];
+      if (!state.has(x.h)) state.set(x.h, x.h.bands[0] === bi ? over : !over);
+      over = !over;
+    }
+  }
+  return hits.map((h) => {
+    const first = state.get(h), over = first ? h.bands[0] : h.bands[1], e = first ? h.edges[0] : h.edges[1], B = bands[over];
+    const a = B[e], b = B[(e + 1) % B.length], L = dist(a, b);
+    return { p: h.p, over, under: first ? h.bands[1] : h.bands[0], dir: [(b[0] - a[0]) / L, (b[1] - a[1]) / L] };
+  });
+}
+
+// ---------- aynalama (afin dönüşüm: SVG matrix [a b c d e f], x' = a·x + c·y + e, y' = b·x + d·y + f) ----------
+
+export const IDENTITY = [1, 0, 0, 1, 0, 0];
+/** A∘B: önce B, sonra A. */
+export function affineCompose(A, B) {
+  const [a1, b1, c1, d1, e1, f1] = A, [a2, b2, c2, d2, e2, f2] = B;
+  return [a1 * a2 + c1 * b2, b1 * a2 + d1 * b2, a1 * c2 + c1 * d2, b1 * c2 + d1 * d2, a1 * e2 + c1 * f2 + e1, b1 * e2 + d1 * f2 + f1];
+}
+export const affineApply = ([a, b, c, d, e, f], [x, y]) => [a * x + c * y + e, b * x + d * y + f];
+/** x = m doğrusuna göre ayna; axis "y" ise y = m. */
+export const reflectAcross = (axis, m) => (axis === "x" ? [-1, 0, 0, 1, 2 * m, 0] : [1, 0, 0, -1, 0, 2 * m]);
+export const translateBy = (dx, dy) => [1, 0, 0, 1, dx, dy];
+
+/**
+ * Dönüşüm deseni bozmadan taşıyor mu? Birimin içeriği (merkez motif) kendi merkezine göre aynalı-simetrik varsayılır
+ * (8'li yıldız ve haç öyle); o zaman yeterli koşul: motif merkezinin görüntüsü yine bir kafes noktasında.
+ */
+export function preservesLattice(T, origin, a, b) {
+  const [x, y] = affineApply(T, origin);
+  return latticeCoords([x - origin[0], y - origin[1]], a, b) !== null;
+}
+
 /** SVG path dizesi. */
 export const toPath = (points) => "M" + points.map(([x, y]) => `${x.toFixed(4)},${y.toFixed(4)}`).join(" L") + " Z";

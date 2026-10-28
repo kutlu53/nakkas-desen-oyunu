@@ -110,7 +110,45 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   await dragFromTray("Birim hücre", -0.02, 2.04);
   await dragFromTray("Birim hücre", 1.98, 2.0);
   ok("2×2 tamam: kart açıldı", placedCount() === 6 && overlayOpen());
+  app.querySelector(".overlay [data-act=to-lines]").click(); await tick();
+  ok("çizgiye dönüştür: kart kapandı, geçme görünümü açık", !overlayOpen() && svg().classList.contains("lineview") && app.querySelector("[data-act=lines]").getAttribute("aria-pressed") === "true");
+  ok("4 yıldız → 8 bant + 32 kesişim parçası", app.querySelectorAll(".lines .band").length === 40 && app.querySelectorAll(".lines .band-edge").length === 40);
+  app.querySelector("[data-act=lines]").click(); await tick();
+  ok("geçme kapatıldı", !svg().classList.contains("lineview") && app.querySelectorAll(".lines path").length === 0);
   cleanup();
+}
+
+// ---------- Seviye 4 (ortaokul 4×2): Tomar birimini aynala ----------
+{
+  const { ctx, logs } = makeCtx("f8-l4");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  const tiles = () => app.querySelectorAll(".tiles .tile:not(.bad)").length;
+  const edge = async (id) => { app.querySelector(`[data-edge=${id}]`).dispatchEvent(new MouseEvent("click", { bubbles: true })); await tick(); };
+  ok("seviye 4: tek çeyrek birim, iki kenar tutamacı (sağ, alt)", tiles() === 1 && app.querySelectorAll(".handles [data-edge]").length === 2);
+  app.querySelector("[data-act=translate]").click();
+  await edge("right");
+  ok("çeyreği ötelemek deseni kırar", app.querySelectorAll(".tiles .tile.bad").length === 1 && /kırılır/.test(msg()));
+  await new Promise((r) => setTimeout(r, 1800));
+  ok("kırık kopya geri alındı", tiles() === 1 && !app.querySelector(".tiles .bad"));
+  app.querySelector("[data-act=mirror]").click();
+  await edge("right");
+  ok("sağdan aynala → 2 birim", tiles() === 2 && /Aynalandı/.test(msg()));
+  await edge("bottom");
+  ok("alttan aynala → 2×2 birim hücre", tiles() === 4 && /birim hücre var/.test(msg()));
+  app.querySelector("[data-act=translate]").click();
+  await edge("right");
+  ok("birim hücre ötelenince desen bozulmaz → 4×2 doldu", tiles() === 8 && overlayOpen());
+  ok("kartta Topkapı Tomarı hikâyesi ve kaynak", /Topkapı Tomarı/.test(app.querySelector(".overlay .story-card h3").textContent) && /Necipoğlu/.test(app.querySelector(".overlay .sc-src").textContent));
+  ok("log: brokenCopies=1, attempts=4", logs.length === 1 && logs[0].brokenCopies === 1 && logs[0].attempts === 4);
+  cleanup();
+}
+
+// ---------- kündekâri kartı seviye 2'ye bağlı ----------
+{
+  const { loadCards } = await import("../src/cards.js");
+  const cards = await loadCards(), l2 = (await loadLevels()).find((l) => l.id === "f8-l2");
+  ok("kündekâri kartı var ve seviye 2'ye bağlı", l2.card === "kundekari" && /Kündekâri/.test(cards.kundekari?.title));
 }
 
 // ---------- Seviye 0 (ortaokul): pergel ve cetvelle yıldızı kur ----------

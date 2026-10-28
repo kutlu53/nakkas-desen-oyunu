@@ -1,12 +1,14 @@
 // Kalfa — Kur: parçaları yerleştir, her köşede açılar 360'ı bulsun.
 // Veri: data/levels.json. Matematik: ../geometry.js (saf). Burası yalnızca DOM, olaylar ve durum.
 import { loadPieces, pieceElement, pieceThumb, FAMILY_LABEL, FAMILY_TITLE } from "../pieces.js";
+import { loadCards, storyCardHTML } from "../cards.js";
 import * as G from "../geometry.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const SNAP_PX = 22;        // köşe yapışma mesafesi (piksel) — cihazdan bağımsız his için birime çevrilir
 const TOUCH_LIFT = 0.45;   // dokunmada parça parmağın üstünde dursun (birim)
 const KB_STEP = 0.1;       // klavyeyle taşıma adımı (birim)
+const BAND_PATCH = 0.14;   // geçme: kesişimde üstteki bandın yeniden çizilen yarı boyu (birim)
 
 const $ = (s, el = document) => el.querySelector(s);
 const svgEl = (tag, attrs = {}) => { const e = document.createElementNS(SVG_NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
@@ -23,11 +25,12 @@ export async function loadLevels() {
 
 /** Giriş noktası. ctx.param seviye id'si; yoksa seviye listesi. Temizleme işlevi döner. */
 export async function mount(root, ctx) {
-  const [levels, { byId }] = await Promise.all([loadLevels(), loadPieces()]);
+  const [levels, { byId }, cards] = await Promise.all([loadLevels(), loadPieces(), loadCards()]);
   const level = levels.find((l) => l.id === ctx.param);
   if (!level) { renderIndex(root, ctx, levels); return () => {}; }
   if (level.tool === "construct") return (await import("./construct.js")).renderConstruct(root, ctx, level, levels, byId);
-  return renderLevel(root, ctx, level, levels, byId);
+  if (level.tool === "mirror") return (await import("./mirror.js")).renderMirror(root, ctx, level, levels, byId, cards);
+  return renderLevel(root, ctx, level, levels, byId, cards);
 }
 
 // ---------------- seviye listesi ----------------
@@ -55,7 +58,7 @@ function renderIndex(root, ctx, levels) {
 }
 
 // ---------------- seviye ----------------
-function renderLevel(root, ctx, level, levels, byId) {
+function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   const diff = ctx.difficulty;
   // Tek dallanma noktası: zorluk profili. Mod kodu değil, veri dallanır.
   const profile = {
@@ -75,7 +78,7 @@ function renderLevel(root, ctx, level, levels, byId) {
   const cellPieces = fixed.map((f) => ({ piece: byId[f.pieceId], placement: { x: f.x, y: f.y, rot: f.rot } }));
   const cellTargets = isCell ? gridOffsets(profile.gridSize, level.translation) : [];
 
-  const S = { placed: [], tray: [], drag: null, attempts: 0, wrong: 0, hints: 0, start: Date.now(), completed: false, labels: profile.labels, highlight: null, uid: 1, pxPerUnit: 100 };
+  const S = { placed: [], tray: [], drag: null, attempts: 0, wrong: 0, hints: 0, start: Date.now(), completed: false, labels: profile.labels, lines: false, highlight: null, uid: 1, pxPerUnit: 100 };
   const fillTray = () => {
     S.tray = Object.entries(level.tray).map(([pieceId, count]) => ({ pieceId, count }));
     for (const [pieceId, n] of Object.entries(profile.distractors)) {
@@ -107,17 +110,18 @@ function renderLevel(root, ctx, level, levels, byId) {
         <button type="button" data-act="rotate" title="Tutulan parçayı döndür (R)">↻ Döndür</button>
         <button type="button" data-act="labels" aria-pressed="${S.labels}">Açı etiketleri</button>
         <button type="button" data-act="hint">İpucu</button>
+        <button type="button" data-act="lines" aria-pressed="false" title="Yıldızları geçme bantlarına dönüştür">Geçme çizgisi</button>
         <button type="button" data-act="reset">Sıfırla</button>
       </div>
       <p class="msg" aria-live="polite">Parçayı kutudan tahtaya sürükle; köşeye yaklaşınca yapışır. Çift tıklama ya da R döndürür.</p>
       <svg class="board" viewBox="${vb.x} ${vb.y} ${vb.w} ${vb.h}" preserveAspectRatio="xMidYMid meet" role="application" aria-label="Tahta">
-        <g class="ghosts"></g><g class="fixed"></g><g class="placed"></g><g class="labels"></g><g class="snap"></g><g class="drag"></g>
+        <g class="ghosts"></g><g class="fixed"></g><g class="placed"></g><g class="lines"></g><g class="labels"></g><g class="snap"></g><g class="drag"></g>
       </svg>
       <div class="tray" aria-label="Parça kutusu"></div>
     </section>
     <div class="overlay" hidden></div>`;
 
-  const svg = $(".board", root), layers = Object.fromEntries(["ghosts", "fixed", "placed", "labels", "snap", "drag"].map((k) => [k, $(`.${k}`, svg)]));
+  const svg = $(".board", root), layers = Object.fromEntries(["ghosts", "fixed", "placed", "lines", "labels", "snap", "drag"].map((k) => [k, $(`.${k}`, svg)]));
   const trayEl = $(".tray", root), msgEl = $(".msg", root), overlay = $(".overlay", root);
 
   // ---- yardımcılar ----
@@ -151,6 +155,7 @@ function renderLevel(root, ctx, level, levels, byId) {
       g.setAttribute("aria-label", `${byId[p.pieceId].name}; Enter: al, Delete: kutuya gönder`);
       return g;
     }));
+    renderLines();
   }
   function renderLabels() {
     const fs = 12 / S.pxPerUnit, r = 4.5 / S.pxPerUnit;
@@ -169,6 +174,27 @@ function renderLevel(root, ctx, level, levels, byId) {
       frag.appendChild(t);
     }
     layers.labels.replaceChildren(frag);
+  }
+  /** Geçme görünümü: her yıldız uçlarını birleştiren bantlara ayrılır; kesişimlerde bantlar sırayla üstten ve alttan geçer. */
+  function renderLines() {
+    if (!S.lines) { layers.lines.replaceChildren(); return; }
+    const frag = document.createDocumentFragment(), patches = [];
+    const band = (d) => { frag.appendChild(svgEl("path", { d, class: "band-edge" })); frag.appendChild(svgEl("path", { d, class: "band" })); };
+    for (const { piece, placement } of scenePlaced()) {
+      const bands = G.starBands(piece, placement);
+      bands.forEach((b) => band(G.toPath(b)));
+      // üstten geçen bandın kısa parçası yeniden çizilir; alttaki bant onun altında kalır
+      for (const { p: [x, y], dir: [dx, dy] } of G.interlaceCrossings(bands)) patches.push(`M${x - dx * BAND_PATCH},${y - dy * BAND_PATCH} L${x + dx * BAND_PATCH},${y + dy * BAND_PATCH}`);
+    }
+    patches.forEach(band);
+    layers.lines.replaceChildren(frag);
+  }
+  function setLines(on) {
+    S.lines = on;
+    $("[data-act=lines]", root).setAttribute("aria-pressed", on);
+    svg.classList.toggle("lineview", on);
+    renderLines();
+    if (on) setMsg("Geçme çizgisi: her yıldız iki kareden örülür; bantlar kesiştikleri yerde sırayla birbirinin üstünden ve altından geçer.");
   }
   function renderGhosts(showTargets = false) {
     const frag = document.createDocumentFragment();
@@ -344,12 +370,15 @@ function renderLevel(root, ctx, level, levels, byId) {
     overlay.innerHTML = `<div class="card" role="dialog" aria-modal="true" aria-labelledby="done-t">
       <p class="eyebrow">Keşif</p><h2 id="done-t">Oturdu.</h2>
       <p class="disc">${esc(level.discovery)}</p>
+      ${storyCardHTML(cards[level.card])}
       <p class="stats">${S.attempts} deneme · ${mmss(seconds)}${S.wrong ? ` · ${S.wrong} yanlış aile` : ""}${S.hints ? ` · ${S.hints} ipucu` : ""}</p>
       <div class="actions">
         ${next ? `<a class="btn primary" href="#kur/${next.id}">Sonraki seviye →</a>` : `<a class="btn primary" href="#kur">Seviyeler</a>`}
+        <button type="button" class="btn" data-act="to-lines">Çizgiye dönüştür</button>
         <button type="button" class="btn" data-act="replay">Tekrar oyna</button>
         <a class="btn" href="#home">Lonca</a>
       </div></div>`;
+    $("[data-act=to-lines]", overlay).addEventListener("click", () => { overlay.hidden = true; setLines(true); });
     $("[data-act=replay]", overlay).addEventListener("click", () => { overlay.hidden = true; svg.classList.remove("done"); reset(); });
     $(".btn.primary", overlay).focus();
   }
@@ -431,6 +460,7 @@ function renderLevel(root, ctx, level, levels, byId) {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "rotate") { if (S.drag) rotateDrag(); else setMsg("Önce bir parçayı tut (sürükle ya da Enter), sonra döndür. Tahtadaki parçayı çift tıklayarak da döndürebilirsin."); }
+    else if (act === "lines") setLines(!S.lines);
     else if (act === "labels") { S.labels = !S.labels; b.setAttribute("aria-pressed", S.labels); renderLabels(); }
     else if (act === "hint") { S.hints++; setMsg(profile.hint || "Köşedeki açıları topla: 360'a ne kadar kaldı?", "hint"); if (profile.ghost) { renderGhosts(true); setTimeout(() => renderGhosts(false), 4000); } }
     else if (act === "reset") reset();

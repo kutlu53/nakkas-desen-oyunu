@@ -9,7 +9,8 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 | 1 | Çentiği tanı | sekiz-kose-yildiz ×1 | hac ×4, kare-kucuk ×2–4 (yanıltıcı; lise ayrıca besgen ×2) | 4 haç (±1, ±1) | çentik 135°: kare (90°) 45° açık bırakır, beşgen (108°) 27°, haçın omzu (135°) tam oturur |
 | 2 | Yıldız-haç | hac ×1 (sabit) | sekiz-kose-yildiz ×4 | haçın dört omzuna dört yıldız (±1, ±1) | haç ucunda 90+90+90 = 270; kalan 90° komşu haçın ucu |
 | 3 | Ötele ve kapla | 1 birim hücre | hücre kopyası aracı | 3×3 (lise) / 2×2 (orta) | öteleme vektörü = yıldız merkezleri arası |
-| 4 | Bozuk çini | tam 3×3, 4 parça eksik | eksikler + 3 yanıltıcı | boşluklar dolu | şekilden değil açıdan tanı |
+| 4 | Aynala ve çoğalt | çeyrek kare birim (çeyrek yıldız + çeyrek haç) | ayna / öteleme aracı | 4×2 (orta) / 4×4 (lise) | çeyrek ötelenince kırılır, aynalanınca birleşir; 2×2 olunca öteleme de çalışır (Topkapı Tomarı kartı) |
+| 5 | Bozuk çini | tam 3×3, 4 parça eksik | eksikler + 3 yanıltıcı | boşluklar dolu | şekilden değil açıdan tanı |
 
 ## 10'lu aile — "Türbe kuşağı"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |

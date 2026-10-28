@@ -21,7 +21,7 @@ Tarayıcıda çalışan, çevrimdışı oynanabilen (PWA) eğitsel yapboz oyunu.
 | Rütbe | Mod | Kazanım | Özet |
 |---|---|---|---|
 | Çırak | **Tanı** | 1 | Gerçek yapı fotoğrafı/çizimi üzerinde yıldızı bul, köşe say, aileyi seç, birim hücreyi çerçevele. Doğruda hikâye kartı açılır. |
-| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla. |
+| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi). Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
 | Usta | **Yarat** | 3 | Boş tuval + parça kutusu + **simetri aynası** (n-kat döndürme). Kısıtlı görevler. PNG dışa aktar, yerel galeri. |
 
 Ayrıntı: `docs/tasarim.md`, seviyeler: `docs/seviyeler.md`, motif atlası içeriği: `data/motifs.json`.
@@ -43,9 +43,11 @@ src/pieces.js         pieces.json yükle, SVG path üret, parça kutusu
 src/modes/tani.js     Çırak
 src/modes/kur.js      Kalfa
 src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json → tool: "construct")
+src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (tool: "mirror")
+src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
 src/modes/yarat.js    Usta
 data/pieces.json      27 parça (üretilmiş)
-data/motifs.json      motif atlası + hikâye kartları
+data/motifs.json      motif atlası (motifs) + hikâye kartları (cards; _dogrulama notu: sınıftan önce kaynaktan doğrula)
 data/levels.json      Kalfa seviyeleri (hedef yerleşimler)
 assets/pieces/*.svg   tekil parçalar
 assets/motifs/        yapı fotoğrafları (eklenecek; lisans notu düşülecek)

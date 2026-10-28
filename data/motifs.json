@@ -87,5 +87,28 @@
    "funFact": "Mozaik çini tekniğinde her renk ayrı pişirilip kesilir; desen küçük parçaların alçıyla birleştirilmesiyle oluşur — tam bir yapboz.",
    "questions": {"countTarget": 8, "wrongFamilyLise": 6}
   }
+ ],
+ "cards": [
+  {
+   "id": "kundekari",
+   "title": "Kündekâri: çivisiz, tutkalsız",
+   "body": "Kündekâri, küçük ahşap parçaların çivi ve tutkal kullanılmadan, oluklu çıtalar arasına geçirilerek birleştirildiği bir ahşap tekniğidir. Parçalar birbirini tutar; ahşap nemle genleşip büzülse de desen dağılmaz. Anadolu Selçuklu döneminde minber, kapı ve pencere kanatlarında yaygınlaştı, Osmanlı döneminde de sürdü. Konya Alaeddin Camii minberi (12. yüzyıl) Anadolu'daki tarihli en eski örneklerden sayılır; Bursa Ulu Camii minberi (14. yüzyıl sonu) ünlü bir Osmanlı örneğidir. Daha kolay bir yol olan \"taklit kündekâri\"de desen tek bir tahtaya oyulur.",
+   "link": "Az önce yaptığın da buydu: parçalar yalnızca birbirine oturarak deseni tuttu. Fiziksel ahşap setin tarihsel karşılığı kündekâridir.",
+   "sources": [
+    "TDV İslâm Ansiklopedisi, \"Kündekâri\" maddesi",
+    "Gönül Öney, Anadolu Selçuklu Mimari Süslemesi ve El Sanatları"
+   ],
+   "_dogrulama": "Tarihler ve örnekler genel bilgiden yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalı."
+  },
+  {
+   "id": "topkapi-tomari",
+   "title": "Topkapı Tomarı: ustanın desen defteri",
+   "body": "Topkapı Sarayı Müzesi Kütüphanesi'nde saklanan uzun bir kâğıt rulo, mimari süsleme desenlerinin çizimlerini taşır. 15. yüzyıl sonu ile 16. yüzyıl başında, Timurlu-Türkmen İran'ında hazırlandığı düşünülür. Çizimlerin çoğu bütün duvarı değil, desenin küçük bir birimini gösterir; yardımcı çizgiler mürekkepsiz, kâğıda bastırılarak ya da noktalarla işaretlenmiştir. Ustanın bu birimi kenarlarından aynalayarak ve tekrarlayarak yüzeyi kaplaması beklenir.",
+   "link": "Senin aynaladığın çeyrek kare de böyle bir birimdi: dörtte bir çizim, iki ayna ve öteleme bütün duvarı verir.",
+   "sources": [
+    "Gülru Necipoğlu, The Topkapı Scroll: Geometry and Ornament in Islamic Architecture (1995)"
+   ],
+   "_dogrulama": "Tarihleme ve köken Necipoğlu'nun yorumudur; sınıfta kullanmadan önce kaynaktan doğrulanmalı."
+  }
  ]
 }

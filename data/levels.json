@@ -76,7 +76,8 @@
     {"pieceId": "sekiz-kose-yildiz", "x": -1, "y": -1, "rot": 0}
    ],
    "hint": {"ortaokul": "Haçın omzu 135°, yıldızın çentiği de 135° ister. Yıldızı, çentiği haçın omzuna gelecek şekilde koy; haçın koltuğuna yıldızın ucu girer.", "lise": "Haçın ucunda kaç derece toplanıyor? Kalanı kim dolduracak?"},
-   "discovery": "Haçın ucunda 90 + 90 + 90 = 270 toplanır; kalan 90° komşu haçın ucudur. Yıldız ve haç, başka parça gerekmeden bütün duvarı kaplar."
+   "discovery": "Haçın ucunda 90 + 90 + 90 = 270 toplanır; kalan 90° komşu haçın ucudur. Yıldız ve haç, başka parça gerekmeden bütün duvarı kaplar.",
+   "card": "kundekari"
   },
   {
    "id": "f8-l3", "family": 8, "order": 3, "title": "Ötele ve kapla",
@@ -88,7 +89,19 @@
    "gridSize": {"ortaokul": 2, "lise": 3},
    "targets": [],
    "hint": {"ortaokul": "Birim hücre: bir yıldız + bir haç. Kopyayı, yıldız ucu komşu yıldızın ucuna değecek şekilde yerleştir.", "lise": "Öteleme vektörü iki yıldız merkezini birleştirir. Kaç kopya gerekir?"},
-   "discovery": "Birim hücre + iki öteleme vektörü = sonsuz desen. Nakkaş bütün duvarı değil, tek birimi tasarlar; duvar ötelemeyle dolar."
+   "discovery": "Birim hücre + iki öteleme vektörü = sonsuz desen. Nakkaş bütün duvarı değil, tek birimi tasarlar; duvar ötelemeyle dolar. Bir sonraki seviyede birimi daha da küçültüp aynalayacaksın."
+  },
+  {
+   "id": "f8-l4", "family": 8, "order": 4, "title": "Aynala ve çoğalt",
+   "story": "Usta: 'Tomardaki çizim duvarın dörtte biri bile değil. Kenarından aynala, gerisi gelir.'",
+   "tool": "mirror",
+   "_not": "Birim, kenarları yıldız (0,0) ve haç (1,1) merkezlerinden geçen çeyrek karedir. Ayna çizgileri x = k, y = k (k tamsayı) desenin simetri doğrularıdır; 1 birim öteleme yıldızı (1,0)'a taşır ve deseni bozar, 2 birim öteleme bozmaz (preservesLattice).",
+   "unit": {"rect": [0, 0, 1, 1], "pieces": [{"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0}, {"pieceId": "hac", "x": 1, "y": 1, "rot": 0}]},
+   "lattice": {"origin": [0, 0], "a": [2, 0], "b": [0, 2]},
+   "goal": {"ortaokul": [0, 0, 4, 2], "lise": [0, 0, 4, 4]},
+   "hint": {"ortaokul": "Aynala'yı seç ve birimin sağ ya da alt kenarına dokun. Çeyrek yıldız, aynada yarım yıldıza tamamlanır.", "lise": "Hangi işlem çeyrek yıldızı tamamlar: öteleme mi, ayna mı? Birim ne zaman ötelenebilir hale gelir?"},
+   "discovery": "Çeyrek kare tek başına ötelenince yıldızlar birleşmez; kenarından aynalanınca birleşir. İki aynadan sonra elinde 2×2 birim hücre olur ve artık öteleme de çalışır. Tomardaki ustalar böyle çalışırdı: en küçük birimi çiz, kenarlarından aynala, sonra tekrarla.",
+   "card": "topkapi-tomari"
   }
  ]
 }

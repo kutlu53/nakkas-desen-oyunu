@@ -34,10 +34,13 @@ python build/gen_pieces.py
 - Döndürme: sürüklerken **R** ya da "Döndür" düğmesi; tahtadaki parçayı çift tıklama.
 - Klavye: kutudaki parçada Enter → ok tuşlarıyla taşı (Shift: büyük adım) → R döndür → Enter bırak → Esc vazgeç. Tahtadaki parçada Enter al, Delete kutuya gönder.
 - Ortaokul profili: açı etiketleri sürekli açık, doğru parça kutuda parlar, ipucu hedefleri 4 sn gösterir. Lise profili: etiketler isteğe bağlı, kutuda başka ailelerden yanıltıcı parçalar.
+- **Geçme çizgisi** düğmesi (ya da bitişteki "Çizgiye dönüştür") yıldızları birbirinin altından ve üstünden geçen bantlara çevirir; 8'li yıldız iki kareden örülür.
+- **Aynala ve çoğalt** seviyesinde birim, Topkapı Tomarı'ndaki gibi çeyrek bir karedir. Araç seç (Aynala / Ötele), sonra birimin bir kenarına dokun. Çeyrek ötelenince desen kırılır ve geri alınır; aynalanınca birleşir.
+- Bazı seviyeler bitince bir hikâye kartı açılır (kündekâri, Topkapı Tomarı). Metinler `data/motifs.json → cards`; sınıfta kullanmadan önce kaynaklardan doğrulayın.
 - "Ötele ve kapla" seviyesinde kutuda **birim hücre** vardır; döndürülmez, yalnızca ötelenir. Kopyalar kafese (a = (2,0), b = (0,2)) oturunca seviye biter.
 
 ## Araştırma verisi
-Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wrongFamilyAttempts, seconds, completed, hintsUsed}` yazar. Giriş ekranındaki **Verileri dışa aktar** JSON indirir. Sunucu yok; veri cihazda kalır.
+Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wrongFamilyAttempts, seconds, completed, hintsUsed}` yazar; pergel seviyesi ayrıca `wrongPicks` (yanlış çizim), aynalama seviyesi `brokenCopies` (kırık öteleme) ekler. Giriş ekranındaki **Verileri dışa aktar** JSON indirir. Sunucu yok; veri cihazda kalır.
 
 ## Durum
 - [x] Parça geometrisi (27 parça, 4 aile), SVG'ler, iç açılar — `hac` yıldızla birebir örtüşen oranlara çekildi
