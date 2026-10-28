@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir. Rütbe ilerlemesi ve ses (varsayılan kapalı) var. Henüz yapılmayan: setin gül motifinin dış halkası.
+> **Durum (28 Ekim 2026):** Üç mod da oynanabilir. Çırak / Tanı: 7 motif. Kalfa / Kur: dört ailede birer pergel hazırlığı ve 18 seviye (8'li 5, 10'lu 5, 6'lı 4, 12'li 4) ile 8'li + 10'lu ustalık sınavı; toplam 23 bölüm. Usta / Yarat: simetri aynası, öteleme kopyası, rozetler, galeri. Rütbe ilerlemesi, ses (varsayılan kapalı) ve klavyeyle oynama var. Açık iş: setin gül motifinin dış halkası.
 
 ---
 
@@ -34,7 +34,7 @@ Ustalar deseni açı ölçerek değil, **pergel ve cetvelle kurarak** tasarlard�
 ### 2.2 Kural değil geometri konuşur
 Yanlış aileden bir parça bir köşeye konduğunda oyun "yanlış" demez, açıyı söyler: "225 + 108 = 333 — 27° açık kaldı." Öğrenci 10'lu bir parçanın 8'li bir yıldıza neden uymadığını bir yasaktan değil, sayıdan öğrenir.
 
-**Gerekçe:** Görev düzeyinde, açıklayıcı ve hemen verilen geri bildirim, öğrenme üzerinde en güçlü etkiye sahip geri bildirim türleri arasındadır (Hattie ve Timperley, 2007). "Yanlış aile" ve "kırık öteleme" denemeleri, hatayı bir öğrenme fırsatına dönüştüren **üretken başarısızlık** (productive failure) yaklaşımıyla da örtüşür (Kapur, 2008).
+**Gerekçe:** Oyun, desen tamamlandığı hâlde tahtada desene ait olmayan bir parça kaldıysa onu adıyla söyler; öğrenci nedenini bilmeden takılı kalmaz. Görev düzeyinde, açıklayıcı ve hemen verilen geri bildirim, öğrenme üzerinde en güçlü etkiye sahip geri bildirim türleri arasındadır (Hattie ve Timperley, 2007). "Yanlış aile" ve "kırık öteleme" denemeleri, hatayı bir öğrenme fırsatına dönüştüren **üretken başarısızlık** (productive failure) yaklaşımıyla da örtüşür (Kapur, 2008).
 
 ### 2.3 Somut → görsel → simgesel
 Fiziksel ahşap set (somut), oyundaki sürüklenebilir parçalar (görsel) ve köşedeki açı toplamı (simgesel) aynı bilgiyi üç farklı temsil düzeyinde sunar.
@@ -67,6 +67,10 @@ Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, 
 
 **Gerekçe:** Oyunlar, öğrenmeyi bir kimlik ve amaç içine yerleştirdiğinde, kısa ve anlamlı görevlerle hemen geri bildirim verdiğinde etkili öğrenme ortamları oluşturur (Gee, 2003). Ustalık geleneği kurgusu ayrıca emek, sabır ve usta-çırak ilişkisi gibi değerleri doğal biçimde işler.
 
+
+### 2.7 Erişilebilirlik ve sınıf koşulları
+Oyun tarayıcıda, kurulum gerektirmeden ve bir kez açıldıktan sonra internetsiz çalışır; bilgisayar, tablet ve telefonda (en dar 360 px) oynanır. Dokunma hedefleri en az 44 px'tir. Bütün modlar klavyeyle de oynanır: Kur'da kutudaki parça Enter ile alınır, ok tuşlarıyla taşınır, R ile döndürülür; Tanı'da ok tuşlarıyla gezen bir nişangâh dokunmanın yerini tutar (yıldızların yeri ipucu olarak verilmez). Açık ve koyu tema cihazın ayarını izler. Ses varsayılan olarak kapalıdır; sınıfta açılırsa kısa tonlarla (yerleşti, 360 tamamlandı, yanlış) geri bildirimi pekiştirir.
+
 ---
 
 ## 3. Bölümler
@@ -87,11 +91,11 @@ Desenler soyut bir matematik alıştırması olarak değil, belirli yapılarda, 
 
 ---
 
-### 3.2 Kalfa — Kur *(oynanabilir: 8'li aile)*
+### 3.2 Kalfa — Kur *(oynanabilir: dört aile, 4 hazırlık + 18 seviye ve ustalık sınavı)*
 
-Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir sırayla ilerler: **kur → tanı → birleştir → ötele → aynala → onar.**
+Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir sırayla ilerler: **kur → tanı → birleştir → ötele → aynala → onar.** Bu sıra en ayrıntılı biçimde 8'li ailede kurulmuştur; öbür aileler aynı ilişkileri yeni açılarla tekrarlar (aktarım).
 
-#### Hazırlık · "Pergelle kur"
+#### 8'li · hazırlık · "Pergelle kur"
 **Ne yapılır:** Dokuz adımda, yalnızca pergel ve cetvelle 8'li yıldız kurulur: ana daire → çap → dikme yayları → dik çap → dört yardımcı daire → köşegenler → birinci kare → ikinci kare → yıldızı boya.
 
 **Neden:** Ustaların gerçek tasarım yöntemini öğretmek. Öğrenci hiç açı ölçmeden 90°'yi (dikme), 45°'yi (köşegen) ve sonunda yıldızın çentiğindeki 135°'yi elde eder. Dört yardımcı dairenin kesiştiği J noktası, bir sonraki seviyede haçın merkezidir; böylece çizim ile parça birbirine bağlanır.
@@ -100,7 +104,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Ölçülen:** Yanlış çizim sayısı (`wrongPicks`), ipucu kullanımı, süre.
 
-#### Seviye 1 · "Çentiği tanı"
+#### 8'li · seviye 1 · "Çentiği tanı"
 **Ne yapılır:** Sabit bir yıldızın çentiklerine uygun parça yerleştirilir. Kutuda haç, kare ve (lisede) beşgen vardır.
 
 **Neden:** Seviyenin "aha" anı: yıldızın çentiği 135° boşluk bırakır. Kare (90°) 45° açık bırakır, beşgen (108°) 27° açık bırakır, haçın omzu (135°) tam oturur. Öğrenci doğru parçayı açı hesabıyla bulur.
@@ -109,7 +113,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Ölçülen:** Deneme sayısı, **yanlış aile denemesi** (`wrongFamilyAttempts`; ölçek çalışması için en anlamlı veri), ipucu, süre.
 
-#### Seviye 2 · "Yıldız-haç"
+#### 8'li · seviye 2 · "Yıldız-haç"
 **Ne yapılır:** Bu kez haç sabittir; çevresine dört yıldız dizilir.
 
 **Neden:** Aynı ilişkiyi ters yönden kurmak. Öğrenci haçın ucunda 90 + 90 + 90 = 270 toplandığını, kalan 90°'yi komşu haçın ucunun doldurduğunu görür. Yıldız ve haç, başka parçaya gerek kalmadan bütün düzlemi kaplar.
@@ -118,14 +122,14 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Hikâye kartı · Kündekâri:** Parçaların çivisiz ve tutkalsız, yalnızca birbirine oturarak deseni tuttuğu ahşap tekniği. Fiziksel setin tarihsel karşılığıdır; öğrencinin az önce yaptığı işi gerçek bir zanaata bağlar.
 
-#### Seviye 3 · "Ötele ve kapla"
+#### 8'li · seviye 3 · "Ötele ve kapla"
 **Ne yapılır:** Bir yıldız ve bir haçtan oluşan birim hücre, öteleme vektörleriyle kopyalanarak 2×2 (ortaokul) ya da 3×3 (lise) alan kaplanır.
 
 **Neden:** "Nakkaş bütün duvarı değil, tek birimi tasarlar." Öğrenci öteleme vektörünün iki yıldız merkezini birleştirdiğini, yanlış vektörün çakışma ya da boşluk ürettiğini görür.
 
 **Kazanımlar:** Birim hücre; öteleme dönüşümü ve vektör; periyodik desen.
 
-#### Seviye 4 · "Aynala ve çoğalt"
+#### 8'li · seviye 4 · "Aynala ve çoğalt"
 **Ne yapılır:** Kenarları yıldızın ve haçın ortasından geçen **çeyrek kare** birim verilir. Öğrenci araç seçer (aynala / ötele) ve birimin bir kenarına dokunur. Hedef: 4×2 (ortaokul) ya da 4×4 (lise) alanı doldurmak.
 
 **Neden:** Topkapı Tomarı'ndaki desen çizimlerinin çoğu bütün duvarı değil, kenarlarından aynalanacak küçük bir birimi gösterir. Öğrenci şunu kendisi keşfeder: çeyrek birim ötelenince desen **kırılır** (çeyrek yıldızlar birleşmez); aynalanınca **birleşir**. İki aynadan sonra elinde 2×2 birim hücre olur ve artık öteleme de çalışır. Bu, iki dönüşümün farkını ve birlikte nasıl kullanıldığını en açık biçimde gösterir.
@@ -136,7 +140,16 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Hikâye kartı · Topkapı Tomarı:** Ustanın desen defteri; birimlerin aynalanarak çoğaltılması ve mürekkepsiz yardımcı çizgiler.
 
-#### 10'lu aile · hazırlık ve 1. seviye
+#### 8'li · seviye 5 · "Bozuk çini"
+**Ne yapılır:** Dört çinisi düşmüş bir duvar (3×3 yıldız, 4 haç) onarılır. Kutuda eksik parçaların yanında birbirine benzeyen yanıltıcılar vardır: ortaokulda 10'lu yıldız ve kare, lisede 10'lu yıldız, 12'li yıldız ve beşgen.
+
+**Neden:** 10'lu ve 12'li yıldız uzaktan 8'li yıldıza benzer; öğrenci doğru parçayı şeklinden değil açısından ayırmak zorundadır. Yanlış yıldız boşluğa konduğunda oyun nedenini açıyla söyler: "90 + 90 + 90 + 72 = 342 — boşluk 90° istiyor, bu parçanın köşesi 72°." Restorasyon kurgusu, kültürel mirası koruma değerini işler.
+
+**Kazanımlar:** Benzer şekilleri açı özelliğiyle ayırt etme (van Hiele analiz düzeyi); bir köşedeki eksik açıyı hesaplama; önceki seviyelerde öğrenilenleri tek görevde birleştirme.
+
+**Ölçülen:** Yanlış aile denemesi (`wrongFamilyAttempts`).
+
+#### 10'lu aile · hazırlık ve 5 seviye
 **Hazırlık · "Pergelle kur":** Daire pergelle ona bölünür. Yarıçapın orta noktasından açılan pergel ongenin kenarını verir (yarıçapın ≈ 0,618'i, altın oran); bu kenar boyu daire üzerinde taşınarak on köşe bulunur, köşeler üçer atlanarak birleştirilince {10/3} yıldızı ve 108°'lik çentik ölçmeden çıkar.
 
 **Seviye 1 · "Yıldızın çevresi":** Yıldızın on çentiğine on beşgen yerleştirilir (252 + 108 = 360).
@@ -160,7 +173,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Kazanımlar:** Yarıçapın çevreye altı kez sığması; düzgün altıgen ve eşkenar üçgen; aynı "çentik = 360 − iç açı" ilişkisinin üçüncü bir ailede uygulanması.
 
-#### 12'li aile · hazırlık ve 1. seviye
+#### 12'li aile · hazırlık ve 4 seviye
 **Hazırlık:** Daire yarıçapla altıya bölünür; altı köşeden çizilen altı daire klasik "altı yapraklı gül"ü oluşturur, yaprak uçlarından geçen çaplar her parçayı ikiye böler. Dörder atlayan dört eşkenar üçgen {12/4} yıldızını ve 90°'lik çentiği verir.
 
 **Seviye 1:** On iki kare yıldızın çentiklerine oturur (270 + 90 = 360); üçgen 30° açık bırakır.
@@ -169,7 +182,7 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Seviye 2–4 · 3.4.6.4 Arşimet döşemesi:** Altıgenin çevresine altı kare ve altı üçgen konunca düzgün onikigen oluşur (ailenin adı); her köşede aynı sıra: 60 + 90 + 120 + 90 = 360. Ardından bu döşemenin birim hücresi ötelenir ve bozuk bir yaması onarılır. Kazanım: düzgün çokgenlerle kaplama, Arşimet (yarı düzgün) döşemesi kavramı, köşe düzeni gösterimi (3.4.6.4). Not: klasik 12'li yıldız deseni bir hücrede 18 parça ve ayna biçimli parçalar gerektirdiğinden Kur'da sade döşeme seçildi; yıldız deseni Tanı modunda görülür.
 
-#### Rütbe sınavı · "Karışık kutu"
+#### Ustalık sınavı · "Karışık kutu"
 **Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
 
 **Neden:** Öğrenci "hangi parça nereye?" sorusunu yalnızca açıyla cevaplayabilir: 135°'lik çentiğe haçın omzu, 108°'lik çentiğe beşgen. Bu, iki ailede ayrı ayrı öğrenilenin aktarımını ve ayırt edilmesini sınar.
@@ -182,15 +195,6 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 **Neden:** Geleneksel desenin özü, parçalar değil, birbirine geçen bant çizgisidir (geçme, örgü). Öğrenci aynı deseni hem parça hem çizgi olarak görür; hazırlık seviyesinde çizdiği iki karenin desenin içinde hâlâ yaşadığını fark eder.
 
 **Kazanımlar:** Aynı yapının farklı temsillerini ilişkilendirme; {8/2} yıldızının iki kareden oluşması; geleneksel geçme tekniğini tanıma.
-
-#### Seviye 5 · "Bozuk çini"
-**Ne yapılır:** Dört çinisi düşmüş bir duvar (3×3 yıldız, 4 haç) onarılır. Kutuda eksik parçaların yanında birbirine benzeyen yanıltıcılar vardır: ortaokulda 10'lu yıldız ve kare, lisede 10'lu yıldız, 12'li yıldız ve beşgen.
-
-**Neden:** 10'lu ve 12'li yıldız uzaktan 8'li yıldıza benzer; öğrenci doğru parçayı şeklinden değil açısından ayırmak zorundadır. Yanlış yıldız boşluğa konduğunda oyun nedenini açıyla söyler: "90 + 90 + 90 + 72 = 342 — boşluk 90° istiyor, bu parçanın köşesi 72°." Restorasyon kurgusu, kültürel mirası koruma değerini işler.
-
-**Kazanımlar:** Benzer şekilleri açı özelliğiyle ayırt etme (van Hiele analiz düzeyi); bir köşedeki eksik açıyı hesaplama; önceki seviyelerde öğrenilenleri tek görevde birleştirme.
-
-**Ölçülen:** Yanlış aile denemesi (`wrongFamilyAttempts`).
 
 ---
 
@@ -215,9 +219,14 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 Oyun, öğretmen paneli ya da sunucu olmadan, her oturum için cihazda (`localStorage`) bir kayıt tutar:
 
 ```
-{ ts, mode, family, level, difficulty, attempts, wrongFamilyAttempts,
-  seconds, completed, hintsUsed, [wrongPicks], [brokenCopies] }
+Tanı ve Kur:  { ts, mode: "tani" | "kur", family, level, difficulty, attempts,
+                wrongFamilyAttempts, seconds, completed, hintsUsed,
+                [wrongPicks]  (pergel hazırlığı), [brokenCopies]  (aynalama) }
+Yarat:        { ts, mode: "yarat", difficulty, pieces, families, symmetry, seconds, tasksDone }
+Rütbe:        { ts, mode: "rutbe", rank, from }
 ```
+
+Ustalık sınavında `family` değeri `"8+10"` olur. Yarım bırakılan oturumlar da `completed: false` ile kaydedilir; bu, hangi seviyede vazgeçildiğini gösterir.
 
 "Verileri dışa aktar" bu kayıtları JSON dosyası olarak indirir. Kayıtlar, projenin ölçek çalışmasıyla eşleştirilmek üzere tasarlanmıştır. Önerilen göstergeler:
 
@@ -232,8 +241,11 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an Tanı modu (7 motif), Yarat modu ve Kur modunda 8'li aile (hazırlık + 5 seviye), 10'lu ve 6'lı aileler (hazırlık + 4'er seviye) ve rütbe sınavı oynanabilir. Motif hikâye metinleri önceki bir aşamada yazıldı; sınıfta kullanmadan önce kaynaklardan doğrulanmalıdır. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Üç mod ve dört aile oynanabilir. 10'lu ailenin 2.–4. seviyeleri kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir); 5. seviye ("Gül") ise setin kendi motifinin iç kısmıdır. 12'li ailenin 2.–4. seviyeleri yıldızsız bir Arşimet döşemesidir. Setin gül motifinin dış halkası (çentikli altıgen, ok ucu, taçlı kalkan) henüz türetilmedi; kurulu gülün tepeden, cetvelli bir fotoğrafı ya da setin şablonu gerekiyor.
+- **Motif metinleri:** Tanı'daki yapı hikâyeleri önceki bir aşamada yazıldı ve doğrulanmadı; sınıfta kullanmadan önce kaynaklardan denetlenmelidir.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
+- **Doğrulama:** Otomatik testler (geometri, her mod için etkileşim, gerçek uygulamayı bir öğrenci gibi baştan sona oynayan uçtan uca test) oyunun doğru çalıştığını gösterir; öğrencilerin onu nasıl deneyimlediğini göstermez. Sınıfta küçük bir pilot uygulama önerilir.
+- **Rütbe eşiği:** Kalfalık dört ailenin hepsinde 2. seviyeyi istediği için ilk terfi geç gelir; pilot uygulamada motivasyona etkisine bakılmalıdır.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.
 
