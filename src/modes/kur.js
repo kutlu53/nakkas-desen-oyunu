@@ -320,7 +320,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   function finishDrag(inside) {
     const d = S.drag; if (!d) return;
     d.off?.(); d.g.remove(); layers.snap.replaceChildren(); S.drag = null;
-    if (!inside) { if (d.origin.type === "tray") d.origin.item.count++; else { const t = S.tray.find((i) => (d.single ? i.pieceId === d.group[0].piece.id : i.cell)); if (t) t.count++; } renderPlaced(); renderTray(); renderLabels(); setMsg("Parça kutuya döndü."); return; }
+    if (!inside) { if (d.origin.type === "tray") d.origin.item.count++; else { const t = S.tray.find((i) => (d.single ? i.pieceId === d.group[0].piece.id : i.cell)); if (t) t.count++; } renderPlaced(); renderTray(); renderLabels(); setMsg("Parça kutuya döndü."); checkDone(); return; }
     const scene = scenePlaced();
     S.attempts++;
     if (d.single) {
@@ -345,7 +345,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
       play(lat ? "can" : "tok");
     }
     renderPlaced(); renderTray(); renderLabels();
-    if (isComplete()) complete();
+    checkDone();
   }
   function shake() { svg.classList.remove("shake"); void svg.offsetWidth; svg.classList.add("shake"); }
 
@@ -377,6 +377,19 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   }
 
   // ---- tamamlama ----
+  /** Her yerleştirme ve çıkarmadan sonra: desen tamamsa bitir; desen tamam ama fazladan parça varsa onu söyle. */
+  function checkDone() {
+    if (S.completed) return;
+    if (isComplete()) { complete(); return; }
+    if (isCell) return;
+    const ids = new Set(level.targets.map((t) => t.pieceId));
+    const extra = S.placed.filter((p) => !ids.has(p.pieceId)), core = S.placed.filter((p) => ids.has(p.pieceId));
+    if (extra.length && G.matchesTargets(core.map(({ pieceId, x, y, rot }) => ({ pieceId, x, y, rot })), level.targets, isMix ? 1 : level.family, byId)) {
+      const names = [...new Set(extra.map((p) => byId[p.pieceId].name))].join(", ");
+      setMsg(`Desen tamam, ama tahtada desene ait olmayan parça var: ${names}. Onu tahtadan kutuya sürükle.`, "warn");
+      S.highlight = extra[0].uid; renderPlaced(); renderLabels();
+    }
+  }
   function isComplete() {
     if (isCell) {
       const got = new Set();
@@ -457,7 +470,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     const g = e.target.closest("[data-uid]"); if (!g || S.completed) return;
     const uid = +g.dataset.uid;
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); pickFromScene(uid, null); setMsg("Klavye: ok tuşları taşır, R döndürür, Enter bırakır, Esc geri koyar."); }
-    else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); const entries = takeFromScene(uid); const t = S.tray.find((i) => (entries[0].cellKey != null ? i.cell : i.pieceId === entries[0].pieceId)); if (t) t.count++; renderPlaced(); renderTray(); renderLabels(); setMsg("Parça kutuya döndü."); }
+    else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); const entries = takeFromScene(uid); const t = S.tray.find((i) => (entries[0].cellKey != null ? i.cell : i.pieceId === entries[0].pieceId)); if (t) t.count++; renderPlaced(); renderTray(); renderLabels(); setMsg("Parça kutuya döndü."); checkDone(); }
     else if (e.key.toLowerCase() === "r") { e.preventDefault(); rotateInPlace(uid); }
   });
   function takeFromScene(uid) {
@@ -488,7 +501,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     Object.assign(e, pl); S.highlight = uid; S.attempts++;
     renderPlaced(); renderLabels();
     const m = placementMessage(piece, pl, scene); setMsg(m.text, m.cls);
-    if (isComplete()) complete();
+    checkDone();
   }
   root.querySelector(".toolbar").addEventListener("click", (e) => {
     const b = e.target.closest("[data-act]"); if (!b) return;

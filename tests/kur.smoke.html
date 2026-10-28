@@ -80,6 +80,21 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   cleanup();
 }
 
+// ---------- çocuk yanıltıcı kareyi tahtanın boş bir yerinde bırakır, haçları koyar, sonra kareyi çıkarır ----------
+{
+  const { ctx } = makeCtx("f8-l1");
+  const cleanup = await mount(app, ctx); await tick();
+  await dragFromTray("Kare (küçük)", 2.6, -1.6); // tahtanın boş köşesine bırakır; hiçbir haçın yolunu kesmez
+  ok("fazla parça: kare boş köşede kaldı: " + msg(), placedCount() === 1);
+  for (const [x, y, r] of [[1.04, 0.96, 0], [-1.02, 1.03, 1], [1.0, -1.05, 0], [-0.97, -1.0, 0]]) await dragFromTray("Sivri uçlu haç", x, y, { rotateTimes: r });
+  const m = msg();
+  ok("fazla parça: haçlar bitince oyun fazla parçayı söyler: " + m, placedCount() >= 4 && !overlayOpen() && /fazla|desene ait olmayan/.test(m));
+  const sq = [...app.querySelectorAll(".placed [data-uid]")].find((g) => /Kare/.test(g.getAttribute("aria-label")));
+  if (sq) { const bb = sq.querySelector("path").getBoundingClientRect(); pev("pointerdown", sq.querySelector("path"), [bb.left + bb.width / 2, bb.top + bb.height / 2]); pev("pointermove", svg(), [-50, -50]); pev("pointerup", svg(), [-50, -50]); await tick(); }
+  ok("fazla parça: kare kutuya dönünce seviye biter", overlayOpen());
+  cleanup();
+}
+
 // ---------- klavyeyle oynama: kutuda Enter, oklarla taşı, Enter bırak ----------
 {
   const { ctx } = makeCtx("f8-l1");

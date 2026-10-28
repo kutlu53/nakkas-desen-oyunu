@@ -1,0 +1,228 @@
+<!doctype html><meta charset="utf-8"><title>uçtan uca oyun</title>
+<style>body{margin:0;font:13px/1.4 monospace;background:#fff} #out{white-space:pre-wrap;padding:10px} iframe{border:0;width:1000px;height:820px;display:block}</style>
+<iframe id="f"></iframe>
+<pre id="out"></pre>
+<script type="module">
+// Bir ortaokul öğrencisi gibi oyunu baştan sona oynar: gerçek index.html, gerçek yönlendirme, localStorage, rütbe.
+// Çocuk hata yapar (yanıltıcı parça, ters pergel, yanlış sayı, büyük çerçeve), biraz kaymış bırakır, takılınca ipucuna basar,
+// seviyeler arasında kartlardaki "Sonraki" düğmeleriyle geçer. Çıktı: her bölümde gördükleri + takıldığı yerler + sonuç.
+const out = document.getElementById("out"), frame = document.getElementById("f");
+let fail = 0, n = 0; const notes = [];
+const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; return cond; };
+const say = (t) => { out.textContent += "   · " + t + "\n"; };
+const note = (t) => { notes.push(t); out.textContent += "   ⚑ " + t + "\n"; };
+const wait = (ms = 0) => new Promise((r) => setTimeout(r, ms));
+let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const jitter = (s = 0.05) => (rnd() - 0.5) * 2 * s;
+
+localStorage.removeItem("nakkas");
+const levels = (await fetch("../data/levels.json").then((r) => r.json())).levels;
+const motifs = (await fetch("../data/motifs.json").then((r) => r.json())).motifs;
+const pieces = (await fetch("../data/pieces.json").then((r) => r.json())).pieces;
+const byId = Object.fromEntries(pieces.map((p) => [p.id, p]));
+const L = (id) => levels.find((l) => l.id === id);
+
+const fw = +(new URLSearchParams(location.search).get("w") || 1000); // ?w=360 ile telefon genişliği
+frame.style.width = fw + "px"; frame.style.height = (fw < 600 ? 1400 : 820) + "px";
+out.textContent += `iframe genişliği ${fw}px\n`;
+frame.src = "../index.html#home";
+await new Promise((r) => frame.addEventListener("load", r, { once: true }));
+const W = frame.contentWindow, doc = () => W.document;
+const errors = []; W.addEventListener("error", (e) => errors.push(e.message)); W.addEventListener("unhandledrejection", (e) => errors.push(String(e.reason)));
+const $ = (s) => doc().querySelector(s), $$ = (s) => [...doc().querySelectorAll(s)];
+async function until(fn, ms = 3000) { const t = Date.now(); while (Date.now() - t < ms) { const v = fn(); if (v) return v; await wait(20); } return null; }
+const go = async (hash, sel) => { W.location.hash = hash; await wait(30); return until(() => $(sel)); };
+const msg = () => ($(".msg")?.textContent || "").trim();
+const overlayOpen = () => { const o = $(".overlay"); return o && !o.hidden; };
+const svg = () => $(".board");
+const toClient = (x, y) => { const p = new W.DOMPoint(x, y).matrixTransform(svg().getScreenCTM()); return [p.x, p.y]; };
+const pev = (type, el, [cx, cy], id = 9) => el.dispatchEvent(new W.PointerEvent(type, { clientX: cx, clientY: cy, pointerId: id, pointerType: "mouse", button: 0, buttons: type === "pointerup" ? 0 : 1, bubbles: true, cancelable: true }));
+const key = (k, target = W) => target.dispatchEvent(new W.KeyboardEvent("keydown", { key: k, bubbles: true }));
+const click = (el) => el && el.dispatchEvent(new W.MouseEvent("click", { bubbles: true, cancelable: true }));
+
+// ---------- giriş ----------
+await until(() => $(".rank-box"));
+ok("giriş: rütbe Çırak, ses kapalı", /Çırak/.test($(".rank-box .rk-now strong").textContent) && /kapalı/.test($("[data-act=sound]").textContent));
+
+// ---------- Tanı: dört motif (kalfalık için atlasın yarısı) ----------
+const tani = await fetch("../data/tani.json").then((r) => r.json());
+const draw = (fam) => tani.families.find((f) => f.family === fam);
+click($('[data-go="tani"]')); await until(() => $(".levels .level"));
+ok("Tanı listesi: 7 motif, aileleri gizli", $$(".levels .level").length === 7 && $$(".levels .num").every((x) => x.textContent === "?"));
+click($(".levels .level")); // ilk motif
+for (let k = 0; k < 4; k++) {
+  await until(() => $(".tani .board .art path"));
+  const id = decodeURIComponent(W.location.hash.split("/")[1]), m = motifs.find((x) => x.id === id), dr = draw(m.family);
+  say(`motif ${k + 1}: ${m.title} (${m.family}'lı)`);
+  const tapAt = async (x, y) => { const c = toClient(x, y); pev("pointerdown", svg(), c); await wait(10); };
+  const o = dr.stars.find((s) => dr.stars.some((t) => Math.hypot(t[0] - s[0] - dr.a[0], t[1] - s[1] - dr.a[1]) < 0.01) && dr.stars.some((t) => Math.hypot(t[0] - s[0] - dr.b[0], t[1] - s[1] - dr.b[1]) < 0.01));
+  await tapAt(o[0] + dr.a[0] / 2, o[1] + dr.a[1] / 2); say(`yanlış yere dokundu → "${$(".fb").textContent}"`);
+  await tapAt(o[0] + jitter(0.25), o[1] + jitter(0.25));
+  if (!/Soru 2/.test($(".task").textContent)) { click($('[data-act="hint"]')); note(`${m.id}: yıldızın ortasına (±0,25) dokunması yetmedi`); await tapAt(o[0], o[1]); }
+  const wrongN = [6, 8, 10, 12].find((x) => x !== m.family);
+  click($(`.choices [data-n="${wrongN}"]`)); await wait(10); say(`${wrongN} dedi → "${$(".fb").textContent}"`);
+  click($(`.choices [data-n="${m.family}"]`)); await wait(10); say(`doğru sayı → "${$(".fb").textContent}"`);
+  // önce iki kat büyük çerçeve
+  const far = dr.stars.find((t) => Math.hypot(t[0] - o[0] - 2 * dr.a[0], t[1] - o[1] - 2 * dr.a[1]) < 0.01);
+  if (far) { await tapAt(...o); await tapAt(...far); await tapAt(o[0] + dr.b[0], o[1] + dr.b[1]); say(`büyük çerçeve → "${$(".fb").textContent}"`); await wait(1500); }
+  await tapAt(o[0] + jitter(0.3), o[1] + jitter(0.3)); await tapAt(o[0] + dr.a[0] + jitter(0.3), o[1] + dr.a[1] + jitter(0.3)); await tapAt(o[0] + dr.b[0] + jitter(0.3), o[1] + dr.b[1] + jitter(0.3));
+  if (!ok(`Tanı ${m.id}: tamamlandı`, overlayOpen())) note(`${m.id}: birim hücre kabul edilmedi: ${$(".fb").textContent}`);
+  else say(`kart: "${$(".overlay h2").textContent}" — ${$(".overlay .eyebrow").textContent}`);
+  click($(".overlay .btn.primary")); await wait(50);
+}
+
+// ---------- Kur: bütün seviyeler, kartlardaki "Sonraki" ile ----------
+const area = (id) => Math.abs(byId[id].points.reduce((s, p, i, a) => s + p[0] * a[(i + 1) % a.length][1] - a[(i + 1) % a.length][0] * p[1], 0) / 2);
+const trayItem = (pred) => $$(".tray-item").find((b) => pred(b.getAttribute("aria-label") || ""));
+async function dragFromTray(name, bx, by, turns = 0) {
+  const b = trayItem((l) => l.startsWith(name)); if (!b) return false;
+  const tray = $(".tray"), r = b.getBoundingClientRect();
+  pev("pointerdown", b, [r.left + r.width / 2, r.top + r.height / 2]);
+  for (let i = 0; i < turns; i++) key("r");
+  pev("pointermove", tray, toClient(bx - 0.4, by - 0.3)); pev("pointermove", tray, toClient(bx, by)); pev("pointerup", tray, toClient(bx, by));
+  await wait(10); return true;
+}
+async function toTrayFromBoard(i = -1) {
+  const gs = $$(".placed [data-uid]"); const g = gs.at(i); if (!g) return;
+  const bb = g.querySelector("path").getBoundingClientRect(); pev("pointerdown", g.querySelector("path"), [bb.left + bb.width / 2, bb.top + bb.height / 2]);
+  pev("pointermove", svg(), [-40, -40]); pev("pointerup", svg(), [-40, -40]); await wait(10);
+}
+const placed = () => $$(".placed [data-uid]").length;
+const stepOf = (fam) => 360 / fam;
+
+async function playConstruct(lv) {
+  const P = lv.points;
+  const dragPts = async (a, b) => { pev("pointerdown", svg(), toClient(...P[a])); pev("pointermove", svg(), toClient((P[a][0] + P[b][0]) / 2, (P[a][1] + P[b][1]) / 2)); pev("pointerup", svg(), toClient(P[b][0] + jitter(0.04), P[b][1] + jitter(0.04))); await wait(10); };
+  // ilk adımda pergeli ters tutar
+  await dragPts(lv.steps[0].pick[1], lv.steps[0].pick[0]); say(`pergeli ters tuttu → "${$(".fb").textContent}"`);
+  let helped = 0;
+  for (const [i, st] of lv.steps.entries()) {
+    const before = $(".task").textContent;
+    if (st.tool === "boya") { pev("pointerdown", svg(), toClient(0.05, 0.08)); await wait(20); continue; }
+    if (i > 0 && i % 4 === 0) { click($('[data-act="show"]')); helped++; await wait(10); continue; } // ara sıra ustaya yaptırır
+    await dragPts(st.pick[0], st.pick[1]);
+    if ($(".task").textContent === before) { note(`${lv.id} adım ${i + 1} (${st.title}): sürükleme kabul edilmedi — "${$(".fb").textContent}"`); click($('[data-act="show"]')); helped++; }
+  }
+  await until(overlayOpen, 3000);
+  say(`usta ${helped} adımı gösterdi`);
+}
+async function playPieces(lv) {
+  const dist = Object.keys(lv.trayDistractors?.ortaokul || {});
+  let forgot = false;
+  if (dist.length) { // önce yanıltıcıyı dener
+    const t = lv.targets[0], nm = byId[dist[0]].name;
+    await dragFromTray(nm, t.x + jitter(), t.y + jitter());
+    say(`yanıltıcı ${nm} → "${msg()}"`);
+    if (placed() > 0) await toTrayFromBoard(-1);
+    if (rnd() < 0.5) { // dağınık çocuk: bir yanıltıcıyı tahtanın boş köşesinde unutur
+      const [vx, vy] = svg().getAttribute("viewBox").split(" ").map(Number);
+      await dragFromTray(nm, vx + 0.45, vy + 0.45); forgot = placed() > 0;
+    }
+  }
+  const order = [...lv.targets].sort((p, q) => area(q.pieceId) - area(p.pieceId)); // büyükten küçüğe dizer
+  let retries = 0;
+  for (const t of order) {
+    const before = placed(), p = byId[t.pieceId], turns = Math.round(t.rot / stepOf(p.family)) % p.family;
+    await dragFromTray(p.name, t.x + jitter(), t.y + jitter(), turns);
+    if (placed() === before) { retries++; await dragFromTray(p.name, t.x, t.y, turns); if (placed() === before) note(`${lv.id}: ${p.name} (${t.x.toFixed(2)}, ${t.y.toFixed(2)}) iki denemede de yerleşmedi — "${msg()}"`); }
+  }
+  if (forgot && !overlayOpen()) {
+    if (/desene ait olmayan/.test(msg())) { say(`unuttuğu parça için uyarı: "${msg()}"`); const g = $$(".placed [data-uid]").find((x) => /Kare|yıldız|Beşgen|Üçgen|haç/i.test(x.getAttribute("aria-label")) && !lv.targets.some((t) => (x.getAttribute("aria-label") || "").startsWith(byId[t.pieceId].name))); if (g) await toTrayFromBoard($$(".placed [data-uid]").indexOf(g)); }
+    else note(`${lv.id}: köşede unutulan parça varken oyun bir şey söylemedi — "${msg()}"`);
+  }
+  if (!overlayOpen()) { // takıldı: ipucu, yanlış oturanları kutuya geri gönderip yeniden dener
+    click($('[data-act="hint"]')); say(`takıldı, ipucu: "${msg()}"`);
+    note(`${lv.id}: büyükten küçüğe dizince bitmedi (${placed()}/${lv.targets.length} parça tahtada)`);
+    while (placed()) await toTrayFromBoard(-1);
+    const hintOrder = [...lv.targets].sort((p, q) => ({ papyon: 0, "kare-12": 0 }[p.pieceId] ?? 1) - ({ papyon: 0, "kare-12": 0 }[q.pieceId] ?? 1));
+    for (const t of hintOrder) { const p = byId[t.pieceId]; await dragFromTray(p.name, t.x, t.y, Math.round(t.rot / stepOf(p.family)) % p.family); }
+  }
+  if (retries) say(`${retries} parçayı ikinci denemede yerleştirdi`);
+}
+function gridOffsets(n, { a, b }) { const lo = -Math.floor((n - 1) / 2), out = []; for (let i = lo; i < lo + n; i++) for (let j = lo; j < lo + n; j++) if (i || j) out.push([i * a[0] + j * b[0], i * a[1] + j * b[1]]); return out; }
+async function playCell(lv) {
+  const offs = gridOffsets(lv.gridSize.ortaokul, lv.translation);
+  await dragFromTray("Birim hücre", offs[0][0] / 2, offs[0][1] / 2); say(`kopyayı yarım vektöre koydu → "${msg()}"`);
+  for (const [x, y] of offs) await dragFromTray("Birim hücre", x + jitter(0.06), y + jitter(0.06));
+}
+async function playMirror() {
+  click($('[data-act="translate"]')); click($('[data-edge="right"]')); await wait(10); say(`çeyreği öteledi → "${msg()}"`);
+  await wait(1800);
+  click($('[data-act="mirror"]'));
+  for (let i = 0; i < 6 && !overlayOpen(); i++) {
+    const e = $('[data-edge="right"]') || $('[data-edge="bottom"]'); if (!e) break;
+    click(e); await wait(10);
+    if (/birim hücre var/.test(msg())) { click($('[data-act="translate"]')); say("birim hücre olunca ötelemeye geçti"); }
+  }
+}
+async function playMixed(lv) {
+  const t8 = lv.targets.find((t) => t.pieceId === "hac");
+  await dragFromTray("Beşgen", 0.9866, 0.3837, 8); say(`8'li yıldıza beşgen → "${msg()}"`);
+  if (placed()) await toTrayFromBoard(-1);
+  void t8; await playPieces({ ...lv, trayDistractors: {} });
+}
+
+click($('a[href="#home"]')) || (W.location.hash = "home");
+await go("kur", ".levels .level");
+ok("Kur listesi: dört aile + rütbe sınavı", $$(".family h2").length === 5);
+const families = [8, 10, 6, 12];
+const summary = [];
+for (const fam of families) {
+  await go("kur", ".levels .level");
+  click($(`a[href="#kur/f${fam}-l0"]`));
+  for (;;) {
+    const id = await until(() => { const h = W.location.hash.split("/")[1]; return $(".play") && h; });
+    const lv = L(id); await wait(30);
+    const t0 = Date.now();
+    if (lv.tool === "construct") await playConstruct(lv);
+    else if (lv.tool === "translate-copy") await playCell(lv);
+    else if (lv.tool === "mirror") await playMirror(lv);
+    else await playPieces(lv);
+    await until(overlayOpen, 2500);
+    const done = ok(`Kur ${id} (${lv.title}): bitti`, overlayOpen());
+    if (done) { const st = $(".overlay .stats")?.textContent || ""; summary.push(`${id}: ${st}`); say(`kart: "${$(".overlay h2").textContent}" · ${st}${$(".overlay .story-card h3") ? ` · hikâye: ${$(".overlay .story-card h3").textContent}` : ""}`); }
+    else { note(`${id}: bitirilemedi; son mesaj "${msg()}"`); break; }
+    const nxt = $(".overlay .btn.primary"); const href = nxt.getAttribute("href");
+    void t0;
+    if (!/#kur\/f/.test(href)) { say(`ailenin sonu: "${nxt.textContent}" → ${href}`); break; }
+    click(nxt); W.location.hash = href.slice(1); await wait(40);
+  }
+  // her aileden sonra girişe bakar
+  await go("home", ".rank-box");
+  say(`giriş: rütbe ${$(".rank-box .rk-now strong").textContent}${overlayOpen() ? ` — kart: "${$(".overlay h2").textContent}"` : ""}`);
+  if (overlayOpen()) click($("[data-act=close]"));
+}
+await go("kur/karma-1", ".play"); await wait(30);
+await playMixed(L("karma-1")); await until(overlayOpen, 2500);
+ok("Ustalık sınavı (karışık kutu): bitti", overlayOpen());
+await go("home", ".rank-box"); await wait(30);
+ok(`giriş: rütbe Usta${overlayOpen() ? " (kart açıldı)" : ""}`, /Usta/.test($(".rank-box .rk-now strong").textContent));
+if (overlayOpen()) { say(`kart: "${$(".overlay h2").textContent}"`); click($("[data-act=close]")); }
+
+// ---------- Yarat ----------
+await go("yarat", ".yarat .tray-item");
+const ms = $("[data-mirror-select]"); ms.value = "8"; ms.dispatchEvent(new W.Event("change", { bubbles: true }));
+const ydrop = async (id, x, y) => { const b = $(`.tray-item[data-id="${id}"]`), r = b.getBoundingClientRect(), tr = $(".tray-items"); pev("pointerdown", b, [r.left + r.width / 2, r.top + r.height / 2]); pev("pointermove", tr, toClient(x, y)); pev("pointerup", tr, toClient(x, y)); await wait(10); };
+await ydrop("sekiz-kose-yildiz", 0, 0); await ydrop("hac", 1.02, 0.98); await ydrop("sekiz-kose-yildiz", 2.03, 0.01);
+say(`8× aynayla ${$$(".placed [data-uid]").length} parça; mesaj "${msg()}"`);
+click($('.palette [data-color="#b8392e"]'));
+click($('[data-act="save"]')); await wait(10);
+ok("Yarat: galeriye kaydetti", $$(".g-item").length === 1);
+say(`rozetler: ${$$(".tasks li.done strong").map((x) => x.textContent.replace("✓ ", "")).join(", ") || "yok"}`);
+
+// ---------- araştırma verisi ----------
+await go("home", "[data-act=export]");
+let blob = null; const orig = W.URL.createObjectURL; W.URL.createObjectURL = (b) => { blob = b; return orig.call(W.URL, b); };
+click($("[data-act=export]")); await wait(50); W.URL.createObjectURL = orig;
+const data = blob ? JSON.parse(await blob.text()) : null;
+ok("Veri dışa aktarıldı (JSON)", !!data);
+if (data) {
+  const modes = data.log.reduce((m, r) => ((m[r.mode] = (m[r.mode] || 0) + 1), m), {});
+  say(`kayıtlar: ${JSON.stringify(modes)}; tamamlanan Kur seviyesi ${Object.values(data.progress).filter((p) => p.completed).length}/${levels.length}`);
+  ok("kayıtlarda tanı, kur, rutbe ve yarat var", modes.tani >= 4 && modes.kur >= levels.length && modes.rutbe === 2 && modes.yarat >= 1);
+}
+ok(`sayfada JS hatası yok${errors.length ? ": " + errors.join(" | ") : ""}`, errors.length === 0);
+out.textContent += `\nÖzet (deneme · süre · yanlış · ipucu):\n${summary.map((s) => "  " + s).join("\n")}\n`;
+out.textContent += `\nTakıldığı yerler (${notes.length}):\n${notes.map((t) => "  - " + t).join("\n") || "  yok"}\n`;
+out.textContent += fail ? `\n${fail}/${n} denetim başarısız` : `\n${n} denetim, hepsi geçti`;
+</script>

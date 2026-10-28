@@ -21,7 +21,7 @@ Geometri örnekleri `tests/geometry.tests.js` içinde; iki yoldan çalışır:
 - Tarayıcı: `http://localhost:8080/tests/geometry.test.html`
 - Komut satırı: `node tests/run-node.mjs`
 
-Etkileşim testleri sentetik dokunuşlarla oynar: `tests/kur.smoke.html`, `tests/tani.smoke.html`, `tests/yarat.smoke.html`, `tests/app.smoke.html` (giriş, rütbe, ses) (tarayıcıda aç ya da headless Chrome `--dump-dom`).
+Etkileşim testleri sentetik dokunuşlarla oynar: `tests/kur.smoke.html`, `tests/tani.smoke.html`, `tests/yarat.smoke.html`, `tests/app.smoke.html` (giriş, rütbe, ses). Uçtan uca: `tests/oyun.e2e.html` gerçek uygulamayı bir iframe'de bir öğrenci gibi baştan sona oynar (Tanı → bütün Kur seviyeleri → rütbeler → Yarat → veri dışa aktarma; hata yapar, ipucu kullanır, parça unutur); `?w=360` telefon genişliğinde oynar (tarayıcıda aç ya da headless Chrome `--dump-dom`).
 
 Tanı çizimleri ve 10'lu seviyeler üretilir: `node build/gen_tani.mjs`, `node build/gen_levels10.mjs` (elle düzenleme).
 
