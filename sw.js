@@ -1,5 +1,5 @@
 // Çevrimdışı önbellek. Sürüm numarasını her yayında artır.
-const CACHE = "nakkas-v4";
+const CACHE = "nakkas-v5";
 const CORE = ["./", "./index.html", "./styles.css", "./manifest.webmanifest",
   "./src/app.js", "./src/geometry.js", "./src/pieces.js",
   "./src/modes/kur.js", "./src/modes/construct.js", "./src/modes/mirror.js", "./src/cards.js", "./src/modes/tani.js", "./src/modes/yarat.js",
