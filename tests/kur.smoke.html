@@ -246,6 +246,29 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   }
 }
 
+// ---------- rütbe sınavı: 8'li ve 10'lu tek kutuda ----------
+{
+  const { ctx, logs } = makeCtx("karma-1");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  const lv = (await loadLevels()).find((l) => l.id === "karma-1");
+  ok("karma-1: kutuda haç ×4 ve beşgen ×10, parlama yok", /4 adet/.test(trayItem((l) => l.startsWith("Sivri uçlu haç")).getAttribute("aria-label")) && /10 adet/.test(trayItem((l) => l.startsWith("Beşgen")).getAttribute("aria-label")) && !app.querySelector(".tray-item.glow"));
+  ok("karma-1: başlıkta rütbe sınavı", /rütbe sınavı/.test(app.querySelector(".eyebrow").textContent));
+  await dragFromTray("Beşgen", 0.9866, 0.3837, { rotateTimes: 8 });
+  ok("karma-1: beşgen 8'li çentikte 27° açık, onlu sistem notu: " + msg(), placedCount() === 1 && /27° açık/.test(msg()) && /onlu sistemden/.test(msg()));
+  await dragFromBoard(0, 0, 0, { outside: true });
+  ok("karma-1: beşgen kutuya geri", placedCount() === 0);
+  for (const t of lv.targets) await dragFromTray(t.pieceId === "hac" ? "Sivri uçlu haç" : "Beşgen", t.x + 0.03, t.y - 0.02);
+  ok("karma-1: 14 parça yerleşti, kart açıldı", placedCount() === 14 && overlayOpen());
+  ok("karma-1: log wrongFamily=1, family 8+10", logs.length === 1 && logs[0].wrongFamilyAttempts === 1 && logs[0].family === "8+10");
+  cleanup();
+}
+{
+  const { ctx } = makeCtx(undefined);
+  await mount(app, ctx); await tick();
+  ok("liste: rütbe sınavı bölümü", [...app.querySelectorAll("h2")].some((h) => /Rütbe sınavı/.test(h.textContent)) && app.querySelector('a[href="#kur/karma-1"]'));
+}
+
 // ---------- kündekâri kartı seviye 2'ye bağlı ----------
 {
   const { loadCards } = await import("../src/cards.js");

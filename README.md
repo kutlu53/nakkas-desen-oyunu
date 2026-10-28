@@ -55,7 +55,7 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-haç, ötele, aynala, bozuk çini)
 - [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye; kesin girih deseninden (`build/hankin.mjs`), fiziksel setle birebir değil
 - [ ] Kur · 6'lı ve 12'li aileler — önce dolgu parçalarının kenarı yıldız kenarına eşitlenmeli
-- [ ] Kur · çapraz seviye (lise rütbe sınavı: 8'li ve 10'lu karışık kutu)
+- [x] Kur · rütbe sınavı "Karışık kutu" (8'li ve 10'lu yıldız, tek kutu; yanlış aile yıldıza göre sayılır)
 - [x] Çırak / Tanı modu — 7 motif; görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
 - [ ] Usta / Yarat modu — simetri aynası
 - [ ] Ses, rozetler

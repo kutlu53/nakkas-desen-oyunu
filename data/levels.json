@@ -279,6 +279,32 @@
    ],
    "hint": {"ortaokul": "Üç yıldız aynı boyda. Boşluğun duvarın içine bakan uçlarında kaç derece kalıyor: 72 mi, 90 mı, 60 mı?", "lise": "Boşluğun bir köşesindeki açıyı hesapla; hangi yıldızın ucu ona eşit?"},
    "discovery": "Ortadaki boşluk çentiklerinde 252° ister; duvarın içine bakan uçlarında 72° kalır. Bunu yalnızca 10'lu yıldız karşılar. 8'li yıldızın ucu 90°, 12'li yıldızınki 60°: aynı büyüklükte olsalar da boşluğu kapatamazlar. Restorasyoncu da önce geometriyi okur, sonra parçayı seçer."
+  },
+  {
+   "id": "karma-1", "families": [8, 10], "order": 1, "title": "Karışık kutu",
+   "story": "Usta: 'Kalfalık sınavı: iki yıldız, tek kutu. Her yıldızı kendi ailesinin taşlarıyla çevir.'",
+   "_not": "Rütbe sınavı (docs/seviyeler.md, Çapraz seviye). 8'li yıldız (0,0) + f8-l1 haçları; 10'lu yıldız (3.7, 0) + f10-l1 beşgenleri. Yanlış aile, parçanın en yakın sabit yıldızına göre sayılır (wrongFamilyAttempts).",
+   "fixed": [{"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0}, {"pieceId": "on-kose-yildiz", "x": 3.7, "y": 0, "rot": 0}],
+   "tray": {"hac": 4, "besgen": 10},
+   "trayDistractors": {"lise": {"kare-kucuk": 2, "dortgen-10": 2}},
+   "targets": [
+    {"pieceId": "hac", "x": 1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": 1, "y": -1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": -1, "rot": 0},
+    {"pieceId": "besgen", "x": 4.015322, "y": -0.9705149, "rot": 198},
+    {"pieceId": "besgen", "x": 4.5255707, "y": -0.5998493, "rot": 234},
+    {"pieceId": "besgen", "x": 4.7204, "y": 6.22e-05, "rot": 270},
+    {"pieceId": "besgen", "x": 4.5255939, "y": 0.5998174, "rot": 306},
+    {"pieceId": "besgen", "x": 4.0153493, "y": 0.970506, "rot": 342},
+    {"pieceId": "besgen", "x": 3.384678, "y": 0.9705149, "rot": 18},
+    {"pieceId": "besgen", "x": 2.8744293, "y": 0.5998493, "rot": 54},
+    {"pieceId": "besgen", "x": 2.6796, "y": -6.22e-05, "rot": 90},
+    {"pieceId": "besgen", "x": 2.8744061, "y": -0.5998174, "rot": 126},
+    {"pieceId": "besgen", "x": 3.3846507, "y": -0.970506, "rot": 162}
+   ],
+   "hint": {"ortaokul": "8'li yıldızın çentiği 135°, 10'lu yıldızınki 108°. Kutudaki parçaların köşelerine bak: haçın omzu 135°, beşgenin köşesi 108°.", "lise": "Her yıldızın çentiğini hesapla (360 − iç açı); kutudaki hangi köşe ona eşit?"},
+   "discovery": "Aynı kutudan iki aile çıktı: 8'li yıldızın 135°'lik çentiği yalnızca haçın omzunu, 10'lu yıldızın 108°'lik çentiği yalnızca beşgeni alır. Aileler birbirine karışmaz; bunu bir kural değil, açılar söyler."
   }
  ]
 }

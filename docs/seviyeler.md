@@ -39,8 +39,8 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 | 3 | Ötele ve kapla | hücre | kopya | 2×2 | — |
 | 4 | Bozuk çini | — | — | — | — |
 
-## Çapraz seviye (rütbe sınavı, lise)
-"Karışık kutu": sahnede 8'li ve 10'lu iki yıldız yan yana, kutuda her iki ailenin parçaları karışık. Hedef: her yıldızı kendi ailesiyle doldur. Yanlış aile denemesi sayılır (`wrongFamilyAttempts`) — ölçek için en anlamlı veri.
+## Çapraz seviye (rütbe sınavı) ✓
+`karma-1` (`families: [8, 10]`): 8'li yıldız (0, 0), 10'lu yıldız (3,7; 0); kutuda haç ×4 + beşgen ×10 (lise: + kare ×2, dörtgen ×2). Yanlış aile, parçanın en yakın sabit yıldızının ailesine göre sayılır; ortaokulda aile notu verilir, kutuda parlama yoktur. "Karışık kutu": sahnede 8'li ve 10'lu iki yıldız yan yana, kutuda her iki ailenin parçaları karışık. Hedef: her yıldızı kendi ailesiyle doldur. Yanlış aile denemesi sayılır (`wrongFamilyAttempts`) — ölçek için en anlamlı veri.
 
 ## Seviye veri şeması (`data/levels.json`)
 ```json

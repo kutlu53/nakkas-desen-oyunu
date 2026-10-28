@@ -174,6 +174,16 @@ export function run(G, pieces, levels, ok) {
     ok("f10-l3: hücre kopyası b'ye yapışır, çakışmaz", g2.snapped && !g2.overlap && near(g2.offset.x, b[0], 1e-3) && near(g2.offset.y, b[1], 1e-3));
   }
 
+  // --- rütbe sınavı: iki aile tek sahnede ---
+  const mix = (levels || []).find((l) => l.id === "karma-1");
+  if (mix) {
+    const all = [...mix.fixed, ...mix.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot));
+    ok("karma-1: iki yıldız ve 14 hedef çakışmasız", all.every((s, i) => G.anyOverlap(s.piece, s.placement, all.filter((_, j) => j !== i)) === -1));
+    const vs = G.evaluateVertices(all);
+    const notches = mix.fixed.flatMap((f) => G.placedPoints(by[f.pieceId], f).filter((_, i) => by[f.pieceId].angles[i] > 180));
+    ok("karma-1: iki yıldızın 18 çentiğinin hepsi 360", notches.length === 18 && notches.every((q) => vs.some((v) => v.state === "tam" && G.dist(v.vertex, q) < 1e-3)));
+  }
+
   // --- pergel-cetvel kurulumu ---
   ok("şekil: (1,0) O merkezli birim dairede", G.pointOnShape([1, 0], G.constructionShape({ circle: ["O", "A"] }, { O: [0, 0], A: [0, 1] })));
   ok("şekil: (3,3) sonsuz doğruda, parçada değil", G.pointOnShape([3, 3], G.constructionShape({ line: ["O", "A"] }, { O: [0, 0], A: [1, 1] })) && !G.pointOnShape([3, 3], G.constructionShape({ seg: ["O", "A"] }, { O: [0, 0], A: [1, 1] })));

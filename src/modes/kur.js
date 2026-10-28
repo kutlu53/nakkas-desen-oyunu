@@ -55,6 +55,19 @@ function renderIndex(root, ctx, levels) {
     sec.appendChild(ul);
     root.appendChild(sec);
   }
+  const mixed = levels.filter((l) => Array.isArray(l.families)).sort((a, b) => a.order - b.order);
+  if (mixed.length) {
+    const sec = document.createElement("section");
+    sec.className = "family";
+    sec.innerHTML = `<h2>Rütbe sınavı <small>aileler tek kutuda</small></h2><div class="levels"></div>`;
+    for (const l of mixed) {
+      const p = ctx.state.progress[l.id];
+      $(".levels", sec).insertAdjacentHTML("beforeend", `<a class="level ${p?.completed ? "done" : ""}" href="#kur/${l.id}">
+        <span class="num">${l.families.join("+")}</span><strong>${esc(l.title)}</strong>
+        <small>${p?.completed ? `Tamamlandı · ${p.attempts} deneme · ${mmss(p.seconds)}` : esc(l.story)}</small></a>`);
+    }
+    root.appendChild(sec);
+  }
 }
 
 // ---------------- seviye ----------------
@@ -71,6 +84,8 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     distractors: level.trayDistractors?.[diff] ?? {},
   };
   const isCell = level.tool === "translate-copy";
+  const isMix = Array.isArray(level.families); // rütbe sınavı: birden çok ailenin yıldızı, tek kutu
+  const famText = isMix ? `${level.families.map((f) => FAMILY_LABEL[f]).join(" + ")} · rütbe sınavı` : `${FAMILY_LABEL[level.family]} sistem`;
   const famLevels = levels.filter((l) => l.family === level.family).sort((a, b) => a.order - b.order);
   const numbered = famLevels.filter((l) => l.order > 0).length; // 0: pergel-cetvel hazırlığı, sayılmaz
   const next = famLevels.find((l) => l.order > level.order);
@@ -101,7 +116,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   root.innerHTML = `
     <header class="mode-head">
       <a class="back" href="#kur">← Seviyeler</a>
-      <p class="eyebrow">Kalfa · ${FAMILY_LABEL[level.family]} sistem · ${level.order}/${numbered} · ${diff}</p>
+      <p class="eyebrow">Kalfa · ${famText}${isMix ? "" : ` · ${level.order}/${numbered}`} · ${diff}</p>
       <h1>${esc(level.title)}</h1>
       <p class="story">${esc(level.story)}</p>
     </header>
@@ -125,6 +140,13 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
   const trayEl = $(".tray", root), msgEl = $(".msg", root), overlay = $(".overlay", root);
 
   // ---- yardımcılar ----
+  /** Parçanın "evi" olan aile: tek aileli seviyede seviyenin ailesi, karışık seviyede en yakın sabit yıldızın ailesi. */
+  const homeFamily = (placement) => {
+    if (!isMix) return level.family;
+    let best = null, bd = Infinity;
+    for (const f of fixed) { const dd = Math.hypot(f.x - placement.x, f.y - placement.y); if (dd < bd) { bd = dd; best = f; } }
+    return byId[best.pieceId].family;
+  };
   const snapUnits = () => Math.min(0.25, Math.max(0.08, SNAP_PX / S.pxPerUnit));
   const scenePlaced = (exclude = new Set()) => [...fixed, ...S.placed.filter((p) => !exclude.has(p.uid))].map((p) => ({ piece: byId[p.pieceId], placement: p }));
   const toBoard = (clientX, clientY) => { const pt = new DOMPoint(clientX, clientY).matrixTransform(svg.getScreenCTM().inverse()); return [pt.x, pt.y]; };
@@ -218,7 +240,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
       b.dataset.idx = idx;
       const name = item.cell ? "Birim hücre" : byId[item.pieceId].name;
       const fam = item.cell ? level.family : byId[item.pieceId].family;
-      if (profile.glow && fam === level.family && item.count > 0) b.classList.add("glow");
+      if (profile.glow && !isMix && fam === level.family && item.count > 0) b.classList.add("glow");
       if (item.count <= 0) b.setAttribute("aria-disabled", "true");
       b.setAttribute("aria-label", `${name}, ${item.count} adet. Sürükle ya da Enter ile al.`);
       b.appendChild(item.cell ? cellThumb() : pieceThumb(byId[item.pieceId], 64));
@@ -302,8 +324,8 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     S.attempts++;
     if (d.single) {
       const piece = d.group[0].piece;
-      if (piece.family !== level.family) S.wrong++;
       const res = G.resolvePlacement(piece, { x: d.x, y: d.y, rot: d.rot }, scene, { snapDist: snapUnits() });
+      if (piece.family !== homeFamily(res.placement)) S.wrong++;
       if (res.overlap) { returnToOrigin(d); setMsg(overlapMessage(piece, res.placement, scene), "bad"); shake(); return; }
       const entry = { uid: S.uid++, pieceId: piece.id, ...res.placement };
       S.placed.push(entry);
@@ -332,7 +354,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     if (tam.length) return { text: `Tam oturdu: ${sumStr(tam[0])} ✓${gaps.length ? " Kenardaki boşluklar komşu parçaları bekliyor." : ""}`, cls: "ok" };
     const g = gaps[0];
     let text = `${sumStr(g)} — ${fmt(g.gap)}° açık kaldı.`;
-    if (profile.familyNote && piece.family !== level.family) text += ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden; açıları ${G.familyStep(piece.family)}° adımıyla gider.`;
+    if (profile.familyNote && piece.family !== homeFamily(placement)) text += ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden; açıları ${G.familyStep(piece.family)}° adımıyla gider.`;
     return { text, cls: "warn" };
   }
   function overlapMessage(piece, placement, scene) {
@@ -346,7 +368,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
       .map((v) => ({ v, others: v.parts.filter((pt) => pt.pieceIndex !== own).reduce((s, pt) => s + pt.angle, 0), mine: v.parts.find((pt) => pt.pieceIndex === own).angle }))
       .filter((x) => 360 - x.others < 180) // yalnızca dar köşeler; açık uçta "288° istiyor" demek öğretmez
       .sort((a, b) => b.others - a.others)[0];
-    const note = profile.familyNote && piece.family !== level.family ? ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden.` : "";
+    const note = profile.familyNote && piece.family !== homeFamily(placement) ? ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden.` : "";
     if (tight) return `${sumStr(tight.v)} — boşluk ${fmt(360 - tight.others)}° istiyor, bu parçanın köşesi ${fmt(tight.mine)}°. Parça komşusuna bindi, kutuya döndü.${note}`;
     return `Parça başka bir parçanın üstüne bindi, kutuya döndü. Boş bir köşeye bırak.${note}`;
   }
@@ -364,7 +386,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
       }
       return got.size === cellTargets.length && cellTargets.every((c) => got.has(`${c.i},${c.j}`));
     }
-    return G.matchesTargets(S.placed.map(({ pieceId, x, y, rot }) => ({ pieceId, x, y, rot })), level.targets, level.family, byId);
+    return G.matchesTargets(S.placed.map(({ pieceId, x, y, rot }) => ({ pieceId, x, y, rot })), level.targets, isMix ? 1 : level.family, byId);
   }
   function complete() {
     S.completed = true;
@@ -392,7 +414,7 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     $(".btn.primary", overlay).focus();
   }
   function sessionRecord(completed, seconds) {
-    return { ts: new Date().toISOString(), mode: "kur", family: level.family, level: level.id, difficulty: diff, attempts: S.attempts, wrongFamilyAttempts: S.wrong, seconds, completed, hintsUsed: S.hints };
+    return { ts: new Date().toISOString(), mode: "kur", family: isMix ? level.families.join("+") : level.family, level: level.id, difficulty: diff, attempts: S.attempts, wrongFamilyAttempts: S.wrong, seconds, completed, hintsUsed: S.hints };
   }
   function reset() {
     cancelDrag(false);

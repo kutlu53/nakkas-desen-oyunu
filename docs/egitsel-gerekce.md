@@ -149,6 +149,13 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım); içbükey köşe ve eğik birim hücre; kristalografik kısıtla sezgisel tanışma.
 
+#### Rütbe sınavı · "Karışık kutu"
+**Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
+
+**Neden:** Öğrenci "hangi parça nereye?" sorusunu yalnızca açıyla cevaplayabilir: 135°'lik çentiğe haçın omzu, 108°'lik çentiğe beşgen. Bu, iki ailede ayrı ayrı öğrenilenin aktarımını ve ayırt edilmesini sınar.
+
+**Ölçülen:** Yanlış aile denemesi (`wrongFamilyAttempts`); parçanın yanına konduğu yıldızın ailesine göre sayılır. Ölçek çalışması için en anlamlı gösterge budur.
+
 #### Her seviyede · "Geçme çizgisi"
 **Ne yapılır:** Bir düğmeyle (ya da seviye sonundaki "Çizgiye dönüştür" ile) desen, birbirinin altından ve üstünden sırayla geçen bantlara dönüşür. 8'li yıldız iki kareden örülür.
 

@@ -21,7 +21,7 @@ Tarayıcıda çalışan, çevrimdışı oynanabilen (PWA) eğitsel yapboz oyunu.
 | Rütbe | Mod | Kazanım | Özet |
 |---|---|---|---|
 | Çırak | **Tanı** | 1 | Desen çizimi üzerinde yıldızı bul, köşe say, birim hücreyi çerçevele (lisede: hangi aileyle yapılamaz). Doğruda hikâye kartı açılır. Yapı fotoğrafı yok (kullanıcı, 2026-10-28): görseller kendi kesin çizimlerimiz, ekranda "yapının kendi deseninin kopyası değil" notu var. Proje kökündeki `Motifler/` fotoğrafları setin kurulu hâli; (2) üçüncü kişinin eseri, (4) banka kartı, (6) çocuk elleri içerir — oyunda kullanma. |
-| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi) → bozuk çini. Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
+| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi) → bozuk çini. Rütbe sınavı: `families: [8, 10]` olan seviye (karışık kutu); yanlış aile en yakın sabit yıldıza göre sayılır. Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
 | Usta | **Yarat** | 3 | Boş tuval + parça kutusu + **simetri aynası** (n-kat döndürme). Kısıtlı görevler. PNG dışa aktar, yerel galeri. |
 
 Ayrıntı: `docs/tasarim.md`, seviyeler: `docs/seviyeler.md`, motif atlası içeriği: `data/motifs.json`.
