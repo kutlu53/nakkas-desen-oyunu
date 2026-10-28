@@ -47,8 +47,11 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Giriş ekranı + Parça atlası (`#atlas`)
 - [x] `geometry.js`: snap, köşe açı toplamı, çakışma denetimi, kenar hizalı yerleşim çözücü, hedef eşleme, kafes
 - [x] PWA iskeleti (manifest, service worker)
-- [x] Kalfa / Kur modu — 8'li aile 3 seviye (`#kur`), iki zorluk profili, klavye desteği, araştırma logu
-- [ ] Kalfa / Kur — 10'lu, 6'lı, 12'li seviyeler (parça oranları döşemeyle doğrulanmalı), "Bozuk çini" seviyesi
+- [x] Kalfa / Kur modu — iki zorluk profili, klavye desteği, araştırma logu, geçme çizgisi görünümü, hikâye kartları
+- [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-haç, ötele, aynala, bozuk çini)
+- [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye; kesin girih deseninden (`build/hankin.mjs`), fiziksel setle birebir değil
+- [ ] Kur · 6'lı ve 12'li aileler — önce dolgu parçalarının kenarı yıldız kenarına eşitlenmeli
+- [ ] Kur · çapraz seviye (lise rütbe sınavı: 8'li ve 10'lu karışık kutu)
 - [ ] Çırak / Tanı modu — `data/motifs.json`, görseller eklenecek
 - [ ] Usta / Yarat modu — simetri aynası
 - [ ] Ses, rozetler
