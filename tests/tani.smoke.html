@@ -59,6 +59,24 @@ for (const fam of [6, 8, 10, 12]) {
     cleanup();
   }
 }
+// klavye: nişangâhla yıldızı bul
+{
+  const motif = motifs.find((m) => m.family === 8), dr = drawing(8);
+  const { ctx } = makeCtx(motif.id);
+  const cleanup = await mount(app, ctx); await tick();
+  const b = svg(); b.focus();
+  ok("klavye: tahtaya odaklanınca nişangâh görünür", app.querySelectorAll(".cursor .crosshair").length === 3);
+  // nişangâh görünüm ortasından başlar; en yakın yıldıza oklarla git
+  const [vx, vy, vw, vh] = dr.view, c0 = [vx + vw / 2, vy + vh / 2];
+  const target = dr.stars.reduce((p, q) => (Math.hypot(q[0] - c0[0], q[1] - c0[1]) < Math.hypot(p[0] - c0[0], p[1] - c0[1]) ? q : p));
+  const press = (k) => b.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true }));
+  let x = c0[0], y = c0[1];
+  while (x < target[0] - 0.13) { press("ArrowRight"); x += 0.25; } while (x > target[0] + 0.13) { press("ArrowLeft"); x -= 0.25; }
+  while (y < target[1] - 0.13) { press("ArrowDown"); y += 0.25; } while (y > target[1] + 0.13) { press("ArrowUp"); y -= 0.25; }
+  press("Enter"); await tick();
+  ok("klavye: Enter ile yıldız bulundu, soru 2", /Soru 2/.test(task()));
+  cleanup();
+}
 // motif listesi
 {
   const { ctx } = makeCtx(undefined);

@@ -76,8 +76,8 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
         <button type="button" data-act="reset">Baştan</button>
       </div>
       <p class="msg" aria-live="polite"><span class="fb"></span><strong class="task"></strong></p>
-      <svg class="board" viewBox="${vx} ${vy} ${vw} ${vh}" preserveAspectRatio="xMidYMid slice" role="application" aria-label="Desen çizimi">
-        <g class="art"></g><g class="glow"></g><g class="marks"></g>
+      <svg class="board" viewBox="${vx} ${vy} ${vw} ${vh}" preserveAspectRatio="xMidYMid slice" role="application" tabindex="0" aria-label="Desen çizimi. Klavye: ok tuşları nişangâhı taşır (Shift: büyük adım), Enter dokunur.">
+        <g class="art"></g><g class="glow"></g><g class="marks"></g><g class="cursor"></g>
       </svg>
       <aside class="tray side">
         <ol class="steps" aria-label="Sorular"></ol>
@@ -86,7 +86,7 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
       </aside>
     </section>
     <div class="overlay" hidden></div>`;
-  const svg = $(".board", root), art = $(".art", svg), glow = $(".glow", svg), marks = $(".marks", svg);
+  const svg = $(".board", root), art = $(".art", svg), glow = $(".glow", svg), marks = $(".marks", svg), cursorEl = $(".cursor", svg);
   const fbEl = $(".fb", root), taskEl = $(".task", root), stepsEl = $(".steps", root), choicesEl = $(".choices", root), overlay = $(".overlay", root);
   for (const f of dr.faces) art.appendChild(svgEl("path", { d: f.d, fill: f.fill }));
 
@@ -178,7 +178,22 @@ function renderMotif(root, ctx, motif, { motifs, drawings }) {
       else { S.wrong++; play("tok"); setFb(`Bu desenin kendi ailesi o: çentiğine (${dr.notch}°) ${PIECE_FOR_NOTCH[n]} tam oturur. Öbürünü dene.`, "warn"); }
     }
   });
-  svg.addEventListener("pointerdown", (e) => { if (e.button > 0) return; e.preventDefault(); onTap(toBoard(e)); });
+  svg.addEventListener("pointerdown", (e) => { if (e.button > 0) return; e.preventDefault(); S.kb = false; renderCursor(); onTap(toBoard(e)); });
+  // klavye: ok tuşları bir nişangâhı taşır, Enter/boşluk o noktaya dokunur (yıldızların yeri ipucu olarak verilmez)
+  const CUR_STEP = 0.25;
+  S.cursor = [vx + vw / 2, vy + vh / 2];
+  function renderCursor() {
+    if (!S.kb) { cursorEl.replaceChildren(); return; }
+    const [x, y] = S.cursor, r = 10 / S.pxPerUnit;
+    cursorEl.replaceChildren(svgEl("circle", { cx: x, cy: y, r, class: "crosshair" }), svgEl("line", { x1: x - 2 * r, y1: y, x2: x + 2 * r, y2: y, class: "crosshair" }), svgEl("line", { x1: x, y1: y - 2 * r, x2: x, y2: y + 2 * r, class: "crosshair" }));
+  }
+  svg.addEventListener("keydown", (e) => {
+    const d = (e.shiftKey ? 4 : 1) * CUR_STEP, mv = { ArrowLeft: [-d, 0], ArrowRight: [d, 0], ArrowUp: [0, -d], ArrowDown: [0, d] }[e.key];
+    if (mv) { e.preventDefault(); S.kb = true; S.cursor = [Math.min(vx + vw, Math.max(vx, S.cursor[0] + mv[0])), Math.min(vy + vh, Math.max(vy, S.cursor[1] + mv[1]))]; renderCursor(); }
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); S.kb = true; renderCursor(); onTap(S.cursor); }
+  });
+  svg.addEventListener("focus", () => { S.kb = true; renderCursor(); });
+  svg.addEventListener("blur", () => { S.kb = false; renderCursor(); });
   root.querySelector(".toolbar").addEventListener("click", (e) => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     if (b.dataset.act === "reset") { reset(); setFb("Baştan başladın."); return; }

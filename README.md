@@ -55,10 +55,9 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-haç, ötele, aynala, bozuk çini)
 - [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye (kesin girih deseni, `build/hankin.mjs`) + 5. seviye "Gül": setin gül motifinin iç kısmı (`build/gen_rose.mjs`)
 - [ ] Setin gül motifinin dış halkası (çentikli altıgen, ok ucu, taçlı kalkan)
-- [ ] Tanı: "yıldızı bul" ve "birim hücre" görevleri yalnızca dokunma/fareyle yapılabiliyor (klavye karşılığı yok)
 - [x] Kur · 6'lı aile — pergel hazırlığı + 4 seviye (yıldız-altıgen deseni, `build/gen_levels6.mjs`)
 - [x] Kur · 12'li aile — pergel hazırlığı (altı yaprak) + 4 seviye (12 kare; 3.4.6.4 Arşimet döşemesi: onikigen, ötele, bozuk çini)
 - [x] Kur · rütbe sınavı "Karışık kutu" (8'li ve 10'lu yıldız, tek kutu; yanlış aile yıldıza göre sayılır)
-- [x] Çırak / Tanı modu — 7 motif; görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
+- [x] Çırak / Tanı modu — 7 motif, klavyeyle de oynanır (ok tuşlarıyla nişangâh, Enter); görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
 - [x] Usta / Yarat modu — serbest tuval, simetri aynası (6/8/10/12×), öteleme kopyası (Kopyala, Tekrarla; vektör gösterilir), boya, geri al, 4 görev rozeti, PNG indir, yerel galeri
 - [x] Rütbe ilerlemesi (çırak → kalfa → usta; giriş ekranında koşullar, terfide kart), ses (varsayılan kapalı; tık, çan, tok), Yarat rozetleri

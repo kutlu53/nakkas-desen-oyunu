@@ -47,7 +47,7 @@ export async function mount(root, ctx) {
     </header>
     <section class="play yarat">
       <div class="toolbar" role="toolbar" aria-label="Araçlar">
-        <span class="tb-label">Ayna</span>${MIRRORS.map((n) => `<button type="button" data-mirror="${n}" aria-pressed="${n === 0}">${n ? `${n}×` : "Kapalı"}</button>`).join("")}
+        <label class="tb-label">Ayna <select data-mirror-select aria-label="Simetri aynası">${MIRRORS.map((n) => `<option value="${n}">${n ? `${n}× (${360 / n}°)` : "Kapalı"}</option>`).join("")}</select></label>
         <button type="button" data-act="rotate" title="Tutulan parçayı döndür (R)">↻</button>
         <button type="button" data-act="selall" title="Bütün deseni seç">Tümü</button>
         <button type="button" data-act="copy" title="Seçimi kopyala, ötele ve bırak">Kopyala</button>
@@ -280,14 +280,11 @@ export async function mount(root, ctx) {
     root.querySelectorAll(".fam-tabs [data-fam]").forEach((x) => x.setAttribute("aria-selected", x === b));
     renderTray(); setMsg(`${FAMILY_LABEL[S.family]} sistemin parçaları. Döndürme adımı ${G.familyStep(S.family)}°.`);
   });
+  $("[data-mirror-select]", root).addEventListener("change", (e) => {
+    S.mirror = +e.target.value;
+    renderGuides(); setMsg(S.mirror ? `Ayna ${S.mirror}×: her parça merkez çevresinde ${S.mirror} kez, ${360 / S.mirror}° arayla çoğalır.` : "Ayna kapalı.");
+  });
   root.querySelector(".toolbar").addEventListener("click", (e) => {
-    const m = e.target.closest("[data-mirror]");
-    if (m) {
-      S.mirror = +m.dataset.mirror;
-      root.querySelectorAll("[data-mirror]").forEach((x) => x.setAttribute("aria-pressed", x === m));
-      renderGuides(); setMsg(S.mirror ? `Ayna ${S.mirror}×: her parça merkez çevresinde ${S.mirror} kez, ${360 / S.mirror}° arayla çoğalır.` : "Ayna kapalı.");
-      return;
-    }
     const b = e.target.closest("[data-act]"); if (!b) return;
     const act = b.dataset.act;
     if (act === "rotate") { if (S.drag) { S.drag.rot = G.norm360(S.drag.rot + G.familyStep(S.drag.piece.family)); S.drag.g.setAttribute("transform", tf(S.drag)); } else setMsg("Parçayı sürüklerken R ile döndür."); }

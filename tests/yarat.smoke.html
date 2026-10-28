@@ -34,7 +34,8 @@ await drop("hac", 0.2, 0.1);
 ok("üst üste binen parça reddedildi", count() === 2 && /bindi/.test(msg()));
 click('[data-act="undo"]'); await tick();
 ok("geri al: haç gitti", count() === 1);
-click('[data-mirror="8"]'); await tick();
+const setMirror = (n) => { const s = app.querySelector("[data-mirror-select]"); s.value = String(n); s.dispatchEvent(new Event("change", { bubbles: true })); };
+setMirror(8); await tick();
 ok("ayna 8×: kılavuz ışınları çizildi", app.querySelectorAll(".guides .ray").length === 8);
 await drop("hac", 1.03, 0.97);
 ok("ayna 8×: haç kopyaları (4 farklı yer; 45° dönenler aynı haça düşer ya da çakışır): " + msg(), count() === 1 + 4 && /kopya/.test(msg()));
@@ -66,7 +67,7 @@ ok("PNG oluştu (image/png)", blob && blob.type === "image/png" && blobType === 
 ok("sceneSVG bağımsız (CSS değişkeni yok)", !/var\(/.test(sceneSVG(state.gallery[0].pieces, (await import("../src/pieces.js")).loadPieces ? (await (await import("../src/pieces.js")).loadPieces()).byId : {})));
 // öteleme kopyası
 click('[data-act="clear"]'); await tick();
-click('[data-mirror="0"]'); await tick();
+setMirror(0); await tick();
 await drop("sekiz-kose-yildiz", 0, 0); await drop("hac", 1.03, 0.97);
 click('[data-act="selall"]'); await tick();
 ok("Tümü: iki parça seçildi", app.querySelectorAll(".placed .sel").length === 2);
