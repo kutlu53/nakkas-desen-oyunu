@@ -48,7 +48,7 @@ src/rank.js           rütbe: kalfa = atlasın yarısı + her ailede 2. seviye; 
 src/sound.js          ses (varsayılan kapalı, state.sound; Web Audio tonları: tik, can, tok)
 src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
 src/modes/yarat.js    Usta: serbest tuval, simetri aynası, boya, geri al, görev rozetleri, PNG, galeri (state.gallery, state.badges)
-data/pieces.json      28 parça (üretilmiş)
+data/pieces.json      29 parça (üretilmiş; gül parçaları build/rose_pieces.json'dan)
 data/motifs.json      motif atlası (motifs) + hikâye kartları (cards; _dogrulama notu: sınıftan önce kaynaktan doğrula)
 data/levels.json      Kalfa seviyeleri (hedef yerleşimler)
 assets/pieces/*.svg   tekil parçalar
@@ -56,6 +56,7 @@ assets/motifs/        yapı fotoğrafları (eklenecek; lisans notu düşülecek)
 build/gen_pieces.py   parça üretici
 build/hankin.mjs      kesin desen türetici (alt çokgen ağı + kenar ortasından 54° ışınlar → parçalar)
 build/gen_levels10.mjs 10'lu kesin desenden parça biçimi ve f10-l2..l4 yerleşimleri
+build/gen_rose.mjs    setin 10'lu gülünün iç kısmı (ongen + 10 beşgen, Hankin 72°) → rose_pieces.json + f10-l5
 build/gen_levels6.mjs 6'lı yıldız-altıgen deseninden f6-l0..l4
 build/gen_levels12.mjs 12'li pergel hazırlığı (altı yaprak), f12-l1 ve 3.4.6.4 döşemesinden f12-l2..l4
 build/gen_tani.mjs    Tanı çizimleri: 6'lı yıldız-altıgen, 8'li yıldız-haç, 10'lu girih, 12'li 4.6.12 + Hankin 60° → data/tani.json

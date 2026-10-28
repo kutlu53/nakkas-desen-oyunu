@@ -1737,6 +1737,159 @@
     "lise": "Boşluğun köşelerindeki açıyı hesapla. Aynı açılı ama farklı boyda parça da var; kenar boyuna da bak."
    },
    "discovery": "Her köşe aynı: 60 + 90 + 120 + 90 = 360. Eksik parçayı köşedeki açıdan buldun. Beşgenin 108°'si bu köşelere uymaz; 6'lı ailenin altıgeni aynı açılı ama daha büyüktür, komşularına biner."
+  },
+  {
+   "id": "f10-l5",
+   "family": 10,
+   "order": 5,
+   "title": "Gül",
+   "story": "Usta: 'Setin gülü: ortada sivri bir yıldız, çevresinde on yaprak, aralarında beş köşeli yıldızlar. Önce yaprakları diz.'",
+   "_not": "build/gen_rose.mjs üretir: ongen + 10 beşgen üzerinde Hankin 72° (Motifler klasöründeki setin gül fotoğraflarının iç kısmı). Dış halka henüz yok.",
+   "fixed": [
+    {
+     "pieceId": "sivri-yildiz-10",
+     "x": 0,
+     "y": 0,
+     "rot": 0
+    }
+   ],
+   "tray": {
+    "besgen-uzun": 10,
+    "bes-kose-yildiz": 10
+   },
+   "trayDistractors": {
+    "lise": {
+     "besgen": 2,
+     "on-kose-yildiz": 1
+    }
+   },
+   "targets": [
+    {
+     "pieceId": "besgen-uzun",
+     "x": 0.857043,
+     "y": 0.622678,
+     "rot": 108
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": 1.059363,
+     "y": 0,
+     "rot": 72
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": 0.327361,
+     "y": 1.007514,
+     "rot": 144
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": -0.857043,
+     "y": 0.622678,
+     "rot": 216
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": -1.059363,
+     "y": 0,
+     "rot": 252
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": -0.857043,
+     "y": -0.622678,
+     "rot": 288
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": -0.327361,
+     "y": 1.007514,
+     "rot": 180
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": 0.857043,
+     "y": -0.622678,
+     "rot": 36
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": -0.327361,
+     "y": -1.007514,
+     "rot": 324
+    },
+    {
+     "pieceId": "besgen-uzun",
+     "x": 0.327361,
+     "y": -1.007514,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 1.376382,
+     "y": 0.447214,
+     "rot": 36
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 0.850651,
+     "y": 1.17082,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 1.376382,
+     "y": -0.447214,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 0,
+     "y": 1.447214,
+     "rot": 36
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": -1.376382,
+     "y": 0.447214,
+     "rot": 36
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": -1.376382,
+     "y": -0.447214,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": -0.850651,
+     "y": 1.17082,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": -0.850651,
+     "y": -1.17082,
+     "rot": 36
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 0,
+     "y": -1.447214,
+     "rot": 0
+    },
+    {
+     "pieceId": "bes-kose-yildiz",
+     "x": 0.850651,
+     "y": -1.17082,
+     "rot": 36
+    }
+   ],
+   "hint": {
+    "ortaokul": "Yıldızın çentiği 72° boşluk bırakır (360 − 288). Yaprağın sivri ucu 72°: ucunu çentiğe koy. Sonra yaprakların arasına beş köşeli yıldızları.",
+    "lise": "Sivri yıldızın çentiğinde kaç derece kalıyor? Kutudaki hangi köşe ona eşit?"
+   },
+   "discovery": "Sivri yıldızın çentiği 72°: yaprağın ucu tam oturur, 288 + 72 = 360. Yaprağın 108°'lik köşesi beş köşeli yıldızın çentiğine girer: 108 + 252 = 360. Yıldızın ucunda dört parça buluşur: 36 + 36 + 144 + 144 = 360. Bu gülde bütün açılar 36°'nin katıdır, çünkü hepsi bir ongenin ve çevresindeki beşgenlerin içine 72° ile çizilen çizgilerden çıkar. Setteki gül bu üç parçayla başlar."
   }
  ]
 }

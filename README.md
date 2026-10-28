@@ -47,13 +47,14 @@ python build/gen_pieces.py
 Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wrongFamilyAttempts, seconds, completed, hintsUsed}` yazar; pergel seviyesi ayrıca `wrongPicks` (yanlış çizim), aynalama seviyesi `brokenCopies` (kırık öteleme) ekler. Giriş ekranındaki **Verileri dışa aktar** JSON indirir. Sunucu yok; veri cihazda kalır.
 
 ## Durum
-- [x] Parça geometrisi (28 parça, 4 aile), SVG'ler, iç açılar — `hac` yıldızla birebir örtüşen oranlara çekildi
+- [x] Parça geometrisi (29 parça, 4 aile), SVG'ler, iç açılar — `hac` yıldızla birebir örtüşen oranlara çekildi
 - [x] Giriş ekranı + Parça atlası (`#atlas`)
 - [x] `geometry.js`: snap, köşe açı toplamı, çakışma denetimi, kenar hizalı yerleşim çözücü, hedef eşleme, kafes
 - [x] PWA iskeleti (manifest, service worker)
 - [x] Kalfa / Kur modu — iki zorluk profili, klavye desteği, araştırma logu, geçme çizgisi görünümü, hikâye kartları
 - [x] Kur · 8'li aile — pergel hazırlığı + 5 seviye (yıldız çevresi, yıldız-haç, ötele, aynala, bozuk çini)
-- [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye; kesin girih deseninden (`build/hankin.mjs`), fiziksel setle birebir değil
+- [x] Kur · 10'lu aile — pergel hazırlığı + 4 seviye (kesin girih deseni, `build/hankin.mjs`) + 5. seviye "Gül": setin gül motifinin iç kısmı (`build/gen_rose.mjs`)
+- [ ] Setin gül motifinin dış halkası (çentikli altıgen, ok ucu, taçlı kalkan)
 - [x] Kur · 6'lı aile — pergel hazırlığı + 4 seviye (yıldız-altıgen deseni, `build/gen_levels6.mjs`)
 - [x] Kur · 12'li aile — pergel hazırlığı (altı yaprak) + 4 seviye (12 kare; 3.4.6.4 Arşimet döşemesi: onikigen, ötele, bozuk çini)
 - [x] Kur · rütbe sınavı "Karışık kutu" (8'li ve 10'lu yıldız, tek kutu; yanlış aile yıldıza göre sayılır)

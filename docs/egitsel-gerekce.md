@@ -147,7 +147,9 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Seviye 4 · "Bozuk çini":** Ortadaki yıldızı düşmüş bir yamayı onarmak; aynı büyüklükteki 8'li ve 12'li yıldız uç açılarıyla elenir.
 
-**Desen kaynağı:** Bu seviyeler klasik bir girih deseninden kesin olarak türetildi (girih ongen + papyon döşemesi üzerinde Hankin yöntemi, 54°). Fiziksel setin 10'lu parçalarından farklıdır; set başka bir 10'lu desene dayanıyor görünmektedir.
+**Seviye 5 · "Gül":** Fiziksel setin kendi 10'lu gül motifinin iç kısmı: sivri on köşeli yıldız, on yaprak, on beş köşeli yıldız. Kesin geometrisi bir ongen ile çevresindeki on beşgenin içine 72° ile çizilen çizgilerden türetildi; bütün açıları 36°'nin katıdır. Bu seviye fiziksel setin parçalarıyla aynı biçimdedir.
+
+**Desen kaynağı:** 2.–4. seviyeler klasik bir girih deseninden kesin olarak türetildi (girih ongen + papyon döşemesi üzerinde Hankin yöntemi, 54°). Fiziksel setin 10'lu parçalarından farklıdır; set başka bir 10'lu desene dayanıyor görünmektedir.
 
 **Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım); içbükey köşe ve eğik birim hücre; kristalografik kısıtla sezgisel tanışma.
 

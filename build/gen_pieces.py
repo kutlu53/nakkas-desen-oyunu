@@ -4,6 +4,7 @@ Tüm parçalar aynı ölçekte: ana yıldızın dış yarıçapı = 1 birim.
 import math, os, json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROSE = {k: [tuple(p) for p in v] for k, v in json.load(open(os.path.join(ROOT, "build", "rose_pieces.json"), encoding="utf-8")).items() if not k.startswith("_")}
 C45 = math.cos(math.pi/4); C225 = math.cos(math.pi/8); S225 = math.sin(math.pi/8)
 
 def deg(a): return math.radians(a)
@@ -90,14 +91,15 @@ PIECES = [
   # ---- 10'lu sistem ----
   dict(id="on-kose-yildiz", name="On köşeli yıldız", family=10, role="merkez", color="#6aa6c8",
        pts=star10, note="{10/3} yıldızı, uç 72°"),
+  dict(id="sivri-yildiz-10", name="Sivri on köşeli yıldız", family=10, role="merkez", color="#24232b",
+       pts=ROSE["sivri-yildiz-10"], note="{10/4} yıldızı, uç 36°; setin gül motifinin ortası (build/gen_rose.mjs)"),
   dict(id="bes-kose-yildiz", name="Beş köşeli yıldız", family=10, role="merkez", color="#4f7f93",
-       pts=star(5, 1.0, 0.381966), note="Pentagram"),
+       pts=ROSE["bes-kose-yildiz"], note="{5/2} pentagram, uç 36°, çentik 252°; gül motifinde yaprakların arası (build/gen_rose.mjs)"),
   dict(id="yarim-yildiz", name="Yarım on köşeli yıldız", family=10, role="sınır", color="#4f7f93",
        pts=recenter(clip_below(star(10, 1.0, r10), 0.45)), note="Desenin kenarını bitiren parça"),
   dict(id="besgen", name="Beşgen", family=10, role="dolgu", color="#b8392e", pts=pent, note="Düzgün beşgen, 108°; kenar = 10'lu yıldız kenarı"),
-  dict(id="besgen-uzun", name="Uzun beşgen", family=10, role="dolgu", color="#b8392e",
-       pts=recenter([(-.5, 0), (-.5, -0.75), (0, -0.75-ap), (.5, -0.75), (.5, 0)]), note="Beşgen çatı + uzun duvar"),
-  # papyon ve dörtgen: build/hankin.mjs kesin deseninden (girih ongen + papyon döşemesi, 54°); ağırlık merkezi orijinde
+  dict(id="besgen-uzun", name="Uzun beşgen (yaprak)", family=10, role="dolgu", color="#b8392e",
+       pts=ROSE["besgen-uzun"], note="Gül yaprağı: 6 köşe 72/144/108/144/108/144 (tabandaki sığ köşe fotoğrafta görünmüyordu); ucu sivri yıldızın çentiğine oturur"),
   dict(id="papyon", name="Papyon", family=10, role="köprü", color="#e2a92b",
        pts=[(0.224514, 0.309017), (0.000000, 0.236068), (-0.224514, 0.309017), (-0.449028, 0.000000), (-0.224514, -0.309017), (0.000000, -0.236068), (0.224514, -0.309017), (0.449028, 0.000000)],
        note="Kesin desenden; açılar 108° ve iki içbükey 216°. Fiziksel setteki papyondan küçük"),

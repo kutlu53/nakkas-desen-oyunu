@@ -14,7 +14,7 @@ export function run(G, pieces, levels, ok) {
   ok("dedupeAngles 0/360/720 tek", G.dedupeAngles([0, 360, 720, 45]).length === 2);
 
   // --- parça verisi ---
-  ok("28 parça", pieces.length === 28);
+  ok("29 parça", pieces.length === 29);
   ok("8'li yıldız iç açılar 90/225", by["sekiz-kose-yildiz"].angles.every((a) => a === 90 || a === 225));
   ok("haç açıları 135/90/270", by["hac"].angles.every((a) => [135, 90, 270].includes(a)));
   ok("10'lu yıldız çentiği 108 = beşgen", near(360 - Math.max(...by["on-kose-yildiz"].angles), 108) && by["besgen"].angles.every((a) => near(a, 108)));
@@ -152,7 +152,7 @@ export function run(G, pieces, levels, ok) {
       return okk;
     });
   };
-  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4", "f12-l1", "f12-l2", "f12-l4"]) {
+  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4", "f12-l1", "f12-l2", "f12-l4", "f10-l5"]) {
     const lv = (levels || []).find((l) => l.id === id); if (!lv) continue;
     const full = G.evaluateVertices([...lv.fixed, ...lv.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot)));
     ok(`${id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));

@@ -363,6 +363,23 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   }
 }
 
+// ---------- 10'lu gül (setin motifi): yapraklar R ile döndürülür ----------
+{
+  const { ctx } = makeCtx("f10-l5");
+  const cleanup = await mount(app, ctx); await tick();
+  const lv = (await loadLevels()).find((l) => l.id === "f10-l5");
+  const names = { "besgen-uzun": "Uzun beşgen", "bes-kose-yildiz": "Beş köşeli yıldız" };
+  const miss = [];
+  for (const t of [...lv.targets].sort((p, q) => (p.pieceId === "besgen-uzun" ? -1 : 1) - (q.pieceId === "besgen-uzun" ? -1 : 1))) {
+    const before = placedCount();
+    await dragFromTray(names[t.pieceId], t.x + 0.01, t.y - 0.01, { rotateTimes: Math.round(t.rot / 36) % 10 });
+    if (placedCount() !== before + 1 || !/Tam oturdu/.test(msg())) miss.push(`${t.pieceId}@${t.rot}: ${msg()}`);
+  }
+  ok("f10-l5 gül: 20 parça oturdu" + (miss.length ? " — " + miss.join(" | ") : ""), miss.length === 0);
+  ok("f10-l5 gül: kart açıldı", overlayOpen());
+  cleanup();
+}
+
 // ---------- rütbe sınavı: 8'li ve 10'lu tek kutuda ----------
 {
   const { ctx, logs } = makeCtx("karma-1");

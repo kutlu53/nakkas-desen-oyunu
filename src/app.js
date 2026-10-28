@@ -86,7 +86,7 @@ async function renderHome(main) {
       <button class="rank" data-go="kur"><span class="rk">Kalfa</span><strong>Kur</strong><small>Parçaları yerleştir, açıları 360'a tamamla.</small>${done ? `<em>${done} seviye tamam</em>` : ""}</button>
       <button class="rank" data-go="yarat"><span class="rk">Usta</span><strong>Yarat</strong><small>Simetri aynasıyla kendi motifini üret.</small></button>
     </section>
-    <p class="foot"><a href="#atlas">Parça atlası</a> · 28 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>
+    <p class="foot"><a href="#atlas">Parça atlası</a> · 29 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>
     <div class="overlay" ${promoted ? "" : "hidden"}><div class="card" role="dialog" aria-modal="true" aria-labelledby="rk-t">
       <p class="eyebrow">Lonca</p><h2 id="rk-t">${RANK_LABEL[rs.rank]} oldun.</h2>
       <p class="disc">${rs.rank === "kalfa" ? "Motifleri tanıdın ve dört ailenin ilk adımlarını kurdun. Kalfa artık çentiği açıyla okur." : "Dört ailenin birim hücresini kurdun ve ailelerin karıştığı sınavı geçtin. Usta, deseni kural ezberleyerek değil, açıyı okuyarak kurar."}</p>
