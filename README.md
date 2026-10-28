@@ -28,6 +28,7 @@ python build/gen_pieces.py
 `data/pieces.json` ve `assets/pieces/*.svg` üretilir. Elle düzenleme; şekli değiştirmek için `gen_pieces.py` içindeki tanımı değiştir.
 
 ## Kalfa — Kur nasıl oynanır
+- Her aile **pergelle kur** hazırlığıyla başlar: bir noktadan ötekine sürükle (ya da iki noktaya sırayla dokun). Pergelde ilk nokta sivri uç, ikincisi kalemdir; cetvel iki noktayı birleştirir. "Usta göstersin" adımı kendisi çizer. Yıldız çizimden çıkar, sonra parçalarla kurulur.
 - Parçayı kutudan tahtaya sürükle. Köşesi sahnedeki bir köşeye yaklaşınca yapışır ve kenarı hizalanacak şekilde aile adımıyla döner.
 - Her paylaşılan köşede açılar toplanır: yeşil = 360 (tam), sarı = eksik (kaç derece açık kaldığı yazar), kırmızı = aşım (parça kutuya döner).
 - Döndürme: sürüklerken **R** ya da "Döndür" düğmesi; tahtadaki parçayı çift tıklama.

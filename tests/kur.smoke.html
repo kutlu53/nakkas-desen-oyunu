@@ -5,7 +5,7 @@
 <main id="app" style="width: 1000px"></main>
 <script type="module">
 // Sentetik işaretçi olaylarıyla Kalfa/Kur'u baştan sona oynar. Framework yok. Tarayıcıda aç ya da headless --dump-dom ile oku.
-import { mount } from "../src/modes/kur.js";
+import { mount, loadLevels } from "../src/modes/kur.js";
 const out = document.getElementById("out"); let fail = 0, n = 0;
 window.addEventListener("error", (e) => { out.textContent += "HATA: " + e.message + " @" + (e.filename || "") + ":" + e.lineno + "\n"; });
 window.addEventListener("unhandledrejection", (e) => { out.textContent += "HATA (promise): " + (e.reason && e.reason.stack || e.reason) + "\n"; });
@@ -111,6 +111,59 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   await dragFromTray("Birim hücre", 1.98, 2.0);
   ok("2×2 tamam: kart açıldı", placedCount() === 6 && overlayOpen());
   cleanup();
+}
+
+// ---------- Seviye 0 (ortaokul): pergel ve cetvelle yıldızı kur ----------
+{
+  const { ctx, logs } = makeCtx("f8-l0");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  const P = (await loadLevels()).find((l) => l.id === "f8-l0").points;
+  const task = () => app.querySelector(".task").textContent, fb = () => app.querySelector(".fb").textContent;
+  const ptCount = () => app.querySelectorAll(".pts [data-k]").length, objCount = () => app.querySelectorAll(".cons .c-obj").length;
+  /** a noktasından b noktasına sürükle (pergel ya da cetvel). */
+  async function draw(a, b) {
+    const s = svg();
+    pev("pointerdown", s, toClient(...P[a]));
+    pev("pointermove", s, toClient((P[a][0] + P[b][0]) / 2, (P[a][1] + P[b][1]) / 2));
+    pev("pointerup", s, toClient(P[b][0] + 0.02, P[b][1] - 0.02));
+    await tick();
+  }
+  async function tap(k) { pev("pointerdown", svg(), toClient(...P[k])); pev("pointerup", svg(), toClient(...P[k])); await tick(); }
+  ok("hazırlık kuruldu: 2 nokta (O, A), adım 1/9", ptCount() === 2 && /Adım 1\/9/.test(task()) && app.querySelectorAll(".steps li").length === 9);
+  ok("ortaokul: beklenen noktalar parlar", app.querySelectorAll(".pts .want").length === 2);
+  await draw("A", "O");
+  ok("pergel ters (uç A'da) → kabul edilmez, ipucu verir", objCount() === 0 && /sivri uç O/.test(fb()));
+  await draw("O", "A");
+  ok("ana daire çizildi", objCount() === 1 && /Ana daire hazır/.test(fb()) && /Adım 2\/9/.test(task()));
+  await tap("O"); await tap("A");
+  ok("dokun-dokun ile cetvel: çap çizildi, C açıldı", objCount() === 2 && ptCount() === 3);
+  await draw("A", "C");
+  ok("dikme yayları: E ve F açıldı", ptCount() === 5);
+  app.querySelector("[data-act=show]").click(); await tick();
+  ok("usta gösterdi: dik çap, B ve D açıldı", ptCount() === 7 && /Usta çizdi/.test(fb()));
+  await draw("A", "O");
+  ok("dört daire: G H I J açıldı", ptCount() === 11 && objCount() === 9);
+  await draw("I", "G");
+  ok("köşegenler: daire 8'e bölündü", ptCount() === 15);
+  await draw("A", "C");
+  ok("A–C kare kenarı değil → kabul edilmez", /Adım 7\/9/.test(task()));
+  await draw("B", "A"); await draw("K", "L");
+  ok("iki kare çizildi (8 kenar)", app.querySelectorAll(".cons .c-seg").length === 8 && /Adım 9\/9/.test(task()));
+  pev("pointerdown", svg(), toClient(0.3, 0.1)); await tick();
+  ok("yıldız boyandı, haç kılavuzu J'de, 135° etiketi", app.querySelector(".fill [data-piece-id=sekiz-kose-yildiz]") && app.querySelector(".fill .ghost") && /135°/.test(app.querySelector(".fill text").textContent));
+  await new Promise((r) => setTimeout(r, 1600));
+  ok("kart açıldı, sonraki seviye f8-l1", overlayOpen() && app.querySelector(".overlay .btn.primary").getAttribute("href") === "#kur/f8-l1");
+  ok("ilerleme + log (wrongPicks=2, hints=1)", ctx.state.progress["f8-l0"]?.completed && logs.length === 1 && logs[0].wrongPicks === 2 && logs[0].hintsUsed === 1);
+  cleanup();
+}
+
+// ---------- seviye listesi: hazırlık ✎ ile başlar ----------
+{
+  const { ctx } = makeCtx(undefined);
+  await mount(app, ctx); await tick();
+  const first = app.querySelector(".level");
+  ok("listede ilk kart ✎ Pergelle kur", first.getAttribute("href") === "#kur/f8-l0" && first.querySelector(".num").textContent === "✎");
 }
 
 out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;

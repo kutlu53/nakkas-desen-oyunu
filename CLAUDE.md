@@ -21,7 +21,7 @@ Tarayıcıda çalışan, çevrimdışı oynanabilen (PWA) eğitsel yapboz oyunu.
 | Rütbe | Mod | Kazanım | Özet |
 |---|---|---|---|
 | Çırak | **Tanı** | 1 | Gerçek yapı fotoğrafı/çizimi üzerinde yıldızı bul, köşe say, aileyi seç, birim hücreyi çerçevele. Doğruda hikâye kartı açılır. |
-| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: yıldız çevresi → birim hücre → ötele ve kapla. |
+| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla. |
 | Usta | **Yarat** | 3 | Boş tuval + parça kutusu + **simetri aynası** (n-kat döndürme). Kısıtlı görevler. PNG dışa aktar, yerel galeri. |
 
 Ayrıntı: `docs/tasarim.md`, seviyeler: `docs/seviyeler.md`, motif atlası içeriği: `data/motifs.json`.
@@ -42,6 +42,7 @@ src/geometry.js       çokgen matematiği, snap, açı toplamı (saf fonksiyonla
 src/pieces.js         pieces.json yükle, SVG path üret, parça kutusu
 src/modes/tani.js     Çırak
 src/modes/kur.js      Kalfa
+src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json → tool: "construct")
 src/modes/yarat.js    Usta
 data/pieces.json      27 parça (üretilmiş)
 data/motifs.json      motif atlası + hikâye kartları
@@ -56,5 +57,6 @@ build/gen_pieces.py   parça üretici
 - `geometry.js` fonksiyonları yan etkisiz; her yeni fonksiyona `tests/geometry.tests.js` içinde en az bir örnek ekle (framework yok; `tests/geometry.test.html` tarayıcıda, `node tests/run-node.mjs` komut satırında çalıştırır). Mod etkileşimleri için `tests/kur.smoke.html` sentetik işaretçi olaylarıyla oynar; headless Chrome `--dump-dom` ile okunabilir.
 - Dokunma hedefleri ≥ 44px. Parça kutusundaki küçük parçalar büyütülmüş tutamaçla sürüklenir.
 - Hikâye/kültür metinleri `data/motifs.json`'da; koda gömme. Tarihsel iddiaları kaynaklı tut, emin olunmayanı "rivayet" diye işaretle.
+- Tarihsel çerçeve: ustalar deseni pergel ve cetvelle kurardı, açı ölçüp toplamazdı. Açı toplamı bugünün matematiğiyle kurulumun *neden* çalıştığını gösterir; metinlerde "ustalar açıları toplardı" izlenimi verme. Her aile Kur'a bir pergel-cetvel hazırlığıyla başlar (`tests/geometry.tests.js` her açılan noktanın iki çizimin kesişimi olduğunu denetler). Motifleri dönem/coğrafyayla doğru eşle: 8'li yıldız-haç çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde.
 - Performans ölçütü: 60 parçalı sahne orta sınıf Android tablette akıcı sürüklenmeli.
 - Araştırma verisi: oyun `localStorage`'a oturum başına `{mode, level, attempts, seconds, completed}` yazar; `Ayarlar → Verileri dışa aktar` JSON verir. Ölçek çalışmasıyla eşleştirilecek.

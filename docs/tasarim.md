@@ -6,7 +6,7 @@ Nakkaş, İslam sanatındaki geometrik desenleri üç kademede öğreten tarayı
 Hedef kitle: ortaokul (5–8) ve lise (9–12). Tek oyuncu. Oturum 10–20 dakika. Çevrimdışı çalışır.
 
 ## 2. Çekirdek fikir: "Açı 360'ı bulur"
-Bütün İslam geometrik desenleri tek bir kurala dayanır: bir köşede buluşan parçaların iç açıları 360° eder. Yıldızın köşe sayısı (n) hangi açıların mümkün olduğunu belirler:
+Kenar kenara oturan her döşemede olduğu gibi, bir köşede buluşan parçaların iç açıları 360° eder. Bu İslam sanatına özgü bir tasarım kuralı değil, matematik bir gerçektir; ustalar da açı ölçerek değil, pergel ve cetvelle kurarak çalışırdı: daire n'ye bölünür, yıldız ve çevresindeki çokgenler bu çizimden çıkar. Oyun önce bu kurulumu yaptırır (Kur, hazırlık seviyesi), sonra açı toplamıyla kurulumun neden çalıştığını gösterir. Yıldızın köşe sayısı (n) hangi açıların mümkün olduğunu belirler:
 
 | Aile | Temel açı | Yıldız çentiğine tam oturan | Yaygın yerler |
 |---|---|---|---|

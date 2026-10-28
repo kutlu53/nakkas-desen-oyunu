@@ -5,6 +5,7 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 ## 8'li aile — "Medrese kapısı"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |
 |---|---|---|---|---|---|
+| 0 | Pergelle kur (hazırlık) | O, A noktaları | pergel, cetvel | 9 adım: daire → çap → dikme yayları → dik çap → dört daire → köşegenler → iki kare → boya | daire pergelle 8'e bölünür; iki karenin birleşimi yıldızı, çentiğindeki 135°'yi ölçmeden verir; haçın merkezi (1,1) dört dairenin kesişimi |
 | 1 | Çentiği tanı | sekiz-kose-yildiz ×1 | hac ×4, kare-kucuk ×2–4 (yanıltıcı; lise ayrıca besgen ×2) | 4 haç (±1, ±1) | çentik 135°: kare (90°) 45° açık bırakır, beşgen (108°) 27°, haçın omzu (135°) tam oturur |
 | 2 | Yıldız-haç | hac ×1 (sabit) | sekiz-kose-yildiz ×4 | haçın dört omzuna dört yıldız (±1, ±1) | haç ucunda 90+90+90 = 270; kalan 90° komşu haçın ucu |
 | 3 | Ötele ve kapla | 1 birim hücre | hücre kopyası aracı | 3×3 (lise) / 2×2 (orta) | öteleme vektörü = yıldız merkezleri arası |

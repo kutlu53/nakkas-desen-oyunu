@@ -46,7 +46,7 @@ function renderHome(main) {
   main.innerHTML = `
     <section class="hero">
       <p class="eyebrow">Nakkaş loncası</p>
-      <h1>Desen bir kuralla başlar: köşede açılar 360 eder.</h1>
+      <h1>Desen pergelle çizilir; köşede açılar 360 eder.</h1>
       <p class="lead">Önce motifleri tanı, sonra kur, sonra kendi motifini yarat.</p>
       <div class="diff">
         <span>Seviye</span>

@@ -6,6 +6,7 @@ import { run } from "./geometry.tests.js";
 const out = document.getElementById("out"); let fail = 0, n = 0;
 const ok = (name, cond) => { n++; out.textContent += (cond ? "✓ " : "✗ ") + name + "\n"; if (!cond) fail++; };
 const { pieces } = await fetch("../data/pieces.json").then((r) => r.json());
-run(G, pieces, ok);
+const { levels } = await fetch("../data/levels.json").then((r) => r.json());
+run(G, pieces, levels, ok);
 out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
 </script>

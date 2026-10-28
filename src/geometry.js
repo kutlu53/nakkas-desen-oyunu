@@ -373,5 +373,22 @@ export function latticeCoords([ox, oy], a, b, tol = 0.03) {
   return Math.abs(i - ri) <= tol && Math.abs(j - rj) <= tol ? { i: ri, j: rj } : null;
 }
 
+// ---------- pergel-cetvel kurulumu ----------
+
+/** Kurulum nesnesini şekle çevir: {circle|arc: [merkez, geçtiği nokta]} → daire, {line: [a, b]} → doğru, {seg: [a, b]} → doğru parçası. pts: ad → [x, y]. */
+export function constructionShape(obj, pts) {
+  if (obj.circle || obj.arc) { const [c, t] = (obj.circle || obj.arc).map((k) => pts[k]); return { type: "circle", c, r: dist(c, t) }; }
+  const [a, b] = (obj.line || obj.seg).map((k) => pts[k]);
+  return { type: obj.seg ? "segment" : "line", a, b };
+}
+
+/** Nokta şeklin üstünde mi (daire çevresi, sonsuz doğru ya da doğru parçası). */
+export function pointOnShape(p, s, tol = 1e-3) {
+  if (s.type === "circle") return Math.abs(dist(p, s.c) - s.r) < tol;
+  if (s.type === "segment") return segDist(p, s.a, s.b) < tol;
+  const [ax, ay] = s.a, [bx, by] = s.b;
+  return Math.abs((bx - ax) * (p[1] - ay) - (by - ay) * (p[0] - ax)) / dist(s.a, s.b) < tol;
+}
+
 /** SVG path dizesi. */
 export const toPath = (points) => "M" + points.map(([x, y]) => `${x.toFixed(4)},${y.toFixed(4)}`).join(" L") + " Z";

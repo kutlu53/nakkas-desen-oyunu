@@ -26,6 +26,7 @@ export async function mount(root, ctx) {
   const [levels, { byId }] = await Promise.all([loadLevels(), loadPieces()]);
   const level = levels.find((l) => l.id === ctx.param);
   if (!level) { renderIndex(root, ctx, levels); return () => {}; }
+  if (level.tool === "construct") return (await import("./construct.js")).renderConstruct(root, ctx, level, levels, byId);
   return renderLevel(root, ctx, level, levels, byId);
 }
 
@@ -33,7 +34,7 @@ export async function mount(root, ctx) {
 function renderIndex(root, ctx, levels) {
   root.innerHTML = `<a class="back" href="#home">← Lonca</a>
     <header class="mode-head"><p class="eyebrow">Kalfa · ${ctx.difficulty}</p><h1>Kur</h1>
-    <p class="lead">Parçaları yerleştir; her köşede açılar 360'ı bulsun. Yanlış aile kuraldan değil, açıdan belli olur.</p></header>`;
+    <p class="lead">Önce pergel ve cetvelle çiz; parçalar çizimden çıkar. Sonra parçaları yerleştir: her köşede açılar 360'ı bulsun. Yanlış aile kuraldan değil, açıdan belli olur.</p></header>`;
   for (const fam of [8, 10, 6, 12]) {
     const list = levels.filter((l) => l.family === fam).sort((a, b) => a.order - b.order);
     const sec = document.createElement("section");
@@ -45,7 +46,7 @@ function renderIndex(root, ctx, levels) {
     for (const l of list) {
       const p = ctx.state.progress[l.id];
       ul.insertAdjacentHTML("beforeend", `<a class="level ${p?.completed ? "done" : ""}" href="#kur/${l.id}">
-        <span class="num">${l.order}</span><strong>${esc(l.title)}</strong>
+        <span class="num">${l.order || "✎"}</span><strong>${esc(l.title)}</strong>
         <small>${p?.completed ? `Tamamlandı · ${p.attempts} deneme · ${mmss(p.seconds)}` : esc(l.story)}</small></a>`);
     }
     sec.appendChild(ul);
@@ -68,6 +69,7 @@ function renderLevel(root, ctx, level, levels, byId) {
   };
   const isCell = level.tool === "translate-copy";
   const famLevels = levels.filter((l) => l.family === level.family).sort((a, b) => a.order - b.order);
+  const numbered = famLevels.filter((l) => l.order > 0).length; // 0: pergel-cetvel hazırlığı, sayılmaz
   const next = famLevels.find((l) => l.order > level.order);
   const fixed = level.fixed.map((f) => ({ pieceId: f.pieceId, x: f.x, y: f.y, rot: f.rot }));
   const cellPieces = fixed.map((f) => ({ piece: byId[f.pieceId], placement: { x: f.x, y: f.y, rot: f.rot } }));
@@ -96,7 +98,7 @@ function renderLevel(root, ctx, level, levels, byId) {
   root.innerHTML = `
     <header class="mode-head">
       <a class="back" href="#kur">← Seviyeler</a>
-      <p class="eyebrow">Kalfa · ${FAMILY_LABEL[level.family]} sistem · ${level.order}/${famLevels.length} · ${diff}</p>
+      <p class="eyebrow">Kalfa · ${FAMILY_LABEL[level.family]} sistem · ${level.order}/${numbered} · ${diff}</p>
       <h1>${esc(level.title)}</h1>
       <p class="story">${esc(level.story)}</p>
     </header>

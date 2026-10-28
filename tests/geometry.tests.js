@@ -1,5 +1,5 @@
 // geometry.js için örnekler. Framework yok: ok(ad, koşul). Tarayıcıda geometry.test.html, komut satırında run-node.mjs çalıştırır.
-export function run(G, pieces, ok) {
+export function run(G, pieces, levels, ok) {
   const near = (a, b, t = 1e-6) => Math.abs(a - b) < t;
   const by = Object.fromEntries(pieces.map((p) => [p.id, p]));
   const sc = (id, x, y, rot = 0) => ({ piece: by[id], placement: { x, y, rot } });
@@ -96,4 +96,29 @@ export function run(G, pieces, ok) {
   ok("yanlış yerde haç eşleşmez", !G.matchesTargets([...placedOk.slice(0, 3), { pieceId: "hac", x: 2, y: 0, rot: 0 }], targets, 8, by));
   const starTargets = targets.map((t) => ({ ...t, pieceId: "sekiz-kose-yildiz" }));
   ok("yıldızlar 45° dönük de eşleşir", G.matchesTargets(starTargets.map((t) => ({ ...t, rot: 45 })), starTargets, 8, by));
+
+  // --- pergel-cetvel kurulumu ---
+  ok("şekil: (1,0) O merkezli birim dairede", G.pointOnShape([1, 0], G.constructionShape({ circle: ["O", "A"] }, { O: [0, 0], A: [0, 1] })));
+  ok("şekil: (3,3) sonsuz doğruda, parçada değil", G.pointOnShape([3, 3], G.constructionShape({ line: ["O", "A"] }, { O: [0, 0], A: [1, 1] })) && !G.pointOnShape([3, 3], G.constructionShape({ seg: ["O", "A"] }, { O: [0, 0], A: [1, 1] })));
+  for (const lv of (levels || []).filter((l) => l.tool === "construct")) {
+    const pts = lv.points, seen = new Set(lv.start), shapes = [];
+    let picksOk = true, revealsOk = true;
+    lv.steps.forEach((st, i) => {
+      if (!st.pick.every((k) => seen.has(k))) picksOk = false;
+      const fresh = (st.draw || []).map((o) => G.constructionShape(o, pts));
+      shapes.push(...fresh);
+      // açılan her nokta, şimdiye dek çizilmiş iki şeklin kesişimi olmalı; biri bu adımdan
+      for (const k of st.reveals || []) {
+        const on = shapes.filter((s) => G.pointOnShape(pts[k], s)).length;
+        if (on < 2 || !fresh.some((s) => G.pointOnShape(pts[k], s))) { revealsOk = false; console.log(`  ${lv.id} adım ${i + 1}: ${k} kesişim değil`); }
+        seen.add(k);
+      }
+    });
+    ok(`${lv.id}: her adımın noktaları önceden açılmış`, picksOk);
+    ok(`${lv.id}: her açılan nokta iki çizimin kesişimi`, revealsOk);
+    const segs = shapes.filter((s) => s.type === "segment"), star = by[lv.finale.fill];
+    ok(`${lv.id}: yıldızın ${star.points.length} köşesi iki karenin kenarlarında`, star.points.every((p) => segs.filter((s) => G.pointOnShape(p, s, 2e-4)).length >= 2));
+    const gh = lv.finale.ghost, ghostPts = G.placedPoints(by[gh.pieceId], { x: pts[gh.at][0], y: pts[gh.at][1], rot: 0 });
+    ok(`${lv.id}: ${gh.pieceId} ${gh.at} noktasında, omzu çentiğe oturur`, ghostPts.some((p) => G.dist(p, lv.finale.notch) < 1e-3) && star.points.some((p) => G.dist(p, lv.finale.notch) < 1e-3));
+  }
 }
