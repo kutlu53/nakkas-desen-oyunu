@@ -119,6 +119,19 @@ export function run(G, pieces, levels, ok) {
   ok("2 birim öteleme korur", G.preservesLattice(G.translateBy(2, 0), [0, 0], [2, 0], [0, 2]));
   ok("ayna sonra öteleme: y=1 aynası ∘ (1,0) öteleme bozar", !G.preservesLattice(G.affineCompose(G.translateBy(1, 0), G.reflectAcross("y", 1)), [0, 0], [2, 0], [0, 2]));
 
+  // --- bozuk çini: eksikler tam oturur, benzer yıldızlar sığmaz ---
+  for (const lv of (levels || []).filter((l) => l.id === "f8-l5")) {
+    const fixedSc = lv.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot));
+    const full = G.evaluateVertices([...fixedSc, ...lv.targets.map((t) => sc(t.pieceId, t.x, t.y, t.rot))]);
+    ok(`${lv.id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));
+    ok(`${lv.id}: her eksik, yakına bırakılınca tam yerine oturur`, lv.targets.every((t) => {
+      const r = G.resolvePlacement(by[t.pieceId], { x: t.x + 0.04, y: t.y - 0.03, rot: 0 }, fixedSc, { snapDist: 0.2 });
+      return r.snapped && !r.overlap && near(r.placement.x, t.x, 1e-6) && near(r.placement.y, t.y, 1e-6);
+    }));
+    const hole = lv.targets.find((t) => t.pieceId === "sekiz-kose-yildiz");
+    ok(`${lv.id}: 10'lu ve 12'li yıldız 8'li boşluğa sığmaz`, ["on-kose-yildiz", "oniki-kose-yildiz"].every((id) => G.resolvePlacement(by[id], { x: hole.x + 0.03, y: hole.y + 0.02, rot: 0 }, fixedSc, { snapDist: 0.2 }).overlap));
+  }
+
   // --- pergel-cetvel kurulumu ---
   ok("şekil: (1,0) O merkezli birim dairede", G.pointOnShape([1, 0], G.constructionShape({ circle: ["O", "A"] }, { O: [0, 0], A: [0, 1] })));
   ok("şekil: (3,3) sonsuz doğruda, parçada değil", G.pointOnShape([3, 3], G.constructionShape({ line: ["O", "A"] }, { O: [0, 0], A: [1, 1] })) && !G.pointOnShape([3, 3], G.constructionShape({ seg: ["O", "A"] }, { O: [0, 0], A: [1, 1] })));

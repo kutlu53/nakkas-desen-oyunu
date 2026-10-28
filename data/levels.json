@@ -102,6 +102,32 @@
    "hint": {"ortaokul": "Aynala'yı seç ve birimin sağ ya da alt kenarına dokun. Çeyrek yıldız, aynada yarım yıldıza tamamlanır.", "lise": "Hangi işlem çeyrek yıldızı tamamlar: öteleme mi, ayna mı? Birim ne zaman ötelenebilir hale gelir?"},
    "discovery": "Çeyrek kare tek başına ötelenince yıldızlar birleşmez; kenarından aynalanınca birleşir. İki aynadan sonra elinde 2×2 birim hücre olur ve artık öteleme de çalışır. Tomardaki ustalar böyle çalışırdı: en küçük birimi çiz, kenarlarından aynala, sonra tekrarla.",
    "card": "topkapi-tomari"
+  },
+  {
+   "id": "f8-l5", "family": 8, "order": 5, "title": "Bozuk çini",
+   "story": "Usta: 'Eski bir medrese duvarından dört çini düşmüş. Kutudakilerin hepsi bu duvara ait değil; şekline değil, açısına bak.'",
+   "_not": "Tam desen: yıldızlar (2i, 2j), i, j ∈ {-1, 0, 1}; haçlar (±1, ±1). Eksikler: yıldız (0,0), (-2,2), (2,2) ve haç (1,-1). 10'lu ve 12'li yıldızlar boşluğa sığmaz (köşede 360 aşılır), kare haç boşluğunda açık bırakır. tests/geometry.tests.js doğrular.",
+   "fixed": [
+    {"pieceId": "sekiz-kose-yildiz", "x": -2, "y": -2, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 0, "y": -2, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 2, "y": -2, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": -2, "y": 0, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 2, "y": 0, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 2, "rot": 0},
+    {"pieceId": "hac", "x": 1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": 1, "rot": 0},
+    {"pieceId": "hac", "x": -1, "y": -1, "rot": 0}
+   ],
+   "tray": {"sekiz-kose-yildiz": 3, "hac": 1},
+   "trayDistractors": {"ortaokul": {"on-kose-yildiz": 1, "kare-kucuk": 2}, "lise": {"on-kose-yildiz": 1, "oniki-kose-yildiz": 1, "besgen": 1}},
+   "targets": [
+    {"pieceId": "sekiz-kose-yildiz", "x": 0, "y": 0, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": -2, "y": 2, "rot": 0},
+    {"pieceId": "sekiz-kose-yildiz", "x": 2, "y": 2, "rot": 0},
+    {"pieceId": "hac", "x": 1, "y": -1, "rot": 0}
+   ],
+   "hint": {"ortaokul": "Kutuda iki yıldız türü var. 10'lu yıldızın uçları 72°, 8'li yıldızınki 90°. Boşluğun köşesinde hangisi 360'ı tamamlar?", "lise": "Benzeyen parçaları ayırmak için boşluğun bir köşesindeki açıyı hesapla."},
+   "discovery": "Eksik çiniyi şeklinden değil açısından buldun. 10'lu yıldız uzaktan 8'liye benzer, ama boşluğun köşesinde üç komşu uç zaten 90 + 90 + 90 = 270 eder; 10'lu yıldızın 72°'lik ucu bunu 342'ye, 12'li yıldızın 60°'lik ucu 330'a getirir. Boşluk yalnızca 90°'lik uçla dolar: 270 + 90 = 360. Restorasyoncu da böyle çalışır: kırık bir desende önce geometriyi okur, sonra parçayı seçer."
   }
  ]
 }

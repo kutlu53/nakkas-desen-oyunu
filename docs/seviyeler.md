@@ -10,7 +10,7 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 | 2 | Yıldız-haç | hac ×1 (sabit) | sekiz-kose-yildiz ×4 | haçın dört omzuna dört yıldız (±1, ±1) | haç ucunda 90+90+90 = 270; kalan 90° komşu haçın ucu |
 | 3 | Ötele ve kapla | 1 birim hücre | hücre kopyası aracı | 3×3 (lise) / 2×2 (orta) | öteleme vektörü = yıldız merkezleri arası |
 | 4 | Aynala ve çoğalt | çeyrek kare birim (çeyrek yıldız + çeyrek haç) | ayna / öteleme aracı | 4×2 (orta) / 4×4 (lise) | çeyrek ötelenince kırılır, aynalanınca birleşir; 2×2 olunca öteleme de çalışır (Topkapı Tomarı kartı) |
-| 5 | Bozuk çini | tam 3×3, 4 parça eksik | eksikler + 3 yanıltıcı | boşluklar dolu | şekilden değil açıdan tanı |
+| 5 | Bozuk çini | 3×3 yıldız + 4 haçlık duvar, 4 parça eksik (yıldız (0,0), (−2,2), (2,2), haç (1,−1)) | eksikler + yanıltıcılar (orta: 10'lu yıldız, 2 kare; lise: 10'lu, 12'li yıldız, beşgen) | boşluklar dolu | şekilden değil açıdan tanı: boşluğun köşesinde 90 + 90 + 90 = 270; 10'lu uç 342, 12'li uç 330 verir |
 
 ## 10'lu aile — "Türbe kuşağı"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |

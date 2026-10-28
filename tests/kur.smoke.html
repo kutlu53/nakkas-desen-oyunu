@@ -144,6 +144,35 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   cleanup();
 }
 
+// ---------- Seviye 5 (ortaokul): bozuk çini ----------
+{
+  const { ctx, logs } = makeCtx("f8-l5");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  ok("seviye 5: 9 sabit parça, kutuda 4 kalem (8'li yıldız, haç, 10'lu yıldız, kare)", app.querySelectorAll(".fixed .piece").length === 9 && app.querySelectorAll(".tray-item").length === 4);
+  ok("ortaokul: 10'lu yıldız parlamaz, 8'li parlar", !trayItem((l) => l.startsWith("On köşeli")).classList.contains("glow") && trayItem((l) => l.startsWith("Sekiz köşeli")).classList.contains("glow"));
+  await dragFromTray("On köşeli", 0.03, 0.02);
+  const tenMsg = msg();
+  ok("10'lu yıldız boşluğa sığmadı, kutuya döndü: " + tenMsg, placedCount() === 0 && /90 \+ 90 \+ 90 \+ 72 = 342/.test(tenMsg) && /90° istiyor/.test(tenMsg) && /onlu sistemden/.test(tenMsg));
+  await dragFromTray("Sekiz köşeli", 0.04, -0.03);
+  ok("8'li yıldız ortadaki boşluğa oturdu", placedCount() === 1 && /Tam oturdu/.test(msg()));
+  await dragFromTray("Sivri uçlu haç", 1.05, -0.97);
+  await dragFromTray("Sekiz köşeli", -1.97, 2.03);
+  await dragFromTray("Sekiz köşeli", 2.02, 1.96);
+  ok("dört eksik yerleşti: kart açıldı", placedCount() === 4 && overlayOpen());
+  ok("log: wrongFamily=1", logs.length === 1 && logs[0].wrongFamilyAttempts === 1);
+  cleanup();
+}
+
+{
+  const { ctx } = makeCtx("f8-l5", "lise");
+  const cleanup = await mount(app, ctx);
+  await tick();
+  await dragFromTray("On iki köşeli", 0.03, 0.02);
+  ok("lise: 12'li yıldız 330 ile reddedilir, aile notu yok: " + msg(), placedCount() === 0 && /90 \+ 90 \+ 90 \+ 60 = 330/.test(msg()) && !/sistemden/.test(msg()));
+  cleanup();
+}
+
 // ---------- kündekâri kartı seviye 2'ye bağlı ----------
 {
   const { loadCards } = await import("../src/cards.js");

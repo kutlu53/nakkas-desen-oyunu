@@ -21,7 +21,7 @@ Tarayıcıda çalışan, çevrimdışı oynanabilen (PWA) eğitsel yapboz oyunu.
 | Rütbe | Mod | Kazanım | Özet |
 |---|---|---|---|
 | Çırak | **Tanı** | 1 | Gerçek yapı fotoğrafı/çizimi üzerinde yıldızı bul, köşe say, aileyi seç, birim hücreyi çerçevele. Doğruda hikâye kartı açılır. |
-| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi). Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
+| Kalfa | **Kur** | 2 | Parçalarla yapboz. Her yerleşimde köşedeki açılar toplanır; 360° olunca parça "oturur". Yanlış aile → artık açı kırmızı. Seviyeler: pergelle kur (hazırlık, `order: 0`) → yıldız çevresi → birim hücre → ötele ve kapla → aynala ve çoğalt (Tomar birimi) → bozuk çini. Her seviyede "Geçme çizgisi" görünümü; bitişte hikâye kartı (`card`). |
 | Usta | **Yarat** | 3 | Boş tuval + parça kutusu + **simetri aynası** (n-kat döndürme). Kısıtlı görevler. PNG dışa aktar, yerel galeri. |
 
 Ayrıntı: `docs/tasarim.md`, seviyeler: `docs/seviyeler.md`, motif atlası içeriği: `data/motifs.json`.

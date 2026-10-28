@@ -339,6 +339,17 @@ function renderLevel(root, ctx, level, levels, byId, cards = {}) {
     const mine = G.placedPoints(piece, placement);
     const over = G.evaluateVertices([...scene, { piece, placement }]).find((v) => v.state === "cakisma" && mine.some((p) => G.dist(p, v.vertex) <= G.VERTEX_TOL));
     if (over) return `${sumStr(over)} — 360'ı ${fmt(-over.gap)}° aşıyor; parça üst üste bindi, kutuya döndü.`;
+    // köşede aşım yok ama parça komşusuna biniyor: değdiği en dar boşluğu açıyla anlat
+    const own = scene.length;
+    const tight = G.evaluateVertices([...scene, { piece, placement }])
+      .filter((v) => v.state !== "tam" && v.parts.some((pt) => pt.pieceIndex === own) && v.parts.some((pt) => pt.pieceIndex !== own))
+      .map((v) => ({ v, others: v.parts.filter((pt) => pt.pieceIndex !== own).reduce((s, pt) => s + pt.angle, 0), mine: v.parts.find((pt) => pt.pieceIndex === own).angle }))
+      .sort((a, b) => b.others - a.others)[0];
+    if (tight) {
+      let text = `${sumStr(tight.v)} — boşluk ${fmt(360 - tight.others)}° istiyor, bu parçanın köşesi ${fmt(tight.mine)}°. Parça komşusuna bindi, kutuya döndü.`;
+      if (profile.familyNote && piece.family !== level.family) text += ` Bu parça ${FAMILY_LABEL[piece.family].toLowerCase()} sistemden.`;
+      return text;
+    }
     return "Parça başka bir parçanın üstüne bindi, kutuya döndü. Boş bir köşeye bırak.";
   }
 
