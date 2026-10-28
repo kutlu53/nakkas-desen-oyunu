@@ -59,5 +59,5 @@ Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wro
 - [x] Kur · 12'li aile — pergel hazırlığı (altı yaprak) + 4 seviye (12 kare; 3.4.6.4 Arşimet döşemesi: onikigen, ötele, bozuk çini)
 - [x] Kur · rütbe sınavı "Karışık kutu" (8'li ve 10'lu yıldız, tek kutu; yanlış aile yıldıza göre sayılır)
 - [x] Çırak / Tanı modu — 7 motif; görseller kendi kesin çizimlerimiz (`data/tani.json`, `build/gen_tani.mjs`): yıldızı bul, köşe say, birim hücre, lisede "hangi aileyle yapılamaz?"
-- [x] Usta / Yarat modu — serbest tuval, simetri aynası (6/8/10/12×), boya, geri al, 4 görev rozeti, PNG indir, yerel galeri
+- [x] Usta / Yarat modu — serbest tuval, simetri aynası (6/8/10/12×), öteleme kopyası (Kopyala, Tekrarla; vektör gösterilir), boya, geri al, 4 görev rozeti, PNG indir, yerel galeri
 - [x] Rütbe ilerlemesi (çırak → kalfa → usta; giriş ekranında koşullar, terfide kart), ses (varsayılan kapalı; tık, çan, tok), Yarat rozetleri

@@ -47,7 +47,7 @@ src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (
 src/rank.js           rütbe: kalfa = atlasın yarısı + her ailede 2. seviye; usta = + her ailede 3. seviye + rütbe sınavı
 src/sound.js          ses (varsayılan kapalı, state.sound; Web Audio tonları: tik, can, tok)
 src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
-src/modes/yarat.js    Usta: serbest tuval, simetri aynası, boya, geri al, görev rozetleri, PNG, galeri (state.gallery, state.badges)
+src/modes/yarat.js    Usta: serbest tuval, simetri aynası, öteleme kopyası (Kopyala/Tekrarla), boya, geri al, görev rozetleri, PNG, galeri (state.gallery, state.badges)
 data/pieces.json      29 parça (üretilmiş; gül parçaları build/rose_pieces.json'dan)
 data/motifs.json      motif atlası (motifs) + hikâye kartları (cards; _dogrulama notu: sınıftan önce kaynaktan doğrula)
 data/levels.json      Kalfa seviyeleri (hedef yerleşimler)

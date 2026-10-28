@@ -64,10 +64,29 @@ let blobType = null; const orig = URL.createObjectURL; URL.createObjectURL = (b)
 const blob = await mount.exportPNG(); URL.createObjectURL = orig;
 ok("PNG oluştu (image/png)", blob && blob.type === "image/png" && blobType === "image/png" && blob.size > 1000);
 ok("sceneSVG bağımsız (CSS değişkeni yok)", !/var\(/.test(sceneSVG(state.gallery[0].pieces, (await import("../src/pieces.js")).loadPieces ? (await (await import("../src/pieces.js")).loadPieces()).byId : {})));
+// öteleme kopyası
+click('[data-act="clear"]'); await tick();
+click('[data-mirror="0"]'); await tick();
+await drop("sekiz-kose-yildiz", 0, 0); await drop("hac", 1.03, 0.97);
+click('[data-act="selall"]'); await tick();
+ok("Tümü: iki parça seçildi", app.querySelectorAll(".placed .sel").length === 2);
+click('[data-act="copy"]'); await tick();
+const sv = svg(), at = (x, y) => toClient(x, y);
+pev("pointermove", sv, at(0.7, 0.2)); pev("pointerdown", sv, at(0.7, 0.2)); await tick();
+ok("binen kopya reddedildi, kopya hâlâ elde", count() === 2 && /bindi/.test(msg()));
+// yıldız + haç ağırlık merkezi (0.5, 0.5); (2.5, 0.5)'e taşıyınca öteleme (2, 0)
+pev("pointermove", sv, at(2.52, 0.47)); pev("pointerdown", sv, at(2.52, 0.47)); await tick();
+ok("kopya (2, 0) ötelemeyle yapıştı: " + msg(), count() === 4 && /\(2, 0\)/.test(msg()));
+click('[data-act="repeat"]'); await tick();
+ok("Tekrarla: aynı vektörle üçüncü birim", count() === 6 && /\(2, 0\)/.test(msg()));
+const xs = [...app.querySelectorAll(".placed [data-uid]")].map((g) => +g.getAttribute("transform").match(/translate\(([-\d.e]+)/)[1]).sort((a, b) => a - b);
+ok("yıldızlar 0, 2, 4'te", [0, 2, 4].every((x) => xs.some((v) => Math.abs(v - x) < 1e-6)));
+click('[data-act="undo"]'); await tick();
+ok("geri al tekrarı siler", count() === 4);
 // aile sekmesi
 click('.fam-tabs [data-fam="10"]'); await tick();
 ok("10'lu sekme: kutuda 10'lu parçalar", app.querySelector('.tray-item[data-id="on-kose-yildiz"]') && !app.querySelector('.tray-item[data-id="hac"]'));
 cleanup();
-ok("çıkışta log: mode=yarat, symmetry=8, families [8]", logs.length === 1 && logs[0].mode === "yarat" && logs[0].symmetry === 8 && JSON.stringify(logs[0].families) === "[8]");
+ok("çıkışta log: mode=yarat, son ayna durumu (kapalı), families [8]", logs.length === 1 && logs[0].mode === "yarat" && logs[0].symmetry === 0 && JSON.stringify(logs[0].families) === "[8]");
 out.textContent += fail ? `\n${fail}/${n} test başarısız` : `\n${n} test, hepsi geçti`;
 </script>

@@ -33,7 +33,10 @@ export async function mount(root, ctx) {
   const { list, byId } = await loadPieces();
   ctx.state.gallery ||= [];
   ctx.state.badges ||= {};
-  const S = { placed: [], uid: 1, gid: 1, mirror: 0, family: 8, color: null, sel: null, drag: null, undo: [], labels: false, pxPerUnit: 80, start: Date.now(), maxPieces: 0, families: new Set(), changed: false };
+  const S = { placed: [], uid: 1, gid: 1, mirror: 0, family: 8, color: null, sel: null, drag: null, undo: [], labels: false, pxPerUnit: 80, start: Date.now(), maxPieces: 0, families: new Set(), changed: false, copy: null, last: null };
+  // seçim: bir grup kimliği ya da "all" (bütün desen); öteleme kopyası seçimi taşır
+  const isSel = (p) => S.sel === "all" ? true : S.sel != null && p.gid === S.sel;
+  const selected = () => S.placed.filter(isSel);
 
   root.innerHTML = `
     <header class="mode-head">
@@ -46,6 +49,9 @@ export async function mount(root, ctx) {
       <div class="toolbar" role="toolbar" aria-label="Araçlar">
         <span class="tb-label">Ayna</span>${MIRRORS.map((n) => `<button type="button" data-mirror="${n}" aria-pressed="${n === 0}">${n ? `${n}×` : "Kapalı"}</button>`).join("")}
         <button type="button" data-act="rotate" title="Tutulan parçayı döndür (R)">↻</button>
+        <button type="button" data-act="selall" title="Bütün deseni seç">Tümü</button>
+        <button type="button" data-act="copy" title="Seçimi kopyala, ötele ve bırak">Kopyala</button>
+        <button type="button" data-act="repeat" title="Son kopyayı aynı öteleme vektörüyle bir daha çoğalt">Tekrarla</button>
         <button type="button" data-act="delete" title="Seçili grubu sil">Sil</button>
         <button type="button" data-act="undo">Geri al</button>
         <button type="button" data-act="clear">Temizle</button>
@@ -87,7 +93,7 @@ export async function mount(root, ctx) {
   }
   function renderPlaced() {
     layers.placed.replaceChildren(...S.placed.map((p) => {
-      const g = svgEl("g", { transform: tf(p), class: `piece placed ${S.sel === p.gid ? "sel" : ""}`, tabindex: "0", role: "button", "aria-label": `${byId[p.pieceId].name}; seçmek için Enter` });
+      const g = svgEl("g", { transform: tf(p), class: `piece placed ${isSel(p) ? "sel" : ""}`, tabindex: "0", role: "button", "aria-label": `${byId[p.pieceId].name}; seçmek için Enter` });
       g.dataset.uid = p.uid;
       const el = pieceElement(byId[p.pieceId]); el.querySelector("path").setAttribute("fill", p.color); g.appendChild(el);
       return g;
@@ -202,8 +208,55 @@ export async function mount(root, ctx) {
     const b = e.target.closest(".tray-item"); if (!b || (e.key !== "Enter" && e.key !== " ")) return;
     e.preventDefault(); place(byId[b.dataset.id], { x: 0, y: -1.5, rot: 0 });
   });
-  const onKey = (e) => { if (e.key.toLowerCase() === "r" && S.drag) { e.preventDefault(); S.drag.rot = G.norm360(S.drag.rot + G.familyStep(S.drag.piece.family) * (e.shiftKey ? -1 : 1)); S.drag.g.setAttribute("transform", tf(S.drag)); } };
+  const onKey = (e) => { if (e.key === "Escape" && S.copy) { cancelCopy(); setMsg("Kopyalamadan vazgeçildi."); return; } if (e.key.toLowerCase() === "r" && S.drag) { e.preventDefault(); S.drag.rot = G.norm360(S.drag.rot + G.familyStep(S.drag.piece.family) * (e.shiftKey ? -1 : 1)); S.drag.g.setAttribute("transform", tf(S.drag)); } };
   window.addEventListener("keydown", onKey);
+
+  // ---- öteleme kopyası: seçimi imleçle taşı, tuvale dokununca bırak; köşeye yapışır, binerse reddedilir ----
+  const groupOf = (list) => list.map((p) => ({ piece: byId[p.pieceId], placement: { x: p.x, y: p.y, rot: p.rot } }));
+  function startCopy() {
+    const src = selected(); if (!src.length) { setMsg("Önce bir parçaya dokunarak ya da Tümü ile seç."); return; }
+    const c = [src.reduce((t, p) => t + p.x, 0) / src.length, src.reduce((t, p) => t + p.y, 0) / src.length];
+    cancelCopy();
+    const g = svgEl("g", { class: "drag-g" });
+    for (const p of src) { const sub = svgEl("g", { transform: tf(p) }); const el = pieceElement(byId[p.pieceId]); el.querySelector("path").setAttribute("fill", p.color); sub.appendChild(el); g.appendChild(sub); }
+    layers.drag.appendChild(g);
+    S.copy = { src, anchor: c, g, offset: { x: 0, y: 0 } };
+    setMsg(`${src.length} parçalık kopya elinde. Tuvalde taşı ve bırakmak istediğin yere dokun. Ayna kopyaya uygulanmaz.`);
+  }
+  function cancelCopy() { if (!S.copy) return; S.copy.g.remove(); layers.snap.replaceChildren(); S.copy = null; }
+  /** Kopyayı (dx, dy) ötelemesiyle koy; yapışma ve çakışma denetimiyle. Başarıda gerçek ötelemeyi döndürür. */
+  function putCopy(src, off) {
+    const res = G.resolveGroupPlacement(groupOf(src), off, scene(), { snapDist: snapUnits() });
+    if (res.overlap) { setMsg("Kopya var olan parçaların üstüne bindi; başka bir yere bırak.", "bad"); play("tok"); return null; }
+    snapshot();
+    const gid = S.gid++;
+    for (const p of src) S.placed.push({ uid: S.uid++, gid, pieceId: p.pieceId, x: p.x + res.offset.x, y: p.y + res.offset.y, rot: p.rot, color: p.color });
+    for (const p of src) S.families.add(byId[p.pieceId].family);
+    S.maxPieces = Math.max(S.maxPieces, S.placed.length); S.changed = true; S.sel = gid;
+    S.last = { gid, vector: res.offset, size: src.length };
+    setMsg(`Kopya yerleşti${res.snapped ? " ve köşeye yapıştı" : ""}: öteleme vektörü (${fmt(res.offset.x)}, ${fmt(res.offset.y)}). Tekrarla ile aynı vektörle bir kopya daha.`, "ok");
+    play("tik"); renderPlaced(); renderLabels(); checkTasks();
+    return res.offset;
+  }
+  function repeatCopy() {
+    if (!S.last) { setMsg("Önce Kopyala ile bir kopya bırak; Tekrarla aynı ötelemeyi yineler."); return; }
+    const src = S.placed.filter((p) => p.gid === S.last.gid);
+    if (!src.length) { setMsg("Son kopya silinmiş; yeniden Kopyala."); S.last = null; return; }
+    putCopy(src, S.last.vector);
+  }
+  svg.addEventListener("pointermove", (e) => {
+    const c = S.copy; if (!c) return;
+    const [bx, by] = toBoard(e.clientX, e.clientY);
+    c.offset = { x: bx - c.anchor[0], y: by - c.anchor[1] };
+    c.g.setAttribute("transform", `translate(${c.offset.x} ${c.offset.y})`);
+  });
+  svg.addEventListener("pointerdown", (e) => {
+    const c = S.copy; if (!c || e.button > 0) return;
+    e.preventDefault(); e.stopPropagation();
+    const [bx, by] = toBoard(e.clientX, e.clientY);
+    const off = { x: bx - c.anchor[0], y: by - c.anchor[1] };
+    if (putCopy(c.src, off)) cancelCopy();
+  }, true);
 
   // ---- seçim, boya, araçlar ----
   const selectAt = (uid) => { const p = S.placed.find((x) => x.uid === uid); S.sel = p ? p.gid : null; renderPlaced(); if (p) setMsg(`Seçildi: ${byId[p.pieceId].name}${S.placed.filter((x) => x.gid === p.gid).length > 1 ? " ve ayna kopyaları" : ""}. Boyamak için bir renge dokun, silmek için Sil.`); };
@@ -211,14 +264,14 @@ export async function mount(root, ctx) {
   layers.placed.addEventListener("keydown", (e) => { const g = e.target.closest("[data-uid]"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); selectAt(+g.dataset.uid); } else if (g && e.key === "Delete") { selectAt(+g.dataset.uid); removeSel(); } });
   function removeSel() {
     if (S.sel == null) { setMsg("Önce tuvalde bir parçaya dokunarak seç."); return; }
-    snapshot(); S.placed = S.placed.filter((p) => p.gid !== S.sel); S.sel = null; S.changed = true;
+    snapshot(); S.placed = S.placed.filter((p) => !isSel(p)); S.sel = null; S.changed = true;
     renderPlaced(); renderLabels(); setMsg("Silindi."); checkTasks();
   }
   root.querySelector(".palette").addEventListener("click", (e) => {
     const b = e.target.closest("[data-color]"); if (!b) return;
     root.querySelectorAll(".palette [data-color]").forEach((x) => x.setAttribute("aria-pressed", x === b));
     S.color = b.dataset.color;
-    if (S.sel != null) { snapshot(); for (const p of S.placed) if (p.gid === S.sel) p.color = S.color; renderPlaced(); setMsg("Boyandı. Yeni parçalar da bu renkte gelecek."); checkTasks(); }
+    if (S.sel != null) { snapshot(); for (const p of S.placed) if (isSel(p)) p.color = S.color; renderPlaced(); setMsg("Boyandı. Yeni parçalar da bu renkte gelecek."); checkTasks(); }
     else setMsg("Yeni parçalar bu renkte gelecek. Var olan bir parçayı boyamak için önce onu seç.");
   });
   root.querySelector(".fam-tabs").addEventListener("click", (e) => {
@@ -240,6 +293,9 @@ export async function mount(root, ctx) {
     if (act === "rotate") { if (S.drag) { S.drag.rot = G.norm360(S.drag.rot + G.familyStep(S.drag.piece.family)); S.drag.g.setAttribute("transform", tf(S.drag)); } else setMsg("Parçayı sürüklerken R ile döndür."); }
     else if (act === "delete") removeSel();
     else if (act === "undo") { const prev = S.undo.pop(); if (!prev) { setMsg("Geri alınacak bir şey yok."); return; } S.placed = prev; S.sel = null; renderPlaced(); renderLabels(); setMsg("Geri alındı."); }
+    else if (act === "selall") { if (!S.placed.length) { setMsg("Tuval boş."); return; } S.sel = "all"; renderPlaced(); setMsg(`Bütün desen seçildi (${S.placed.length} parça). Kopyala ile ötele, ya da bir renge dokunup boya.`); }
+    else if (act === "copy") startCopy();
+    else if (act === "repeat") repeatCopy();
     else if (act === "clear") { if (!S.placed.length) return; snapshot(); S.placed = []; S.sel = null; renderPlaced(); renderLabels(); setMsg("Tuval temizlendi. Geri al ile dönebilirsin."); }
     else if (act === "labels") { S.labels = !S.labels; b.setAttribute("aria-pressed", S.labels); renderLabels(); }
   });
@@ -284,7 +340,7 @@ export async function mount(root, ctx) {
   mount.exportPNG = exportPNG; // testler için
 
   return () => {
-    window.removeEventListener("keydown", onKey); ro.disconnect(); cancelDrag();
+    window.removeEventListener("keydown", onKey); ro.disconnect(); cancelDrag(); cancelCopy();
     if (S.changed) {
       ctx.log({ ts: new Date().toISOString(), mode: "yarat", difficulty: ctx.difficulty, pieces: S.maxPieces, families: [...S.families].sort((a, b) => a - b), symmetry: S.mirror, seconds: Math.round((Date.now() - S.start) / 1000), completed: true, tasksDone: TASKS.filter((t) => ctx.state.badges[`yarat-${t.id}`]).map((t) => t.id) });
       ctx.saveState();
