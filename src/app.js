@@ -60,7 +60,7 @@ function renderHome(main) {
       <button class="rank" data-go="kur"><span class="rk">Kalfa</span><strong>Kur</strong><small>Parçaları yerleştir, açıları 360'a tamamla.</small>${done ? `<em>${done} seviye tamam</em>` : ""}</button>
       <button class="rank" data-go="yarat"><span class="rk">Usta</span><strong>Yarat</strong><small>Simetri aynasıyla kendi motifini üret.</small></button>
     </section>
-    <p class="foot"><a href="#atlas">Parça atlası</a> · 27 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>`;
+    <p class="foot"><a href="#atlas">Parça atlası</a> · 28 parça, 4 aile · <button class="linkish" data-act="export">Verileri dışa aktar</button>${state.log.length ? ` (${state.log.length} oturum)` : ""}</p>`;
   main.querySelectorAll("[data-d]").forEach((b) => b.addEventListener("click", () => { state.difficulty = b.dataset.d; saveState(); render(); }));
   main.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => go(b.dataset.go)));
   $("[data-act=export]", main).addEventListener("click", exportData);

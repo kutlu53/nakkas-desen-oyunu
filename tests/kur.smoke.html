@@ -205,6 +205,47 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   cleanup();
 }
 
+// ---------- 10'lu aile, seviye 2–4: kesin desen; parçalar kutudan 0° dönüşle bırakılır ----------
+{
+  const LV = await loadLevels();
+  for (const id of ["f10-l2", "f10-l4"]) {
+    const { ctx, logs } = makeCtx(id);
+    const cleanup = await mount(app, ctx);
+    await tick();
+    const lv = LV.find((l) => l.id === id), names = { papyon: "Papyon", "dortgen-10": "Dörtgen (10'lu)", besgen: "Beşgen", "on-kose-yildiz": "On köşeli" };
+    if (id === "f10-l4") {
+      const hole = lv.targets.find((t) => t.pieceId === "on-kose-yildiz");
+      await dragFromTray("Sekiz köşeli", hole.x + 0.02, hole.y + 0.02);
+      ok(`${id}: 8'li yıldız sığmaz, açıyla söylenir: ` + msg(), placedCount() === 0 && /kutuya döndü/.test(msg()) && /sekizli sistemden/.test(msg()));
+    }
+    // öğrencinin yapacağı gibi: önce papyon, sonra dörtgenler, en son beşgenler; papyon ve dörtgen R ile hedef açıya döndürülür
+    const order = { "on-kose-yildiz": 0, papyon: 1, "dortgen-10": 2, besgen: 3 };
+    const miss = [];
+    for (const t of [...lv.targets].sort((p, q) => order[p.pieceId] - order[q.pieceId])) {
+      const before = placedCount();
+      const turns = t.pieceId === "besgen" || t.pieceId === "on-kose-yildiz" ? 0 : Math.round(t.rot / 36) % 10;
+      await dragFromTray(names[t.pieceId], t.x + 0.02, t.y - 0.015, { rotateTimes: turns });
+      if (placedCount() !== before + 1 || !/Tam oturdu/.test(msg())) miss.push(`${t.pieceId}@${t.rot}: ${msg()}`);
+    }
+    ok(`${id}: ${lv.targets.length} hedefin hepsi oturdu (papyon/dörtgen R ile döndürüldü)` + (miss.length ? " — " + miss.join(" | ") : ""), miss.length === 0);
+    ok(`${id}: kart açıldı`, overlayOpen());
+    cleanup();
+  }
+  {
+    const { ctx } = makeCtx("f10-l3");
+    const cleanup = await mount(app, ctx);
+    await tick();
+    const { a, b } = LV.find((l) => l.id === "f10-l3").translation;
+    ok("f10-l3: kutuda birim hücre ×3", /Birim hücre, 3 adet/.test(trayItem((l) => l.startsWith("Birim")).getAttribute("aria-label")));
+    await dragFromTray("Birim hücre", a[0] + 0.03, a[1] - 0.02);
+    ok("f10-l3: kopya a'ya oturdu", /kafese oturdu/.test(msg()));
+    await dragFromTray("Birim hücre", b[0] - 0.02, b[1] + 0.03);
+    await dragFromTray("Birim hücre", a[0] + b[0] + 0.02, a[1] + b[1] + 0.02);
+    ok("f10-l3: 2×2 tamam, kart açıldı", overlayOpen());
+    cleanup();
+  }
+}
+
 // ---------- kündekâri kartı seviye 2'ye bağlı ----------
 {
   const { loadCards } = await import("../src/cards.js");

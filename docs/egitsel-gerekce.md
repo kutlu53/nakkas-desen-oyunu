@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Kalfa / Kur modu 8'li aile için oynanabilir durumda (hazırlık + 5 seviye); 10'lu ailede hazırlık ve 1. seviye hazır. Çırak / Tanı ve Usta / Yarat modları ile 10'lu, 6'lı ve 12'li aileler tasarım aşamasındadır. Aşağıda bu bölümler "planlanan" diye işaretlenmiştir.
+> **Durum (28 Ekim 2026):** Kalfa / Kur modu 8'li aile için oynanabilir durumda (hazırlık + 5 seviye); 10'lu ailede hazırlık + 4 seviye hazır. Çırak / Tanı ve Usta / Yarat modları ile 10'lu, 6'lı ve 12'li aileler tasarım aşamasındadır. Aşağıda bu bölümler "planlanan" diye işaretlenmiştir.
 
 ---
 
@@ -135,7 +135,15 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 
 **Seviye 1 · "Yıldızın çevresi":** Yıldızın on çentiğine on beşgen yerleştirilir (252 + 108 = 360).
 
-**Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım).
+**Seviye 2 · "Papyon köprüsü":** Bir eşkenar dörtgenin köşelerindeki dört yıldızın ortası papyon, küçük dörtgen ve beşgenlerle doldurulur. Papyonun içe çökük 216° köşesine dörtgenin 144° köşesi oturur.
+
+**Seviye 3 · "Ötele ve kapla":** Birim hücre bu kez kare değil, 72°/108°'lik bir eşkenar dörtgendir. Öğrenci, ötelemeyle düzlemi kaplayan bir desenin 5 ya da 10 kat dönme simetrisine sahip olamayacağıyla (kristalografik kısıt) karşılaşır: on kat simetri yıldızın çevresinde yereldir.
+
+**Seviye 4 · "Bozuk çini":** Ortadaki yıldızı düşmüş bir yamayı onarmak; aynı büyüklükteki 8'li ve 12'li yıldız uç açılarıyla elenir.
+
+**Desen kaynağı:** Bu seviyeler klasik bir girih deseninden kesin olarak türetildi (girih ongen + papyon döşemesi üzerinde Hankin yöntemi, 54°). Fiziksel setin 10'lu parçalarından farklıdır; set başka bir 10'lu desene dayanıyor görünmektedir.
+
+**Kazanımlar:** Daireyi pergelle beşe/ona bölme; altın oranla ilk karşılaşma; 8'li ailede öğrenilen "çentik = 360 − iç açı" ilişkisini yeni bir ailede uygulama (aktarım); içbükey köşe ve eğik birim hücre; kristalografik kısıtla sezgisel tanışma.
 
 #### Her seviyede · "Geçme çizgisi"
 **Ne yapılır:** Bir düğmeyle (ya da seviye sonundaki "Çizgiye dönüştür" ile) desen, birbirinin altından ve üstünden sırayla geçen bantlara dönüşür. 8'li yıldız iki kareden örülür.
@@ -189,7 +197,7 @@ Toplanan veri kişisel bilgi içermez ve cihazdan çıkmaz; paylaşım öğretme
 
 ## 5. Sınırlılıklar ve açık işler
 
-- **Kapsam:** Şu an 8'li aile (hazırlık + 5 seviye) ve 10'lu ailenin hazırlık + 1. seviyesi, yalnızca Kur modunda oynanabilir. 10'lu ailenin diğer dolgu parçaları ile 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
+- **Kapsam:** Şu an 8'li aile (hazırlık + 5 seviye) ve 10'lu aile (hazırlık + 4 seviye), yalnızca Kur modunda oynanabilir. 10'lu seviyeler kesin bir girih deseninden türetildiği için fiziksel setin 10'lu parçalarıyla birebir değildir (sette olmayan küçük bir dörtgen içerir). 6'lı ve 12'li ailelerin dolgu parçaları kesin geometriyle yeniden türetilmeyi bekliyor. Tanı ve Yarat modları ile 10'lu, 6'lı ve 12'li aileler henüz yazılmadı. Diğer ailelerin parça oranları, döşeme testiyle doğrulanmadan seviyeye dönüştürülmeyecek.
 - **Etkililik:** Oyunun öğrenme üzerindeki etkisi henüz ölçülmedi. Bu belgedeki gerekçeler tasarım kararlarını açıklar; etkililiğe dair kanıt, ölçek çalışmasından gelecektir.
 - **Tarihsel içerik:** Hikâye kartlarındaki tarih ve örnekler genel bilgiden yazılmıştır ve `data/motifs.json` içinde `_dogrulama` notuyla işaretlidir. Sınıfta kullanılmadan önce aşağıdaki kaynaklardan doğrulanmalıdır.
 - **Geçme çizgisi:** Şimdilik yalnızca yıldız parçalarından üretilir; yıldıza değmeyen kenarlar bant olarak çizilmez.

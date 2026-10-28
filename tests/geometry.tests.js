@@ -14,7 +14,7 @@ export function run(G, pieces, levels, ok) {
   ok("dedupeAngles 0/360/720 tek", G.dedupeAngles([0, 360, 720, 45]).length === 2);
 
   // --- parça verisi ---
-  ok("27 parça", pieces.length === 27);
+  ok("28 parça", pieces.length === 28);
   ok("8'li yıldız iç açılar 90/225", by["sekiz-kose-yildiz"].angles.every((a) => a === 90 || a === 225));
   ok("haç açıları 135/90/270", by["hac"].angles.every((a) => [135, 90, 270].includes(a)));
   ok("10'lu yıldız çentiği 108 = beşgen", near(360 - Math.max(...by["on-kose-yildiz"].angles), 108) && by["besgen"].angles.every((a) => near(a, 108)));
@@ -139,6 +139,39 @@ export function run(G, pieces, levels, ok) {
     const rv = G.evaluateVertices(ring);
     ok(`${lv.id}: 10 beşgen çakışmasız`, ring.slice(1).every((s, i) => G.anyOverlap(s.piece, s.placement, ring.filter((_, j) => j !== i + 1)) === -1));
     ok(`${lv.id}: 10 çentikte 252 + 108 = 360, 10 uçta 288`, rv.filter((v) => v.state === "tam").length === 10 && rv.filter((v) => near(v.total, 288, 0.5)).length === 10);
+  }
+
+  // --- 10'lu kesin desen (build/gen_levels10.mjs): hedefler sırayla bırakılınca tam yerine oturur ---
+  const settles = (lv) => {
+    const scene = lv.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot));
+    return lv.targets.every((t) => {
+      const r = G.resolvePlacement(by[t.pieceId], { x: t.x + 0.02, y: t.y - 0.015, rot: t.rot }, scene, { snapDist: 0.12 });
+      const okk = r.snapped && !r.overlap && G.samePointSet(G.placedPoints(by[t.pieceId], r.placement), G.placedPoints(by[t.pieceId], t), 1e-3);
+      if (!okk) console.log(`  ${lv.id}: ${t.pieceId} (${t.x}, ${t.y}) oturmadı`);
+      scene.push(sc(t.pieceId, t.x, t.y, t.rot));
+      return okk;
+    });
+  };
+  for (const id of ["f10-l2", "f10-l4"]) {
+    const lv = (levels || []).find((l) => l.id === id); if (!lv) continue;
+    const full = G.evaluateVertices([...lv.fixed, ...lv.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot)));
+    ok(`${id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));
+    ok(`${id}: her hedef yakına bırakılınca tam yerine oturur`, settles(lv));
+  }
+  const l10b = (levels || []).find((l) => l.id === "f10-l4");
+  if (l10b) {
+    const sc4 = l10b.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot)), hole = l10b.targets.find((t) => t.pieceId === "on-kose-yildiz");
+    ok("f10-l4: 8'li ve 12'li yıldız 10'lu boşluğa sığmaz", ["sekiz-kose-yildiz", "oniki-kose-yildiz"].every((id) => G.resolvePlacement(by[id], { x: hole.x + 0.02, y: hole.y + 0.02, rot: 0 }, sc4, { snapDist: 0.12 }).overlap));
+  }
+  const l10c = (levels || []).find((l) => l.id === "f10-l3");
+  if (l10c) {
+    const { a, b } = l10c.translation, cellSc = l10c.fixed.map((f) => sc(f.pieceId, f.x, f.y, f.rot));
+    const areaSum = cellSc.reduce((s, x) => s + Math.abs(G.signedArea(x.piece.points)), 0);
+    ok("f10-l3: hücre alanı = |a × b|", near(areaSum, Math.abs(a[0] * b[1] - a[1] * b[0]), 2e-3));
+    const g = G.resolveGroupPlacement(cellSc, { x: a[0] + 0.03, y: a[1] - 0.02 }, cellSc, { snapDist: 0.12 });
+    ok("f10-l3: hücre kopyası a'ya yapışır, çakışmaz", g.snapped && !g.overlap && near(g.offset.x, a[0], 1e-3) && near(g.offset.y, a[1], 1e-3));
+    const g2 = G.resolveGroupPlacement(cellSc, { x: b[0] + 0.02, y: b[1] + 0.03 }, cellSc, { snapDist: 0.12 });
+    ok("f10-l3: hücre kopyası b'ye yapışır, çakışmaz", g2.snapped && !g2.overlap && near(g2.offset.x, b[0], 1e-3) && near(g2.offset.y, b[1], 1e-3));
   }
 
   // --- pergel-cetvel kurulumu ---

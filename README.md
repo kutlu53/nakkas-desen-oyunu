@@ -43,7 +43,7 @@ python build/gen_pieces.py
 Her oturum `localStorage`'a `{ts, mode, family, level, difficulty, attempts, wrongFamilyAttempts, seconds, completed, hintsUsed}` yazar; pergel seviyesi ayrıca `wrongPicks` (yanlış çizim), aynalama seviyesi `brokenCopies` (kırık öteleme) ekler. Giriş ekranındaki **Verileri dışa aktar** JSON indirir. Sunucu yok; veri cihazda kalır.
 
 ## Durum
-- [x] Parça geometrisi (27 parça, 4 aile), SVG'ler, iç açılar — `hac` yıldızla birebir örtüşen oranlara çekildi
+- [x] Parça geometrisi (28 parça, 4 aile), SVG'ler, iç açılar — `hac` yıldızla birebir örtüşen oranlara çekildi
 - [x] Giriş ekranı + Parça atlası (`#atlas`)
 - [x] `geometry.js`: snap, köşe açı toplamı, çakışma denetimi, kenar hizalı yerleşim çözücü, hedef eşleme, kafes
 - [x] PWA iskeleti (manifest, service worker)

@@ -707,50 +707,83 @@
    "color": "#e2a92b",
    "points": [
     [
-     -1.3,
-     0
+     0.2245,
+     0.309
     ],
     [
-     -0.9,
-     -0.6
+     0.0,
+     0.2361
     ],
     [
-     0,
-     -0.25
+     -0.2245,
+     0.309
     ],
     [
-     0.9,
-     -0.6
+     -0.449,
+     0.0
     ],
     [
-     1.3,
-     0
+     -0.2245,
+     -0.309
     ],
     [
-     0.9,
-     0.6
+     0.0,
+     -0.2361
     ],
     [
-     0,
-     0.25
+     0.2245,
+     -0.309
     ],
     [
-     -0.9,
-     0.6
+     0.449,
+     0.0
     ]
    ],
    "angles": [
-    112.6,
-    102.4,
-    222.5,
-    102.4,
-    112.6,
-    102.4,
-    222.5,
-    102.4
+    108.0,
+    216.0,
+    108.0,
+    108.0,
+    108.0,
+    216.0,
+    108.0,
+    108.0
    ],
-   "note": "Fotoğraftan oranlandı",
+   "note": "Kesin desenden; açılar 108° ve iki içbükey 216°. Fiziksel setteki papyondan küçük",
    "svg": "assets/pieces/papyon.svg"
+  },
+  {
+   "id": "dortgen-10",
+   "name": "Dörtgen (10'lu)",
+   "family": 10,
+   "role": "dolgu",
+   "color": "#ece9e2",
+   "points": [
+    [
+     0.0,
+     0.25
+    ],
+    [
+     -0.2245,
+     -0.059
+    ],
+    [
+     0.0,
+     -0.132
+    ],
+    [
+     0.2245,
+     -0.059
+    ]
+   ],
+   "angles": [
+    72.0,
+    72.0,
+    144.0,
+    72.0
+   ],
+   "note": "Kesin desenden; 144° köşesi papyonun 216° çentiğine oturur. Fiziksel sette yok",
+   "svg": "assets/pieces/dortgen-10.svg"
   },
   {
    "id": "centikli-altigen",

@@ -46,12 +46,14 @@ src/modes/construct.js Kalfa hazırlık: pergel-cetvel kurulumu (levels.json →
 src/modes/mirror.js   Kalfa aynalama: çeyrek birimi kenarından aynala/ötele (tool: "mirror")
 src/cards.js          hikâye kartları (motifs.json → cards), tamamlama kartında gösterilir
 src/modes/yarat.js    Usta
-data/pieces.json      27 parça (üretilmiş)
+data/pieces.json      28 parça (üretilmiş)
 data/motifs.json      motif atlası (motifs) + hikâye kartları (cards; _dogrulama notu: sınıftan önce kaynaktan doğrula)
 data/levels.json      Kalfa seviyeleri (hedef yerleşimler)
 assets/pieces/*.svg   tekil parçalar
 assets/motifs/        yapı fotoğrafları (eklenecek; lisans notu düşülecek)
 build/gen_pieces.py   parça üretici
+build/hankin.mjs      kesin desen türetici (alt çokgen ağı + kenar ortasından 54° ışınlar → parçalar)
+build/gen_levels10.mjs 10'lu kesin desenden parça biçimi ve f10-l2..l4 yerleşimleri
 ```
 
 ## Çalışma kuralları
@@ -60,6 +62,6 @@ build/gen_pieces.py   parça üretici
 - Dokunma hedefleri ≥ 44px. Parça kutusundaki küçük parçalar büyütülmüş tutamaçla sürüklenir.
 - Hikâye/kültür metinleri `data/motifs.json`'da; koda gömme. Tarihsel iddiaları kaynaklı tut, emin olunmayanı "rivayet" diye işaretle.
 - Tarihsel çerçeve: ustalar deseni pergel ve cetvelle kurardı, açı ölçüp toplamazdı. Açı toplamı bugünün matematiğiyle kurulumun *neden* çalıştığını gösterir; metinlerde "ustalar açıları toplardı" izlenimi verme. Her aile Kur'a bir pergel-cetvel hazırlığıyla başlar (`tests/geometry.tests.js` her açılan noktanın iki çizimin kesişimi olduğunu denetler). Motifleri dönem/coğrafyayla doğru eşle: 8'li yıldız-haç çinisi ağırlıkla Selçuklu-İlhanlı, 10'lu girih İran-Timurlu; Osmanlı'da geometrik desen çoğunlukla kündekâri, taş ve kalem işinde.
-- Parça ölçüsü: bir ailenin dolgu parçalarının kenarı o ailenin yıldız kenarına (ya da tam katına) eşit, açıları aile adımının katı olmalı; yoksa parçalar birbirine oturmaz. 10'lu ailede yıldız + beşgen düzeltildi, diğer 10'lu parçalar ve 6'lı/12'li dolgular henüz değil (bkz. `docs/seviyeler.md` notu). Kullanıcı kararı: fotoğraf oranı yerine kesin geometri.
+- Parça ölçüsü: bir ailenin dolgu parçalarının kenarı o ailenin yıldız kenarına (ya da tam katına) eşit, açıları aile adımının katı olmalı; yoksa parçalar birbirine oturmaz. 10'lu ailede kesin desen `build/hankin.mjs` (girih ongen + papyon, Hankin 54°) ile türetilir, seviyeleri `build/gen_levels10.mjs` üretir; parçaları yıldız, beşgen, papyon, `dortgen-10`. Setin fotoğraftan oranlanan diğer 10'lu parçaları (kalkanlar, çift ev, çentikli altıgen, ok ucu, uzun beşgen, yarım yıldız, beş köşeli yıldız) bu desende yok; 6'lı/12'li dolgular henüz düzeltilmedi (bkz. `docs/seviyeler.md` notu). Kullanıcı kararı: fotoğraf oranı yerine kesin geometri; 10'lu seviyeler fiziksel setle birebir değil.
 - Performans ölçütü: 60 parçalı sahne orta sınıf Android tablette akıcı sürüklenmeli.
 - Araştırma verisi: oyun `localStorage`'a oturum başına `{mode, level, attempts, seconds, completed}` yazar; `Ayarlar → Verileri dışa aktar` JSON verir. Ölçek çalışmasıyla eşleştirilecek.

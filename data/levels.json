@@ -197,6 +197,88 @@
    ],
    "hint": {"ortaokul": "Yıldızın çentiği 108° boşluk bırakır (360 − 252). Hangi parçanın 108° köşesi var?", "lise": "Çentikteki boşluğu hesapla: 360 − iç açı."},
    "discovery": "Yıldızın çentiği 108°: beşgenin köşesi tam oturur, 252 + 108 = 360. Kare ne açısıyla (90°) ne boyuyla bu çentiğe uyar. On beşgen yıldızı çevreler; uçlarda 72 + 108 + 108 = 288 toplanır, kalan 72° bir sonraki halkanın işidir."
+  },
+  {
+   "id": "f10-l2", "family": 10, "order": 2, "title": "Papyon köprüsü",
+   "story": "Usta: 'Dört yıldız bir eşkenar dörtgenin köşelerinde duruyor. Ortadaki boşluğu hangi taşlar kapatır? Papyondan başla.'",
+   "_not": "build/gen_levels10.mjs üretir (kesin desen: build/hankin.mjs). Papyonun 108° köşeleri iki yıldızın çentiğine (252 + 108), 216° köşeleri dörtgenin 144° köşesine oturur; kalan köşelerde 72 + 72 + 108 + 108 = 360.",
+   "fixed": [
+    {"pieceId": "on-kose-yildiz", "x": 0, "y": 0, "rot": 0},
+    {"pieceId": "on-kose-yildiz", "x": 1.902113, "y": 0.618034, "rot": 0},
+    {"pieceId": "on-kose-yildiz", "x": 1.902113, "y": -1.381966, "rot": 0},
+    {"pieceId": "on-kose-yildiz", "x": 0, "y": -2, "rot": 0}
+   ],
+   "tray": {"besgen": 4, "dortgen-10": 2, "papyon": 1},
+   "trayDistractors": {"ortaokul": {"kare-kucuk": 1}, "lise": {"kare-kucuk": 1, "hac": 1, "besgen-uzun": 1}},
+   "targets": [
+    {"pieceId": "besgen", "x": 0.860237, "y": -1.411468, "rot": 18},
+    {"pieceId": "dortgen-10", "x": 0.734732, "y": -0.988729, "rot": 144},
+    {"pieceId": "besgen", "x": 0.350015, "y": -1.018233, "rot": 54},
+    {"pieceId": "papyon", "x": 0.951057, "y": -0.690983, "rot": 144},
+    {"pieceId": "dortgen-10", "x": 1.167381, "y": -0.393237, "rot": 324},
+    {"pieceId": "besgen", "x": 1.076558, "y": -0.018233, "rot": 54},
+    {"pieceId": "besgen", "x": 1.586779, "y": -0.411468, "rot": 18}
+   ],
+   "hint": {"ortaokul": "Papyondan başla ve R ile döndür: 108° köşeleri iki yıldızın çentiğine oturur (252 + 108 = 360). İçe çökük 216° köşelerine 144° gerekir: küçük dörtgenin geniş köşesi.", "lise": "Papyonun içe çökük köşesinde 360'a ne kadar kalıyor? Hangi parçanın köşesi o kadar?"},
+   "discovery": "Papyon, eşkenar dörtgenin uzun köşegenindeki iki yıldızı birbirine bağlar: 108° köşeleri iki yıldızın çentiğine oturur (252 + 108 = 360). İçe çökük 216° köşelerine dörtgenin 144° köşesi gelir (216 + 144 = 360). Öbür köşelerde dört parça buluşur: 72 + 72 + 108 + 108 = 360."
+  },
+  {
+   "id": "f10-l3", "family": 10, "order": 3, "title": "Ötele ve kapla",
+   "story": "Usta: 'Birimi buldun. Bu kez hücre kare değil, eğik; yine de kopyala, duvar dolsun.'",
+   "_not": "Birim hücre: 1 yıldız + 4 beşgen + 1 papyon + 2 dörtgen (alan = |a × b| = 3,804). Kafes a = (1,902; 0,618), b = (0; 2): |a| = |b| = 2, aralarında 72°.",
+   "fixed": [
+    {"pieceId": "on-kose-yildiz", "x": 0, "y": 0, "rot": 0},
+    {"pieceId": "besgen", "x": -0.315334, "y": -1.029502, "rot": 18},
+    {"pieceId": "besgen", "x": 0.350015, "y": 0.981767, "rot": 54},
+    {"pieceId": "besgen", "x": -0.825555, "y": -0.636267, "rot": 54},
+    {"pieceId": "besgen", "x": -1.041877, "y": -0.029502, "rot": 18},
+    {"pieceId": "papyon", "x": -0.951057, "y": 0.690983, "rot": 144},
+    {"pieceId": "dortgen-10", "x": -1.167381, "y": 0.393237, "rot": 144},
+    {"pieceId": "dortgen-10", "x": -0.734732, "y": 0.988729, "rot": 324}
+   ],
+   "tray": {},
+   "tool": "translate-copy",
+   "translation": {"a": [1.902113, 0.618034], "b": [0, 2]},
+   "gridSize": {"ortaokul": 2, "lise": 3},
+   "targets": [],
+   "hint": {"ortaokul": "Birim hücre: bir yıldız, dört beşgen, bir papyon, iki dörtgen. Kopyayı, yıldız ucu komşu yıldızın ucuna değecek şekilde yerleştir.", "lise": "Öteleme vektörleri iki komşu yıldızın merkezini birleştirir. Aralarındaki açı kaç derece?"},
+   "discovery": "10'lu desenin birim hücresi bir eşkenar dörtgendir: kenarı iki komşu yıldızın arası, açıları 72° ve 108°. Kare hücre burada işe yaramaz: ötelemeyle düzlemi kaplayan bir desen 5 ya da 10 kat dönme simetrisine sahip olamaz (kristalografik kısıt). Bu yüzden her yıldız kendi çevresinde on kat simetriktir, desenin bütünü değil."
+  },
+  {
+   "id": "f10-l4", "family": 10, "order": 4, "title": "Bozuk çini",
+   "story": "Usta: 'Türbe kuşağından dört çini düşmüş, ortadaki yıldız da gitmiş. Kutuda benzerleri var; şekline değil, açısına bak.'",
+   "_not": "Yama: merkez yıldız ve yakın çevresi (build/gen_levels10.mjs). Eksikler: yıldız, bir papyon, bir beşgen, bir dörtgen. 8'li ve 12'li yıldız aynı boyda ama boşluğa sığmaz (tests/geometry.tests.js).",
+   "fixed": [
+    {"pieceId": "besgen", "x": -1.552098, "y": 0.363733, "rot": 54},
+    {"pieceId": "papyon", "x": -0.951057, "y": -1.309017, "rot": 144},
+    {"pieceId": "besgen", "x": -1.041877, "y": -0.029502, "rot": 18},
+    {"pieceId": "dortgen-10", "x": -1.167381, "y": 0.393237, "rot": 144},
+    {"pieceId": "dortgen-10", "x": -0.734732, "y": 0.988729, "rot": 324},
+    {"pieceId": "besgen", "x": -0.825555, "y": 1.363733, "rot": 54},
+    {"pieceId": "besgen", "x": 0.860237, "y": -1.411468, "rot": 18},
+    {"pieceId": "dortgen-10", "x": 0.734732, "y": -0.988729, "rot": 144},
+    {"pieceId": "besgen", "x": 0.350015, "y": -1.018233, "rot": 54},
+    {"pieceId": "besgen", "x": -0.315334, "y": -1.029502, "rot": 18},
+    {"pieceId": "papyon", "x": 0.951057, "y": -0.690983, "rot": 144},
+    {"pieceId": "dortgen-10", "x": 1.167381, "y": -0.393237, "rot": 324},
+    {"pieceId": "besgen", "x": 1.076558, "y": -0.018233, "rot": 54},
+    {"pieceId": "besgen", "x": 0.860237, "y": 0.588532, "rot": 18},
+    {"pieceId": "dortgen-10", "x": 0.734732, "y": 1.011271, "rot": 144},
+    {"pieceId": "besgen", "x": 0.350015, "y": 0.981767, "rot": 54},
+    {"pieceId": "besgen", "x": -0.315334, "y": 0.970498, "rot": 18},
+    {"pieceId": "papyon", "x": 0.951057, "y": 1.309017, "rot": 144},
+    {"pieceId": "besgen", "x": 1.586779, "y": -0.411468, "rot": 18}
+   ],
+   "tray": {"on-kose-yildiz": 1, "papyon": 1, "besgen": 1, "dortgen-10": 1},
+   "trayDistractors": {"ortaokul": {"sekiz-kose-yildiz": 1, "kare-kucuk": 1}, "lise": {"sekiz-kose-yildiz": 1, "oniki-kose-yildiz": 1, "hac": 1}},
+   "targets": [
+    {"pieceId": "on-kose-yildiz", "x": 0, "y": 0, "rot": 0},
+    {"pieceId": "papyon", "x": -0.951057, "y": 0.690983, "rot": 144},
+    {"pieceId": "besgen", "x": -0.825555, "y": -0.636267, "rot": 54},
+    {"pieceId": "dortgen-10", "x": -0.734732, "y": -1.011271, "rot": 324}
+   ],
+   "hint": {"ortaokul": "Üç yıldız aynı boyda. Boşluğun duvarın içine bakan uçlarında kaç derece kalıyor: 72 mi, 90 mı, 60 mı?", "lise": "Boşluğun bir köşesindeki açıyı hesapla; hangi yıldızın ucu ona eşit?"},
+   "discovery": "Ortadaki boşluk çentiklerinde 252° ister; duvarın içine bakan uçlarında 72° kalır. Bunu yalnızca 10'lu yıldız karşılar. 8'li yıldızın ucu 90°, 12'li yıldızınki 60°: aynı büyüklükte olsalar da boşluğu kapatamazlar. Restorasyoncu da önce geometriyi okur, sonra parçayı seçer."
   }
  ]
 }
