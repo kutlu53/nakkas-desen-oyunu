@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir; aşağıda "planlanan" diye işaretlidir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 4 seviye, ayrıca 8'li + 10'lu rütbe sınavı; Usta / Yarat modu oynanabilir. Henüz yapılmayanlar: rütbe ilerlemesi, ses, Yarat'ta öteleme kopyası aracı.
 
 ---
 
