@@ -292,6 +292,38 @@ async function dragFromBoard(uidIndex, bx, by, { outside = false } = {}) {
   }
 }
 
+// ---------- 12'li aile: hazırlık + yıldızın çevresi ----------
+{
+  const LV = await loadLevels();
+  {
+    const { ctx } = makeCtx("f12-l0");
+    const cleanup = await mount(app, ctx); await tick();
+    ok("f12-l0: 9 adım", app.querySelectorAll(".steps li").length === 9);
+    for (let i = 0; i < 9; i++) { app.querySelector("[data-act=show]").click(); await tick(); }
+    ok("f12-l0: 12 köşe + 6 yaprak noktası, 12 kenar, 90° etiketi", app.querySelectorAll(".pts [data-k]").length === 19 && app.querySelectorAll(".cons .c-seg").length === 12 && app.querySelector(".fill text").textContent === "90°");
+    await new Promise((r) => setTimeout(r, 1600));
+    ok("f12-l0: kart açıldı, sonraki f12-l1", overlayOpen() && app.querySelector(".overlay .btn.primary").getAttribute("href") === "#kur/f12-l1");
+    cleanup();
+  }
+  {
+    const { ctx } = makeCtx("f12-l1");
+    const cleanup = await mount(app, ctx); await tick();
+    const lv = LV.find((l) => l.id === "f12-l1");
+    await dragFromTray("Üçgen (12'li)", lv.targets[0].x * 0.85, lv.targets[0].y * 0.85);
+    ok("f12-l1: üçgen çentikte 30° açık: " + msg(), placedCount() === 1 && /30° açık/.test(msg()));
+    await dragFromBoard(0, 0, 0, { outside: true });
+    const miss = [];
+    for (const t of lv.targets) {
+      const before = placedCount();
+      await dragFromTray("Kare (12'li)", t.x + 0.02, t.y - 0.015, { rotateTimes: Math.round(t.rot / 30) % 12 });
+      if (placedCount() !== before + 1 || !/Tam oturdu/.test(msg())) miss.push(`kare@${t.rot}: ${msg()}`);
+    }
+    ok("f12-l1: 12 kare oturdu (R ile hedef açıya)" + (miss.length ? " — " + miss.join(" | ") : ""), miss.length === 0);
+    ok("f12-l1: kart açıldı", overlayOpen());
+    cleanup();
+  }
+}
+
 // ---------- rütbe sınavı: 8'li ve 10'lu tek kutuda ----------
 {
   const { ctx, logs } = makeCtx("karma-1");

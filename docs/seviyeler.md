@@ -37,8 +37,11 @@ Her aile dört seviye. Ortaokul profili 1–2–4 zorunlu, 3 isteğe bağlı; li
 ## 12'li aile — "Kubbe eteği"
 | # | Ad | Sabit | Kutuda | Hedef | Keşif |
 |---|---|---|---|---|---|
-| 1 | Yıldızın çevresi | oniki-kose-yildiz | kare-12 ×12, ucgen-12 ×6 (yanıltıcı) | 12 çentik | 270 iç → 90 boşluk → kare; üçgen 30° açık bırakır |
-| 2 | 3.4.6.4 | yıldız + altigen-12 | kare-12, ucgen-12 | Arşimet döşemesi | 60+90+120+90 = 360 |
+| 0 | Pergelle kur ✓ | O, A | pergel, cetvel | 9 adım: daire → yarıçapla altıya böl → altı yaprak (altı daire) → yaprak uçlarından çaplar (on ikiye) → dörder atlayan dört üçgen → boya | altı yapraklı gül; {12/4} yıldızı ve 90° çentik ölçmeden çıkar |
+| 1 | Yıldızın çevresi ✓ | oniki-kose-yildiz | kare-12 ×12; yanıltıcı ucgen-12 ×2 (lise: + beşgen, haç) | 12 çentik | 270 iç → 90 boşluk → kare; üçgen 30° açık bırakır; uçlarda 60 + 90 + 90 = 240 |
+| 2 | 3.4.6.4 (karar bekliyor) | yıldız + altigen-12 | kare-12, ucgen-12 | Arşimet döşemesi | 60+90+120+90 = 360 |
+
+> 12'li: `build/gen_levels12.mjs` f12-l0 ve f12-l1'i üretir; kare-12, ucgen-12, altigen-12 kenarı yıldız kenarına (S12) eşitlendi. Klasik kesin desen (4.6.12 ağı + Hankin 60°, Tanı çizimi) bir hücrede 18 parça ve iki ayna biçimli altıgen kalkan gerektirir; 2.–4. seviyeler için hangi desenin kullanılacağı kullanıcıya soruldu.
 | 3 | Ötele ve kapla | hücre | kopya | 2×2 | — |
 | 4 | Bozuk çini | — | — | — | — |
 

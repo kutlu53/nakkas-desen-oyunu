@@ -114,6 +114,25 @@ export function hankinLines(tiles, thetaDeg) {
 /** Desen çizgilerinin böldüğü yüzler; ağırlık merkezi merkeze `keep` yakın olanlar. */
 export const patternFaces = (pattern, keep) => faces(pattern).map(simplify).filter((P) => area(P) > 1e-6 && Math.hypot(...centroid(P)) < keep);
 
+// ---- 12'li: 4.6.12 ağı (onikigenler kafeste, aralarında kareler; altıgenler kendiliğinden çıkar) ----
+// Ölçek: onikigenin kenar-orta uzaklığı = 1 (Hankin 60° ile içindeki 12'li yıldızın dış yarıçapı). Kafes |a| = |b| = 2 + kenar, 60°.
+export function tiles4612({ rot = 0, range = 4, keep = 9 } = {}) {
+  const e = 2 * Math.tan(15 * D), Rd = e / (2 * Math.sin(15 * D)), S = 2 + e, rr = rot * D;
+  const a = [S * Math.cos(rr), S * Math.sin(rr)], b = [S * Math.cos(rr + 60 * D), S * Math.sin(rr + 60 * D)];
+  const onCircle = (c, R, t) => [c[0] + R * Math.cos(t * D + rr), c[1] + R * Math.sin(t * D + rr)];
+  const dodec = (c) => Array.from({ length: 12 }, (_, k) => onCircle(c, Rd, 15 + 30 * k));
+  const segs = [];
+  for (let i = -range; i <= range; i++) for (let j = -range; j <= range; j++) {
+    const c = [i * a[0] + j * b[0], i * a[1] + j * b[1]];
+    segs.push(...polygonEdges(dodec(c)));
+    for (const ang of [0, 60, 120]) { // komşu onikigene bakan kenarın uçlarını komşunun karşı kenarına bağla: kare
+      const n = onCircle(c, S, ang);
+      segs.push([onCircle(c, Rd, ang - 15), onCircle(n, Rd, ang + 195)], [onCircle(c, Rd, ang + 15), onCircle(n, Rd, ang + 165)]);
+    }
+  }
+  return { a, b, tiles: tilesFromEdges(segs).filter((P) => Math.hypot(...centroid(P)) < keep) };
+}
+
 // ---- 10'lu: ongenler kafeste, aradaki yüzler papyon; Hankin 54° ----
 export function hankin({ rot = 0, range = 3, keep = 3.2 } = {}) {
   const rr = rot * D, rotp = ([x, y]) => [x * Math.cos(rr) - y * Math.sin(rr), x * Math.sin(rr) + y * Math.cos(rr)];

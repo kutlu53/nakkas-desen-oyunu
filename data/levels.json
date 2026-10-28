@@ -838,6 +838,526 @@
     "lise": "Boşluğun bir köşesindeki açıyı hesapla; hangi yıldızın ucu ona eşit?"
    },
    "discovery": "Ortadaki boşluk çentiklerinde 240° ister, uçlarında 60°. Bunu yalnızca 6'lı yıldız karşılar; 8'li yıldızın ucu 90°, 12'li yıldızınki 60° olsa da çentiği (270°) bu boşluğa uymaz."
+  },
+  {
+   "id": "f12-l0",
+   "family": 12,
+   "order": 0,
+   "title": "Pergelle kur",
+   "story": "Usta: 'Kubbe eteğindeki yıldız on iki kollu. Önce altıya böl, sonra her parçayı ikiye; pergel ikisini de yapar.'",
+   "tool": "construct",
+   "_not": "build/gen_levels12.mjs üretir. Altı yardımcı daire (merkezleri altı köşede, yarıçap = 1) ikişer ikişer p…u noktalarında kesişir (uzaklık √3); bu noktalardan geçen çaplar 30°'lik ara köşeleri verir. tests/geometry.tests.js her açılan noktanın iki çizimin kesişimi olduğunu denetler.",
+   "view": [
+    -2.7,
+    -2.05,
+    5.4,
+    4.05
+   ],
+   "points": {
+    "1": [
+     0.5,
+     -0.8660254
+    ],
+    "2": [
+     0.8660254,
+     -0.5
+    ],
+    "3": [
+     1,
+     0
+    ],
+    "4": [
+     0.8660254,
+     0.5
+    ],
+    "5": [
+     0.5,
+     0.8660254
+    ],
+    "7": [
+     -0.5,
+     0.8660254
+    ],
+    "8": [
+     -0.8660254,
+     0.5
+    ],
+    "9": [
+     -1,
+     0
+    ],
+    "10": [
+     -0.8660254,
+     -0.5
+    ],
+    "11": [
+     -0.5,
+     -0.8660254
+    ],
+    "O": [
+     0,
+     0
+    ],
+    "A": [
+     0,
+     -1
+    ],
+    "C": [
+     0,
+     1
+    ],
+    "p": [
+     0.8660254,
+     -1.5
+    ],
+    "q": [
+     1.7320508,
+     0
+    ],
+    "r": [
+     0.8660254,
+     1.5
+    ],
+    "s": [
+     -0.8660254,
+     1.5
+    ],
+    "t": [
+     -1.7320508,
+     0
+    ],
+    "u": [
+     -0.8660254,
+     -1.5
+    ]
+   },
+   "start": [
+    "O",
+    "A"
+   ],
+   "steps": [
+    {
+     "tool": "pergel",
+     "title": "Ana daire",
+     "pick": [
+      "O",
+      "A"
+     ],
+     "draw": [
+      {
+       "circle": [
+        "O",
+        "A"
+       ]
+      }
+     ],
+     "say": "Pergelin sivri ucunu merkez O'ya koy, kalemini A'ya kadar aç ve daireyi çiz.",
+     "done": "Ana daire hazır. Pergelin açıklığını değiştirme."
+    },
+    {
+     "tool": "pergel",
+     "title": "Yürüt",
+     "pick": [
+      "A",
+      "O"
+     ],
+     "draw": [
+      {
+       "arc": [
+        "A",
+        "O"
+       ]
+      }
+     ],
+     "reveals": [
+      "2",
+      "10"
+     ],
+     "say": "Aynı açıklıkla: ucu A'ya koy, kalem O'dan geçsin; daireyi iki yanda kes.",
+     "done": "Yay daireyi 2 ve 10'da kesti."
+    },
+    {
+     "tool": "pergel",
+     "title": "Yürüt",
+     "pick": [
+      "2",
+      "A"
+     ],
+     "draw": [
+      {
+       "arc": [
+        "2",
+        "A"
+       ]
+      },
+      {
+       "arc": [
+        "10",
+        "A"
+       ]
+      }
+     ],
+     "reveals": [
+      "4",
+      "8"
+     ],
+     "say": "Pergeli yürüt: ucu 2'ye koy, aynı açıklıkla yay çiz.",
+     "done": "10'dan da çizildi: 4 ve 8 bulundu."
+    },
+    {
+     "tool": "pergel",
+     "title": "Altıya böl",
+     "pick": [
+      "4",
+      "2"
+     ],
+     "draw": [
+      {
+       "arc": [
+        "4",
+        "2"
+       ]
+      },
+      {
+       "arc": [
+        "8",
+        "10"
+       ]
+      }
+     ],
+     "reveals": [
+      "C"
+     ],
+     "say": "Bir kez daha: ucu 4'e koy, aynı açıklıkla yay çiz.",
+     "done": "8'den gelen yayla C'de buluştu: daire altıya bölündü."
+    },
+    {
+     "tool": "pergel",
+     "title": "Altı yaprak",
+     "pick": [
+      "A",
+      "O"
+     ],
+     "draw": [
+      {
+       "circle": [
+        "A",
+        "O"
+       ]
+      },
+      {
+       "circle": [
+        "2",
+        "O"
+       ]
+      },
+      {
+       "circle": [
+        "4",
+        "O"
+       ]
+      },
+      {
+       "circle": [
+        "C",
+        "O"
+       ]
+      },
+      {
+       "circle": [
+        "8",
+        "O"
+       ]
+      },
+      {
+       "circle": [
+        "10",
+        "O"
+       ]
+      }
+     ],
+     "reveals": [
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u"
+     ],
+     "say": "Şimdi altı köşenin her birinden, aynı açıklıkla tam daire çiz: ucu A'ya koy, kalem O'dan geçsin.",
+     "done": "Altı daire çizildi: altı yapraklı gül. Komşu dairelerin dış kesişimleri p, q, r, s, t, u."
+    },
+    {
+     "tool": "cetvel",
+     "title": "Ara köşeler",
+     "pick": [
+      "p",
+      "O"
+     ],
+     "draw": [
+      {
+       "line": [
+        "p",
+        "O"
+       ]
+      },
+      {
+       "line": [
+        "q",
+        "O"
+       ]
+      },
+      {
+       "line": [
+        "r",
+        "O"
+       ]
+      }
+     ],
+     "reveals": [
+      "1",
+      "7",
+      "3",
+      "9",
+      "5",
+      "11"
+     ],
+     "say": "Cetveli p ile O'ya daya; çizgiyi karşı yaprağa kadar uzat.",
+     "done": "q ve r'den de çizildi. Çaplar altı parçanın her birini ikiye böldü: daire on iki eşit parçada."
+    },
+    {
+     "tool": "cetvel",
+     "title": "Çift üçgenler",
+     "pick": [
+      "A",
+      "4"
+     ],
+     "draw": [
+      {
+       "seg": [
+        "A",
+        "4"
+       ]
+      },
+      {
+       "seg": [
+        "4",
+        "8"
+       ]
+      },
+      {
+       "seg": [
+        "8",
+        "A"
+       ]
+      },
+      {
+       "seg": [
+        "2",
+        "C"
+       ]
+      },
+      {
+       "seg": [
+        "C",
+        "10"
+       ]
+      },
+      {
+       "seg": [
+        "10",
+        "2"
+       ]
+      }
+     ],
+     "say": "Dörder atlayarak birleştir: A'dan 4'e çiz.",
+     "done": "A–4–8 ve 2–C–10 üçgenleri çizildi."
+    },
+    {
+     "tool": "cetvel",
+     "title": "Tek üçgenler",
+     "pick": [
+      "1",
+      "5"
+     ],
+     "draw": [
+      {
+       "seg": [
+        "1",
+        "5"
+       ]
+      },
+      {
+       "seg": [
+        "5",
+        "9"
+       ]
+      },
+      {
+       "seg": [
+        "9",
+        "1"
+       ]
+      },
+      {
+       "seg": [
+        "3",
+        "7"
+       ]
+      },
+      {
+       "seg": [
+        "7",
+        "11"
+       ]
+      },
+      {
+       "seg": [
+        "11",
+        "3"
+       ]
+      }
+     ],
+     "say": "Arada kalan köşeleri de dörder atlayarak birleştir: 1'den 5'e çiz.",
+     "done": "1–5–9 ve 3–7–11 üçgenleri de çizildi. Dört üçgenin birleşimi on iki köşeli yıldızı verir."
+    },
+    {
+     "tool": "boya",
+     "title": "Yıldızı boya",
+     "pick": [
+      "O"
+     ],
+     "say": "Dört üçgenin birleştiği yıldızın içine dokun, boya.",
+     "done": "Yıldız çıktı."
+    }
+   ],
+   "finale": {
+    "fill": "oniki-kose-yildiz",
+    "ghost": {
+     "pieceId": "kare-12",
+     "x": 0.2499945,
+     "y": -0.9329795,
+     "rot": 60.003
+    },
+    "notch": [
+     0.183,
+     -0.683
+    ],
+    "notchLabel": "90°",
+    "say": "Yıldızın çentiği 90° — dik açı, ölçmeden çıktı. Kesikli çizgi kare: köşesi çentiğe tam oturuyor."
+   },
+   "hint": {
+    "ortaokul": "Önce noktadan başla: pergelin ucu da cetvelin kenarı da bir noktaya dayanır."
+   },
+   "discovery": "Daireyi önce yarıçapla altıya böldün, sonra altı yardımcı dairenin kesişimlerinden geçen çaplarla her parçayı ikiye: on iki eşit parça. Dörder atlayarak dört eşkenar üçgen çizince on iki köşeli yıldız ve çentiğindeki 90° kendiliğinden çıktı. Sonraki seviyede bu çentiklere kare yerleştireceksin."
+  },
+  {
+   "id": "f12-l1",
+   "family": 12,
+   "order": 1,
+   "title": "Yıldızın çevresi",
+   "story": "Usta: 'Kubbe eteğinin yıldızı on iki kollu. Çentiğine hangi taş oturur? Dene, açıya bak.'",
+   "_not": "build/gen_levels12.mjs. Kare kenarı = yıldız kenarı (S12); çentikte 270 + 90 = 360, uçlarda 60 + 90 + 90 = 240.",
+   "fixed": [
+    {
+     "pieceId": "oniki-kose-yildiz",
+     "x": 0,
+     "y": 0,
+     "rot": 0
+    }
+   ],
+   "tray": {
+    "kare-12": 12
+   },
+   "trayDistractors": {
+    "ortaokul": {
+     "ucgen-12": 2
+    },
+    "lise": {
+     "ucgen-12": 2,
+     "besgen": 1,
+     "hac": 1
+    }
+   },
+   "targets": [
+    {
+     "pieceId": "kare-12",
+     "x": 0.2499945,
+     "y": -0.9329795,
+     "rot": 60
+    },
+    {
+     "pieceId": "kare-12",
+     "x": 0.683,
+     "y": -0.683,
+     "rot": 90
+    },
+    {
+     "pieceId": "kare-12",
+     "x": 0.9329795,
+     "y": -0.2499945,
+     "rot": 120
+    },
+    {
+     "pieceId": "kare-12",
+     "x": 0.9329795,
+     "y": 0.2499945,
+     "rot": 150
+    },
+    {
+     "pieceId": "kare-12",
+     "x": 0.683,
+     "y": 0.683,
+     "rot": 180
+    },
+    {
+     "pieceId": "kare-12",
+     "x": 0.2499945,
+     "y": 0.9329795,
+     "rot": 210
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.2499945,
+     "y": 0.9329795,
+     "rot": 240
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.683,
+     "y": 0.683,
+     "rot": 270
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.9329795,
+     "y": 0.2499945,
+     "rot": 300
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.9329795,
+     "y": -0.2499945,
+     "rot": 330
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.683,
+     "y": -0.683,
+     "rot": 0
+    },
+    {
+     "pieceId": "kare-12",
+     "x": -0.2499945,
+     "y": -0.9329795,
+     "rot": 30
+    }
+   ],
+   "hint": {
+    "ortaokul": "Yıldızın çentiği 90° boşluk bırakır (360 − 270). Hangi parçanın köşesi dik açı? Üçgen 60° ile 30° açık bırakır.",
+    "lise": "Çentikteki boşluğu hesapla: 360 − iç açı."
+   },
+   "discovery": "Çentik 90°: karenin köşesi tam oturur, 270 + 90 = 360. Üçgen 60° ile 30° açık bırakır. On iki kare yıldızı çevreler; uçlarda 60 + 90 + 90 = 240 toplanır, kalan 120° bir sonraki halkanın işidir."
   }
  ]
 }

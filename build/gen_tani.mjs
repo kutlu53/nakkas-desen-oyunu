@@ -2,7 +2,7 @@
 // Her aile için kesin bir desen: 8'li yıldız-haç, 10'lu girih (Hankin 54°), 6'lı yıldız-altıgen, 12'li 4.6.12 ağı üstünde Hankin 60°.
 // Çıktı: yüzler (SVG path + renk), ana yıldızların merkezleri, kafes vektörleri; yıldızı bul / köşe say / birim hücre görevleri bunları kullanır.
 import { readFileSync, writeFileSync } from "node:fs";
-import { hankin, hankinLines, tilesFromEdges, polygonEdges, patternFaces, centroid, angles } from "./hankin.mjs";
+import { hankin, hankinLines, tiles4612, patternFaces, centroid, angles } from "./hankin.mjs";
 import * as G from "../src/geometry.js";
 
 const D = Math.PI / 180;
@@ -60,21 +60,7 @@ function f6() {
 }
 // ---- 12'li: 4.6.12 ağı (onikigenler, kareler, altıgenler) üstünde Hankin 60°; onikigenin içinde {12/4} benzeri yıldız (uç 60°, çentik 270°) ----
 function f12() {
-  const e = 2 * Math.tan(15 * D), Rd = e / (2 * Math.sin(15 * D)), S = 2 + e; // kenar-orta = 1 → yıldız dış yarıçapı 1
-  const a = [S, 0], b = [S * Math.cos(60 * D), S * Math.sin(60 * D)];
-  const dodec = (c) => Array.from({ length: 12 }, (_, k) => [c[0] + Rd * Math.cos((15 + 30 * k) * D), c[1] + Rd * Math.sin((15 + 30 * k) * D)]);
-  const segs = [];
-  for (const c of lattice(a, b, 4)) {
-    const P = dodec(c); segs.push(...polygonEdges(P));
-    for (const ang of [0, 60, 120]) { // komşu onikigene bakan kenarın uçlarını, komşunun karşı kenarının uçlarına bağla (kare)
-      const n = [c[0] + S * Math.cos(ang * D), c[1] + S * Math.sin(ang * D)], Q = dodec(n);
-      const mine = [ang - 15, ang + 15].map((t) => [c[0] + Rd * Math.cos(t * D), c[1] + Rd * Math.sin(t * D)]);
-      const theirs = [ang + 180 + 15, ang + 180 - 15].map((t) => [n[0] + Rd * Math.cos(t * D), n[1] + Rd * Math.sin(t * D)]);
-      segs.push([mine[0], theirs[0]], [mine[1], theirs[1]]);
-      void Q;
-    }
-  }
-  const tiles = tilesFromEdges(segs).filter((P) => Math.hypot(...centroid(P)) < 9);
+  const { a, b, tiles } = tiles4612({ range: 4, keep: 9 });
   const kinds = new Set(tiles.map((P) => P.length));
   assert(kinds.has(12) && kinds.has(6) && kinds.has(4), "4.6.12 ağı: " + [...kinds].join(","));
   const faces = patternFaces(hankinLines(tiles, 60), 7.5);

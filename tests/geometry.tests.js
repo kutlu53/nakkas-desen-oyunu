@@ -152,7 +152,7 @@ export function run(G, pieces, levels, ok) {
       return okk;
     });
   };
-  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4"]) {
+  for (const id of ["f10-l2", "f10-l4", "f6-l1", "f6-l2", "f6-l4", "f12-l1"]) {
     const lv = (levels || []).find((l) => l.id === id); if (!lv) continue;
     const full = G.evaluateVertices([...lv.fixed, ...lv.targets].map((f) => sc(f.pieceId, f.x, f.y, f.rot)));
     ok(`${id}: tam desende çakışma yok`, full.length > 0 && full.every((v) => v.state !== "cakisma"));

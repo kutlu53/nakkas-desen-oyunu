@@ -65,7 +65,9 @@ def cross(c=2*(1-C45), L=2*C45-1, tip=1-C45):
 ap = 0.5*math.tan(deg(54))
 r10 = star_inner_radius(10, 72)
 star10 = star(10, 1.0, r10)
-S10 = math.dist(star10[0], star10[1])   # {10/3} yıldızının kenarı; 10'lu dolgular bu kenarla birebir örtüşür
+S10 = math.dist(star10[0], star10[1])
+star12 = star(12, 1.0, star_inner_radius(12, 60))
+S12 = math.dist(star12[0], star12[1])   # {12/4} yıldızının kenarı   # {10/3} yıldızının kenarı; 10'lu dolgular bu kenarla birebir örtüşür
 # düzgün beşgen, kenar = yıldız kenarı (yıldızın 108° çentiğine tam oturur, on tanesi yıldızı çevreler), tepe yukarıda
 pent = recenter(regular(5, S10/(2*math.sin(deg(36))), rot=-90))
 
@@ -124,14 +126,15 @@ PIECES = [
   dict(id="sevron", name="Şevron (ok)", family=6, role="dolgu", color="#2e7d6b",
        pts=recenter([(0, -1.0), (0.866, 0.5), (0.433, 0.75), (0, 0.0), (-0.433, 0.75), (-0.866, 0.5)]), note="Yıldız kolları arası dolgu"),
   # ---- 12'li sistem ----
+  # kare, üçgen, altıgen: kenar = 12'li yıldızın kenarı (S12); kare yıldızın 90° çentiğine tam oturur
   dict(id="oniki-kose-yildiz", name="On iki köşeli yıldız", family=12, role="merkez", color="#7a3b8f",
        pts=star(12, 1.0, star_inner_radius(12, 60)), note="{12/4} yıldızı, uç 60°"),
   dict(id="altigen-12", name="Altıgen (12'li)", family=12, role="dolgu", color="#d9c46a",
-       pts=regular(6, 0.52, rot=0), note="3.4.6.4 döşemesinin altıgeni"),
+       pts=regular(6, S12, rot=0), note="3.4.6.4 döşemesinin altıgeni; kenar = 12'li yıldız kenarı"),
   dict(id="kare-12", name="Kare (12'li)", family=12, role="dolgu", color="#6aa6c8",
-       pts=regular(4, 0.52/math.sqrt(2), rot=45), note="Kenar = altıgen kenarı"),
+       pts=regular(4, S12/math.sqrt(2), rot=45), note="Kenar = 12'li yıldız kenarı; yıldızın 90° çentiğine oturur"),
   dict(id="ucgen-12", name="Üçgen (12'li)", family=12, role="dolgu", color="#ece9e2",
-       pts=recenter(regular(3, 0.52/math.sqrt(3), rot=-90)), note="Kenar = altıgen kenarı"),
+       pts=recenter(regular(3, S12/math.sqrt(3), rot=-90)), note="Kenar = 12'li yıldız kenarı"),
   dict(id="kalkan-12", name="Kalkan (12'li)", family=12, role="dolgu", color="#7a3b8f",
        pts=recenter([(-0.5, -0.5), (-0.25, -0.2), (0, -0.55), (0.25, -0.2), (0.5, -0.5), (0.5, 0.3), (0, 0.75), (-0.5, 0.3)]), note="Yıldız kolları arası dolgu"),
 ]

@@ -2,7 +2,7 @@
 
 Bu belge, Nakkaş desen oyununun her bölümünün hangi amaçla tasarlandığını, hangi kazanımlara hizmet ettiğini ve bu tasarım kararlarının dayandığı akademik gerekçeleri özetler. Oyunun teknik ayrıntıları için `CLAUDE.md` ve `docs/tasarim.md`, seviye tabloları için `docs/seviyeler.md` dosyalarına bakınız.
 
-> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu ile 12'li ailenin Kur seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
+> **Durum (28 Ekim 2026):** Çırak / Tanı modu oynanabilir (7 motif). Kalfa / Kur modu 8'li aile için hazırlık + 5 seviye, 10'lu ve 6'lı aileler için hazırlık + 4'er seviye, 12'li aile için hazırlık + 1. seviye, ayrıca 8'li + 10'lu rütbe sınavı. Usta / Yarat modu ile 12'li ailenin 2.–4. seviyeleri tasarım aşamasındadır; aşağıda "planlanan" diye işaretlidir.
 
 ---
 
@@ -155,6 +155,13 @@ Kur modu, oyunun mekanik kazanımının (K2) merkezidir. Seviyeler bilinçli bir
 **Seviyeler:** Yıldızın çevresi (altı altıgen), Petek (uç uca üç yıldızın ortası), Ötele ve kapla (60°/120°'lik eşkenar dörtgen hücre: bir yıldız, iki altıgen), Bozuk çini.
 
 **Kazanımlar:** Yarıçapın çevreye altı kez sığması; düzgün altıgen ve eşkenar üçgen; aynı "çentik = 360 − iç açı" ilişkisinin üçüncü bir ailede uygulanması.
+
+#### 12'li aile · hazırlık ve 1. seviye
+**Hazırlık:** Daire yarıçapla altıya bölünür; altı köşeden çizilen altı daire klasik "altı yapraklı gül"ü oluşturur, yaprak uçlarından geçen çaplar her parçayı ikiye böler. Dörder atlayan dört eşkenar üçgen {12/4} yıldızını ve 90°'lik çentiği verir.
+
+**Seviye 1:** On iki kare yıldızın çentiklerine oturur (270 + 90 = 360); üçgen 30° açık bırakır.
+
+**Kazanımlar:** Açıyı pergelle ikiye bölme (60° → 30°); dik açının ölçmeden ortaya çıkması; altı yapraklı gül motifiyle tanışma.
 
 #### Rütbe sınavı · "Karışık kutu"
 **Ne yapılır:** Sahnede 8'li ve 10'lu iki yıldız, kutuda iki ailenin parçaları karışık. Her yıldız kendi ailesinin parçalarıyla çevrilir.
